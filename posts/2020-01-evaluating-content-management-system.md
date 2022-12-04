@@ -13,7 +13,6 @@ category:
 tag: []
 post_format: []
 ---
-> [How to evaluate a content management system](https://www.steptwo.com.au/papers/kmc_evaluate/)
+What makes a [CMS](http://en.wikipedia.org/wiki/Content\_management\_system) better than the others?
 
-<iframe class="wp-embedded-content" data-secret="y7PF1oxuB3" frameborder="0" height="282" marginheight="0" marginwidth="0" sandbox="allow-scripts" scrolling="no" security="restricted" src="https://www.steptwo.com.au/papers/kmc_evaluate/embed/#?secret=ga5K0EUW7H#?secret=y7PF1oxuB3" style="position: absolute; clip: rect(1px, 1px, 1px, 1px);" title="“How to evaluate a content management system” — Step Two" width="500"></iframe>  
-http://en.wikipedia.org/wiki/Content\_management\_system
+I beg the question to be partial, we are working today in digital workplaces and should ask the quesiton, what tools help us create digital experiences for our customers with minimal friction and effort.
