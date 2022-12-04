@@ -1,22 +1,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
       <url>
-    <loc>https://yuvalararat.com</loc>
+    <loc>undefined</loc>
     <changefreq>hourly</changefreq>
   </url>
   <url>
-    <loc>https://yuvalararat.com/blog/blog-1</loc>
+    <loc>undefined/blog/blog-1</loc>
     <changefreq>hourly</changefreq>
   </url>
   <url>
-    <loc>https://yuvalararat.com/blog/evaluating-content-management-system</loc>
+    <loc>undefined/blog/evaluating-content-management-system</loc>
     <changefreq>hourly</changefreq>
   </url>
   <url>
-    <loc>https://yuvalararat.com/blog/portoflow</loc>
+    <loc>undefined/blog/portoflow</loc>
     <changefreq>hourly</changefreq>
   </url>
   <url>
-    <loc>https://yuvalararat.com/blog/stress-testing-customisations-on-aem-author-with-siege</loc>
+    <loc>undefined/blog/stress-testing-customisations-on-aem-author-with-siege</loc>
     <changefreq>hourly</changefreq>
   </url>
 </urlset>

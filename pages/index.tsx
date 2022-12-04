@@ -59,7 +59,7 @@ const Home = (props: {
               </p>
               <p>
                 What currently is top of mind is Component CMS, Hybrid and Headless, static site generators such as this, Rust and WebAssembly, our ever changing java, design thinking and digital strategy, ADKAR and prosci as drivers of change
-                and many more layers of how we connect the KBO/OKR to tangible KPI for the business, KPI's for the delivery teams and KPI for the ops teams tying it all together with innovative thinking and conversations.
+                and many more layers of how we connect the KBO/OKR to tangible KPI for the business, KPI&apos;s for the delivery teams and KPI for the ops teams tying it all together with innovative thinking and conversations.
               </p>
 
             </div>
@@ -70,7 +70,7 @@ const Home = (props: {
 
             <Image src="/img/yuval-ararat.png" quality="low" width="200" height="160"></Image>
             <p>
-              Hello, I'm Yuval, I created this site to share a bit of myself over the web but also to get with the new way of managing content on the web. well the developer heavy handed way
+              Hello, I&apos;m Yuval, I created this site to share a bit of myself over the web but also to get with the new way of managing content on the web. well the developer heavy handed way
               as i beleive that every software leader in any level should be able to write code
             </p>
             <p>
