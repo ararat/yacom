@@ -74,14 +74,16 @@ const Home = (props: {
 
             <Image src="/img/yuval-ararat.png" quality="low" width="200" height="160"></Image>
             <p>
-              Hello, I&apos;m Yuval, I created this site to share a bit of myself over the web but also to get with the new way of managing content on the web. well the developer heavy handed way
-              as i beleive that every software leader in any level should be able to write code
-            </p>
+              Hello, I&apos;m Yuval,
+              My pronouns are Him/Theirs,
+              I lead teams and thereby companies on digitalisation journeys for over 25 years.
+              I love technology, when it impacts our life positively, and I enjoy the human aspects of technology adoption.</p>
             <p>
-              Who am I, well i will try to highlight some aspects and things i like doing. I would describe myself as a servant leader combined with a perpetual learner
-              You are in one of my learning experiences ;)
-            </p>
-            <p>I have many things i find myself doing, I play guitar, Lead people, Write software, Run trails, Tramp (Hiking for americans) the world, photograph birds, motorcycle riding and now picked up pottary</p>
+              What
+              I would describe myself as a servant leader combined with a perpetual learner in all aspects of life (This site is one of my learning experiences), aspiring to grow a better community wherever I go.
+            </p><p>
+              Things I do when I don&apos;t work
+              I have found my way to many hobbies, some are more prominent and some were experiments that stuck, I... play the guitar and managed to release a few albums with a band in my 20s, write software, Run trails, Tramp (Hiking for Americans) remote places, photograph things, motorcycle riding and lately ventured to pottery. </p>
           </div>
         </div>
         <div className="snap-start bg-cyan-500 w-screen h-screen flex items-center justify-center " id="blog">
