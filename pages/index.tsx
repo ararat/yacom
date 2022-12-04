@@ -3,15 +3,11 @@ import { Fragment } from 'react';
 import BlogPost from "../components/BlogPost";
 import Head from 'next/head';
 import Image from '../components/image';
-//import Link from 'next/link';
-//import styles from '../styles/Home.module.css'
 import Navigation from '../components/Navigation';
 
 import matter from 'gray-matter';
 import fs from "fs";
 import path from "path";
-//import Script from 'next/script';
-import globby from 'globby';
 
 
 const Home = (props: {
@@ -31,15 +27,16 @@ const Home = (props: {
 
         </Head>
       </div>
-      <Navigation SiteTitle={props.SiteTitle} SiteDescription={props.SiteDescription} />
+
       <div className="snap-y snap-mandatory h-screen w-screen overflow-scroll">
+        <Navigation SiteTitle={props.SiteTitle} SiteDescription={props.SiteDescription} />
         <div className="snap-start bg-amber-600 w-screen h-screen items-center justify-center" id="welcome">
 
           <div className="relative flex items-center justify-center justify-content-center w-screen h-screen overflow-hidden">
             <video autoPlay
               loop
               muted
-              className="absolute z-10 w-auto min-w-full min-h-full max-w-none"
+              className="absolute z-1001 w-auto min-w-full min-h-fit max-w-none"
             >
               <source
                 src="/vid/site-intro.mp4"

@@ -5,7 +5,7 @@ const Navigation = (props: {
   SiteDescription: string
 }): JSX.Element => {
   return (
-    <nav className="top-0 sticky bg-slate-800 text-white py-2">
+    <nav className="top-0 sticky bg-slate-800 text-white py-2 z-50">
       <div className="container mx-auto px-6 py-2 flex justify-between items-center">
         <a className="font-bold text-xl lg:text-2xl" href="/">
           {props.SiteTitle}
