@@ -11,6 +11,7 @@ import matter from 'gray-matter';
 import fs from "fs";
 import path from "path";
 //import Script from 'next/script';
+import globby from 'globby';
 
 
 const Home = (props: {
@@ -50,16 +51,19 @@ const Home = (props: {
             <div className="relative z-30 p-8 bg-amber-600 bg-opacity-50 justify-content-center w-3/4 max-w-none prose dark:bg-opacity-70 dark:bg-slate-700 lg:prose-xl dark:prose-invert rounded-xl">
               <h2>Welcome</h2>
               <p >
-                Welcome to my humble site!<br /> Here i share my life journey as a digital professional. i also share thoughts about life ocassionally.<br />
-                The site is a work in progress while i learn Next.JS, Typescript, Taiilwind and Cloudflare pages.
+                Welcome to my humble site!<br /> Here i share my journey as a digital professional leading businesses and teams through the complexities of the enterprise digital landscape. I may also share thoughts about life ocassionally and i appologise for this in advance.<br />
+                I have rebuilt my blog with the new kids on the block Next.JS, Typescript, Taiilwind and Cloudflare pages taking Markdown and making it pretty&apos;ish<br />
+                This is a work in progress and i may break things along the way... I&apos;m learning, challenging myself as a way of life.
               </p>
               <p >
-                You wonder what makes me take on a complex site ubilding in this form. well, as a digital architect i challenge myself to grasp the technology spectrum in a hands on fashion to be able to converse with my team in close quarters. <br />
-                I beleive that as a leader in a technology you should be moving up and down the elevator of the comoany and know how to translate tech to the business and be able to discuss technology that is dear to your team.<br />
+                I was always a strong beleiver that you want to understand the business you are in and for that be moving up and down the elevator of that said business to know what each level is all about,<br />
+                As a leader in a technology I want to know how to translate tech to the business and business to the tech so the agility and comprehension is retained.<br />
               </p>
               <p>
-                What currently is top of mind is Component CMS, Hybrid and Headless, static site generators such as this, Rust and WebAssembly, our ever changing java, design thinking and digital strategy, ADKAR and prosci as drivers of change
-                and many more layers of how we connect the KBO/OKR to tangible KPI for the business, KPI&apos;s for the delivery teams and KPI for the ops teams tying it all together with innovative thinking and conversations.
+                What currently is top of mind for me in my space is composing large scale solutions to large enterprises through the lenses of business context alignment with soft contracts and API driven deliveries.
+                A Component CMS, Edge Computing such as the image components on this site, Hybrid and Headless elements, Server side rendition generators such as this, Rust and WebAssembly for amazing client side compute stability,
+                design thinking and digital strategy, change management throught the lenses of <a href="https://www.prosci.com/">prosci</a>, CIO evolution throught the view points of Digital Enterprise Architecture
+                and many more layers of how we connect the business goals (KBO/OKR) to tangible KPI for the business IT and Delivery partners leading to a scaled change across the growth of the technology industry.
               </p>
 
             </div>
@@ -98,7 +102,7 @@ const Home = (props: {
 
 export async function getStaticProps() {
   const siteConfig = await import(`../data/config.json`)
-  // Get files from the posts dir
+  //Get files from the posts dir
   const files = fs.readdirSync(path.join('posts'))
 
   const posts = files.filter(filename => filename.includes(".md")).map((filename) => {
@@ -119,7 +123,32 @@ export async function getStaticProps() {
   }).sort((a, b) => (
     new Date(b.frontMatter.date).getTime() - new Date(a.frontMatter.date).getTime()
   ));
+  // Get files from the posts dir
+  // const files: string[] = await globby("posts/**/*.md");
+  // //console.log(files);//.filter((filename) => filename.lastIndexOf(".md") > 0).toString());
+  // //const posts = files.filter(filename => filename.includes(".md")).map((filename) => {
+  // // iterate over the md files found in the posts folder
+  // const posts = files
+  //   .filter((filename) => filename.lastIndexOf(".md") > 0)
+  //   .map((filename) => {
+  //     //console.log(filename);
+  //     // Create slug
+  //     const slug = filename.replace('.md', '');
 
+  //     const markdownWithMeta = fs.readFileSync(
+  //       //path.join('posts', filename),
+  //       filename,
+  //       'utf-8'
+  //     )
+  //     //console.log(markdownWithMeta);
+
+  //     const { data: frontMatter } = matter(markdownWithMeta)
+  //     //console.log(frontMatter);
+  //     return {
+  //       slug,
+  //       frontMatter,
+  //     }
+  //   });
   return {
     props: {
       SiteTitle: siteConfig.default.title,
