@@ -15,7 +15,7 @@ const cloudflareImageLoader = ({ src, width, height, quality }: imageProperties)
   }
   if (!src || src.length == 0) {
     // If src is missing, set default 
-    return `https://image-resize.yuvalararat.workers.dev?width=${width}&height=${height}&quality=${quality}&image=${process.env.site_address}$/img/blog/blog-thumbnail.jpeg`
+    return `https://image-resize.yuvalararat.workers.dev?width=${width}&height=${height}&quality=${quality}&image=${process.env.site_address}/img/blog/blog-thumbnail.jpeg`
   }
   return `https://image-resize.yuvalararat.workers.dev?width=${width}&height=${height}&quality=${quality}&image=${process.env.site_address}${src}`
 }
