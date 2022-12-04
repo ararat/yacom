@@ -2,7 +2,7 @@
 
 module.exports = {
   env: {
-    site_address: 'https://113f9c4d.yacom.pages.dev',
+    site_address: 'https://yacom.pages.dev',
     WEBSITE_URL: 'https://yuvalararat.com'
   },
   reactStrictMode: true,
