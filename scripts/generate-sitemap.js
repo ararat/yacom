@@ -5,9 +5,9 @@ function addPage(page) {
     const path = page.replace('pages', '').replace('.tsx', '').replace('.md', '').replace('posts', '/blog');
 
     const route = path === '/index' ? '' : path
-
+    const domain = process.env.WEBSITE_URL || "https://yuvalararat.com";
     return `  <url>
-    <loc>${`${process.env['WEBSITE_URL']}${route}`}</loc>
+    <loc>${`${domain.trim()}${route}`}</loc>
     <changefreq>hourly</changefreq>
   </url>`
 }
