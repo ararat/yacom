@@ -16,10 +16,10 @@ const BlogPost = (props: { key: string, path: string, title: string, slug: strin
             className="w-full h-full object-center object-cover lg:w-full lg:h-full"
           />
         </div>
-        <h3 className="font-semibold p-3">
+        <h3 className="font-semibold p-3 truncate">
           {props.title}
         </h3>
-        <p className="mt-1 text-sm p-3"> {props.description}</p>
+        <p className="mt-1 text-sm p-3 truncate"> {props.description}</p>
       </div >
     </Link>
   )
