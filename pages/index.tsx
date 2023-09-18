@@ -24,7 +24,10 @@ const Home = (props: {
         <Head>
           <title>{props.SiteTitle}</title>
           <meta name='description' content={props.SiteDescription} />
-
+          <meta itemprop="name" content="Yuval Ararat" />
+          <meta itemprop="url" content="//www.yuvalararat.com" />
+          <script src="//assets.adobedtm.com/launch-EN948973dc19864983827932b329a66b45.min.js"
+            type="text/javascript"></script>
         </Head>
       </div>
 
@@ -48,13 +51,13 @@ const Home = (props: {
             <div className="relative z-30 p-8 bg-amber-600 bg-opacity-50 justify-content-center w-3/4 max-w-none prose dark:bg-opacity-70 dark:bg-slate-700 lg:prose-xl dark:prose-invert rounded-xl text-ellipsis">
               <h2>Welcome</h2>
               <p >
-                Welcome to my humble site!<br /> Here i share my journey as a digital professional leading businesses and teams through the complexities of the enterprise digital landscape. I may also share thoughts about life ocassionally and i appologise for this in advance.<br />
-                I have rebuilt my blog with the new kids on the block Next.JS, Typescript, Taiilwind and Cloudflare pages taking Markdown and making it pretty&apos;ish<br />
-                This is a work in progress and i may break things along the way... I&apos;m learning, challenging myself as a way of life.
+                Hi visitor, thank you for visiting my humble new site<br /> Here i share my journey and thoughts about leading businesses and teams through the complexities of the enterprise digital landscape. I may also share thoughts about life ocassionally and i appologise in advance if you are not looking for that from me.<br />
+                I am rebuilding my site with  Next.JS, Typescript, Taiilwind and Cloudflare pages taking Markdown and making it pretty&apos;ish<br />
+                This is a work in progress and i may break things along the way... I&apos;m learning, challenging myself as a way of life.<br /> Hope you enjoy and recommend my blog to your friends or let me know what you think.
               </p>
               <p >
-                I was always a strong beleiver that you want to understand the business you are in and for that be moving up and down the elevator of that said business to know what each level is all about,<br />
-                As a leader in a technology I want to know how to translate tech to the business and business to the tech so the agility and comprehension is retained.<br />
+                It is a strong beleif i carry that if you want to understand your business you must understand the whole spectrum of activities, so i decided to movie up and down the role elevator to get a good grasp of what is the view from multiple perspectives,<br />
+                As a manager in technology I want to know how to translate tech to the business and business to the tech so the agility and comprehension is retained.<br />
               </p>
               <p className="hidden md:block mx-auto">
                 What currently is top of mind for me in my space is composing large scale solutions to large enterprises through the lenses of business context alignment with soft contracts and API driven deliveries.
@@ -72,9 +75,10 @@ const Home = (props: {
             <Image src="/img/yuval-ararat.png" quality="low" width="200" height="160"></Image>
             <p >
               Hello, I&apos;m Yuval,
-              My pronouns are Him/Theirs,
-              I lead teams and thereby companies on digitalisation journeys for over 25 years.
-              I love technology, when it impacts our life positively, and I enjoy the human aspects of technology adoption.</p>
+              My pronouns are He/Him/Theirs,
+              I lead a team of amazing consultants on my daily work, and help customers navigtagte their journey of digitalisation for over 20 years<br />
+              I love technology, when it impacts our life positively, and I enjoy the human aspects of technology adoption.<br />
+            </p>
             <p >
               What
               I would describe myself as a servant leader combined with a perpetual learner in all aspects of life (This site is one of my learning experiences), aspiring to grow a better community wherever I go.
@@ -142,7 +146,7 @@ export async function getStaticProps() {
   //     )
   //     //console.log(markdownWithMeta);
 
-  //     const { data: frontMatter } = matter(markdownWithMeta)
+  //     const {data: frontMatter } = matter(markdownWithMeta)
   //     //console.log(frontMatter);
   //     return {
   //       slug,
