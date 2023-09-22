@@ -2,7 +2,7 @@ import { Html, Head, Main, NextScript } from 'next/document'
 
 export default function Document() {
     return (
-        <Html className="scroll-smooth">
+        <Html className="scroll-smooth" lang="en">
             <Head>
 
                 <link rel="icon" href="img/cropped-Avatar-2-32x32.png" sizes="32x32" />

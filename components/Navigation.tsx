@@ -49,7 +49,7 @@ const Navigation = (props: {
             <h2 className="text-2xl text-white font-bold"><a href="/">{props.SiteTitle}</a></h2>
 
             <div className="md:hidden">
-              <button
+              <button id="Navigation" value="Navigation"
                 className="p-2 text-gray-700 rounded-md outline-none focus:border-gray-400 focus:border"
                 onClick={() => setNavbar(!navbar)}
               >
