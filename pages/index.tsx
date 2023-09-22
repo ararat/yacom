@@ -26,8 +26,7 @@ const Home = (props: {
           <meta name='description' content={props.SiteDescription} />
           <meta itemProp="name" content="Yuval Ararat" />
           <meta itemProp="url" content="//www.yuvalararat.com" />
-          <script src="//assets.adobedtm.com/launch-EN948973dc19864983827932b329a66b45.min.js"
-            type="text/javascript"></script>
+
         </Head>
       </div>
 
