@@ -3,7 +3,6 @@ import { AppProps } from 'next/app'
 import Script from 'next/script'
 
 import "../styles/tailwind.css";
-//import "bootstrap/dist/css/bootstrap.css";
 
 
 function MyApp({ Component, pageProps }: AppProps) {

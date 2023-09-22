@@ -71,7 +71,7 @@ const Home = (props: {
         <div className="snap-start bg-lime-100 w-screen h-screen flex items-center justify-center" id="about">
           <div className="relative z-30 p-8  bg-opacity-0 justify-content-center w-3/4 max-w-none prose lg:prose-xl rounded-xl text-ellipsis">
 
-            <Image src="/img/yuval-ararat.png" quality="low" width="200" height="160"></Image>
+            <Image alt="Yuval Ararat" src="/img/yuval-ararat.png" quality="low" width="200" height="160"></Image>
             <p >
               Hello, I&apos;m Yuval,
               My pronouns are He/Him/Theirs,
