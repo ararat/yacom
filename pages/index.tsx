@@ -58,7 +58,7 @@ const Home = (props: {
                 ocassionally and i appologise in advance if you are not looking
                 for that from me.
                 <br />
-                I am rebuilding my site with Next.JS, Typescript, Taiilwind and
+                I am rebuilding my site with Next.JS, Typescript, Tailwind and
                 Cloudflare pages taking Markdown and making it pretty&apos;ish
                 <br />
                 This is a work in progress and i may break things along the
