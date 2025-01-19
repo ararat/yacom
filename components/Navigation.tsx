@@ -1,23 +1,30 @@
-import { DispatchWithoutAction, SetStateAction, useEffect, useState } from "react";
-import Image from '../components/image';
-import Link from 'next/link';
+import {
+  DispatchWithoutAction,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
+import Image from "../components/image";
+import Link from "next/link";
 
 const Navigation = (props: {
-  SiteTitle: string,
-  SiteDescription: string
+  SiteTitle: string;
+  SiteDescription: string;
 }): JSX.Element => {
   const [navbar, setNavbar] = useState(false);
   return (
-
-    <nav className="top-0 sticky bg-slate-800 text-white py-2 z-50">
+    <nav className="fixed top-0 left-0 right-0 bg-slate-800 text-white py-2 z-50">
       <div className="justify-between px-4 mx-auto lg:max-w-7xl md:items-center md:flex md:px-8">
         <div>
           <div className="flex items-center justify-between py-3 md:py-5 md:block">
-
-            <h2 className="text-2xl text-white font-bold"><a href="/">{props.SiteTitle}</a></h2>
+            <h2 className="text-2xl text-white font-bold">
+              <Link href="/">{props.SiteTitle}</Link>
+            </h2>
 
             <div className="md:hidden">
-              <button id="Navigation" value="Navigation"
+              <button
+                id="Navigation"
+                value="Navigation"
                 className="p-2 text-gray-700 rounded-md outline-none focus:border-gray-400 focus:border"
                 onClick={() => setNavbar(!navbar)}
               >
@@ -56,32 +63,26 @@ const Navigation = (props: {
         </div>
         <div>
           <div
-            className={`flex-1 justify-self-center pb-3 mt-8 md:block md:pb-0 md:mt-0 ${navbar ? 'block' : 'hidden'
-              }`}
+            className={`flex-1 justify-self-center pb-3 mt-8 md:block md:pb-0 md:mt-0 ${
+              navbar ? "block" : "hidden"
+            }`}
           >
             <ul className="items-center justify-center space-y-8 md:flex md:space-x-6 md:space-y-0">
               <li className="text-white">
-                <Link href="/#welcome">
-                  <a>Welcome</a>
-                </Link>
+                <Link href="/#welcome">Welcome</Link>
               </li>
               <li className="text-white">
-                <Link href="/#about">
-                  <a>About</a>
-                </Link>
+                <Link href="/#about">About</Link>
               </li>
               <li className="text-white">
-                <Link href="/#blog">
-                  <a>Thouhgts</a>
-                </Link>
+                <Link href="/#blog">Thouhgts</Link>
               </li>
             </ul>
           </div>
         </div>
       </div>
-    </nav >
-
-  )
-}
+    </nav>
+  );
+};
 
 export default Navigation;

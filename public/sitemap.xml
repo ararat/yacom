@@ -1,18 +1,18 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
       <url>
-    <loc>undefined</loc>
+    <loc>https://yuvalararat.com</loc>
     <changefreq>hourly</changefreq>
   </url>
   <url>
-    <loc>undefined/blog/2020-01-evaluating-content-management-system</loc>
+    <loc>https://yuvalararat.com/blog/2020-01-evaluating-content-management-system</loc>
     <changefreq>hourly</changefreq>
   </url>
   <url>
-    <loc>undefined/blog/2020-07-stress-testing-customisations-on-aem-author-with-siege</loc>
+    <loc>https://yuvalararat.com/blog/2020-07-stress-testing-customisations-on-aem-author-with-siege</loc>
     <changefreq>hourly</changefreq>
   </url>
   <url>
-    <loc>undefined/blog/blog-1</loc>
+    <loc>https://yuvalararat.com/blog/blog-1</loc>
     <changefreq>hourly</changefreq>
   </url>
 </urlset>

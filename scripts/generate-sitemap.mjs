@@ -1,5 +1,5 @@
 import fs from "fs";
-import { globby } from "globby";
+const globby = require("globby");
 
 function addPage(page) {
   const path = page
