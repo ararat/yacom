@@ -13,20 +13,22 @@ const Navigation = (props: {
 }): JSX.Element => {
   const [navbar, setNavbar] = useState(false);
   return (
-    <nav className="fixed top-0 left-0 right-0 bg-slate-800 text-white py-2 z-50">
-      <div className="justify-between px-4 mx-auto lg:max-w-7xl md:items-center md:flex md:px-8">
+    <nav className="fixed top-0 left-0 right-0 bg-slate-800/95 backdrop-blur-sm text-white py-2 z-50 shadow-lg transition-all duration-300">
+      <div className="justify-between px-4 sm:px-6 mx-auto lg:max-w-7xl md:items-center md:flex">
         <div>
-          <div className="flex items-center justify-between py-3 md:py-5 md:block">
-            <h2 className="text-2xl text-white font-bold">
-              <Link href="/">{props.SiteTitle}</Link>
+          <div className="flex items-center justify-between py-2 md:py-3 md:block">
+            <h2 className="text-xl sm:text-2xl text-white font-bold hover:text-blue-300 transition-colors duration-200">
+              <Link href="/" className="block">{props.SiteTitle}</Link>
             </h2>
 
             <div className="md:hidden">
               <button
                 id="Navigation"
                 value="Navigation"
-                className="p-2 text-gray-700 rounded-md outline-none focus:border-gray-400 focus:border"
+                className="p-2 text-white rounded-md outline-none focus:ring-2 focus:ring-blue-300 hover:bg-slate-700 transition-colors duration-200"
                 onClick={() => setNavbar(!navbar)}
+                aria-label={navbar ? "Close menu" : "Open menu"}
+                aria-expanded={navbar}
               >
                 {navbar ? (
                   <svg
@@ -67,15 +69,36 @@ const Navigation = (props: {
               navbar ? "block" : "hidden"
             }`}
           >
-            <ul className="items-center justify-center space-y-8 md:flex md:space-x-6 md:space-y-0">
-              <li className="text-white">
-                <Link href="/#welcome">Welcome</Link>
+            <ul className="items-center justify-center space-y-4 md:flex md:space-x-8 md:space-y-0" role="menubar">
+              <li className="text-white" role="none">
+                <Link 
+                  href="/#welcome" 
+                  className="block py-2 px-3 rounded-md hover:bg-slate-700 hover:text-blue-300 transition-all duration-200 text-center md:text-left"
+                  role="menuitem"
+                  onClick={() => setNavbar(false)}
+                >
+                  Welcome
+                </Link>
               </li>
-              <li className="text-white">
-                <Link href="/#about">About</Link>
+              <li className="text-white" role="none">
+                <Link 
+                  href="/#about" 
+                  className="block py-2 px-3 rounded-md hover:bg-slate-700 hover:text-blue-300 transition-all duration-200 text-center md:text-left"
+                  role="menuitem"
+                  onClick={() => setNavbar(false)}
+                >
+                  About
+                </Link>
               </li>
-              <li className="text-white">
-                <Link href="/#blog">Thouhgts</Link>
+              <li className="text-white" role="none">
+                <Link 
+                  href="/#blog" 
+                  className="block py-2 px-3 rounded-md hover:bg-slate-700 hover:text-blue-300 transition-all duration-200 text-center md:text-left"
+                  role="menuitem"
+                  onClick={() => setNavbar(false)}
+                >
+                  Thoughts
+                </Link>
               </li>
             </ul>
           </div>

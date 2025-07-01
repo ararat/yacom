@@ -45,40 +45,33 @@ const Home = (props: {
             <LazyVideo
               src="/vid/site-intro.mp4"
               type="video/mp4"
-              className="absolute z-10 w-auto min-w-full min-h-full max-w-none"
+              poster="/img/yuval-ararat.png"
+              preload="metadata"
+              className="absolute z-10 w-auto min-w-full min-h-full max-w-none object-cover"
             ></LazyVideo>
 
-            <div className="relative z-30 pt-20 p-8 bg-amber-600 bg-opacity-50 items-center justify-center justify-content-center w-3/4 max-w-none prose dark:bg-opacity-70 dark:bg-slate-700 lg:prose-xl dark:prose-invert rounded-xl text-ellipsis max-h-[90vh] overflow-y-auto">
-              <h2>Welcome</h2>
-              <p>
-                Hi visitor, thank you for visiting my humble new site
-                <br /> Here i share my journey and thoughts about leading
-                businesses and teams through the complexities of the enterprise
-                digital landscape. I may also share thoughts about life
-                ocassionally and i appologise in advance if you are not looking
-                for that from me.
-                <br />
-                I am rebuilding my site with Next.JS, Typescript, Tailwind and
-                Cloudflare pages taking Markdown and making it pretty&apos;ish
-                <br />
-                This is a work in progress and i may break things along the
-                way... I&apos;m learning, challenging myself as a way of life.
-                <br /> Hope you enjoy and recommend my blog to your friends or
-                let me know what you think.
+            <div className="relative z-30 pt-16 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 mx-4 sm:mx-6 md:mx-8 lg:mx-12 xl:mx-16 2xl:mx-20 bg-amber-600 bg-opacity-50 items-center justify-center w-auto prose prose-sm sm:prose-base lg:prose-lg xl:prose-xl 2xl:prose-2xl dark:bg-opacity-70 dark:bg-slate-700 dark:prose-invert rounded-xl max-h-[85vh] sm:max-h-[90vh] overflow-y-auto max-w-none">
+              <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold mb-4 sm:mb-6 lg:mb-8 text-center sm:text-left">Welcome</h2>
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl leading-relaxed mb-4 sm:mb-6">
+                Hi visitor, thank you for visiting my humble new site.
+                <br className="hidden sm:block" /> 
+                <span className="block sm:inline">Here I share my journey and thoughts about leading businesses and teams through the complexities of the enterprise digital landscape.</span> 
+                <span className="block mt-2 sm:mt-0 sm:inline">I may also share thoughts about life occasionally and I apologise in advance if you are not looking for that from me.</span>
               </p>
-              <p>
-                It is a strong beleif i carry that if you want to understand
-                your business you must understand the whole spectrum of
-                activities, so i decided to movie up and down the role elevator
-                to get a good grasp of what is the view from multiple
-                perspectives,
-                <br />
-                As a manager in technology I want to know how to translate tech
-                to the business and business to the tech so the agility and
-                comprehension is retained.
-                <br />
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl leading-relaxed mb-4 sm:mb-6">
+                I am rebuilding my site with Next.JS, Typescript, Tailwind and Cloudflare pages taking Markdown and making it pretty&apos;ish.
+                <br className="hidden sm:block" />
+                <span className="block sm:inline">This is a work in progress and I may break things along the way...</span> 
+                <span className="block sm:inline">I&apos;m learning, challenging myself as a way of life.</span>
+                <br className="hidden sm:block" /> 
+                <span className="block sm:inline">Hope you enjoy and recommend my blog to your friends or let me know what you think.</span>
               </p>
-              <p className="hidden md:block mx-auto">
+              <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl leading-relaxed mb-4 sm:mb-6">
+                It is a strong belief I carry that if you want to understand your business you must understand the whole spectrum of activities, so I decided to move up and down the role elevator to get a good grasp of what is the view from multiple perspectives.
+                <br className="hidden sm:block" />
+                <span className="block sm:inline">As a manager in technology I want to know how to translate tech to the business and business to the tech so the agility and comprehension is retained.</span>
+              </p>
+              <p className="hidden sm:block text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl leading-relaxed">
                 What currently is top of mind for me in my space is composing
                 large scale solutions to large enterprises through the lenses of
                 business context alignment with soft contracts and API driven
@@ -101,30 +94,26 @@ const Home = (props: {
           className="snap-start bg-lime-100 w-screen h-screen flex items-center justify-center"
           id="about"
         >
-          <div className="relative z-30 p-8  bg-opacity-0 justify-content-center w-3/4 max-w-none prose lg:prose-xl rounded-xl text-ellipsis">
-            <Image
-              alt="Yuval Ararat"
-              src="/img/yuval-ararat.png"
-              quality="low"
-              width="200"
-              height="160"
-            ></Image>
-            <p>
-              Hello, I&apos;m Yuval, I lead a team of amazing developers on my
-              daily, I love helping my customers navigtagte their journey of
-              digitalisation and been at it for 20 years.
-              <br />
-              I love technology, when it impacts our life positively, and I
-              enjoy the human aspects of technology adoption.
-              <br />
+          <div className="relative z-30 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 py-6 bg-opacity-0 justify-content-center w-full prose prose-sm sm:prose-base lg:prose-lg xl:prose-xl 2xl:prose-2xl rounded-xl max-w-none">
+            <div className="flex justify-center sm:justify-start mb-6">
+              <Image
+                alt="Yuval Ararat"
+                src="/img/yuval-ararat.png"
+                quality="low"
+                width="200"
+                height="160"
+                className="rounded-lg shadow-md"
+              ></Image>
+            </div>
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl leading-relaxed mb-4 sm:mb-6">
+              Hello, I&apos;m Yuval, I lead a team of amazing developers on my daily, I love helping my customers navigate their journey of digitalisation and been at it for 20 years.
+              <br className="hidden sm:block" />
+              <span className="block sm:inline">I love technology, when it impacts our life positively, and I enjoy the human aspects of technology adoption.</span>
             </p>
-            <p>
-              What I would describe myself as a servant leader combined with a
-              perpetual learner in all aspects of life (This site is one of my
-              learning experiences), aspiring to grow a better community
-              wherever I go.
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl leading-relaxed mb-4 sm:mb-6">
+              What I would describe myself as a servant leader combined with a perpetual learner in all aspects of life (This site is one of my learning experiences), aspiring to grow a better community wherever I go.
             </p>
-            <p className="hidden md:block mx-auto">
+            <p className="hidden sm:block text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl leading-relaxed">
               Things I do when I don&apos;t work I have found my way to many
               hobbies, some are more prominent and some were experiments that
               stuck, I... play the guitar and managed to release a few albums
@@ -135,14 +124,14 @@ const Home = (props: {
           </div>
         </div>
         <div
-          className="snap-start bg-cyan-500 w-screen h-screen flex items-center justify-center text-ellipsis"
+          className="snap-start bg-cyan-500 w-screen min-h-screen flex items-center justify-center py-16 sm:py-20"
           id="blog"
         >
-          <div className="row justify-content-center w-5/6 ">
-            <h2 className="text-4xl font-bold text-center text-gray-800 mb-8">
+          <div className="w-full mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-center text-gray-800 mb-8 sm:mb-12">
               Recent Thoughts
             </h2>
-            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-y-10 gap-x-6">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-6 lg:gap-8 auto-rows-fr">
               {props.posts.map(
                 ({ slug, frontMatter: { title, description, thumbnail } }) => (
                   <BlogPost
