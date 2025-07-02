@@ -12,7 +12,35 @@
     <changefreq>hourly</changefreq>
   </url>
   <url>
+    <loc>https://yuvalararat.com/blog/blog-1 copy</loc>
+    <changefreq>hourly</changefreq>
+  </url>
+  <url>
     <loc>https://yuvalararat.com/blog/blog-1</loc>
+    <changefreq>hourly</changefreq>
+  </url>
+  <url>
+    <loc>https://yuvalararat.com/blog/blog-2</loc>
+    <changefreq>hourly</changefreq>
+  </url>
+  <url>
+    <loc>https://yuvalararat.com/blog/blog-3</loc>
+    <changefreq>hourly</changefreq>
+  </url>
+  <url>
+    <loc>https://yuvalararat.com/blog/blog-4</loc>
+    <changefreq>hourly</changefreq>
+  </url>
+  <url>
+    <loc>https://yuvalararat.com/blog/blog-5</loc>
+    <changefreq>hourly</changefreq>
+  </url>
+  <url>
+    <loc>https://yuvalararat.com/blog/blog-6</loc>
+    <changefreq>hourly</changefreq>
+  </url>
+  <url>
+    <loc>https://yuvalararat.com/blog/blog-7</loc>
     <changefreq>hourly</changefreq>
   </url>
 </urlset>

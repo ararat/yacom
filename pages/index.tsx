@@ -14,7 +14,6 @@ import MarkdownContentComponent, {
   SectionConfig,
   ContentData,
 } from "../components/MarkdownContentComponent";
-import { marked } from "marked";
 import { loadAllContentSections } from "../lib/contentLoader";
 import BlogSection from "../components/BlogSection";
 

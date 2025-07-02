@@ -1,7 +1,16 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { marked } from 'marked';
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import Image from './image';
 import LazyVideo from './LazyVideo';
+import {
+  NAVIGATION_HEIGHT,
+  CONTENT_MARGINS,
+  AVAILABLE_HEIGHT_RATIO,
+  OVERLAY_HEIGHT_RATIO,
+  EXPANDED_MAX_HEIGHT,
+  SCROLL_RESTORATION_DELAY
+} from '../lib/constants';
 
 interface SectionConfig {
   id: string;
@@ -48,14 +57,12 @@ const MarkdownContentComponent: React.FC<MarkdownContentComponentProps> = ({
   const sectionRef = useRef<HTMLDivElement>(null);
   const scrollableContentRef = useRef<HTMLDivElement>(null);
   
-  // Calculate available space (90% after navigation + margins)
-  const getAvailableHeight = () => {
+  // Memoized calculation of available space
+  const getAvailableHeight = useCallback(() => {
     const viewportHeight = window.innerHeight;
-    const navigationHeight = 80; // Fixed navigation height
-    const margins = 40; // Top/bottom margins
-    const availableHeight = viewportHeight - navigationHeight - margins;
-    return availableHeight * 0.9; // Use 90% of available space
-  };
+    const availableHeight = viewportHeight - NAVIGATION_HEIGHT - CONTENT_MARGINS;
+    return availableHeight * AVAILABLE_HEIGHT_RATIO;
+  }, []);
   
   useEffect(() => {
     const updateHeights = () => {
@@ -73,6 +80,100 @@ const MarkdownContentComponent: React.FC<MarkdownContentComponentProps> = ({
     return () => window.removeEventListener('resize', updateHeights);
   }, [content]);
   
+  // Custom markdown components for consistent styling
+  const markdownComponents = useMemo(() => ({
+    h1: ({children}: {children: React.ReactNode}) => (
+      <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-center sm:text-left">
+        {children}
+      </h1>
+    ),
+    h2: ({children}: {children: React.ReactNode}) => (
+      <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-4">
+        {children}
+      </h2>
+    ),
+    h3: ({children}: {children: React.ReactNode}) => (
+      <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold mb-3">
+        {children}
+      </h3>
+    ),
+    p: ({children}: {children: React.ReactNode}) => (
+      <p className="text-sm sm:text-base md:text-lg lg:text-lg xl:text-xl leading-relaxed mb-4">
+        {children}
+      </p>
+    ),
+    a: ({children, href}: {children: React.ReactNode, href?: string}) => (
+      <a href={href} className="text-blue-600 hover:text-blue-800 underline transition-colors">
+        {children}
+      </a>
+    ),
+    strong: ({children}: {children: React.ReactNode}) => (
+      <strong className="font-semibold">{children}</strong>
+    ),
+    em: ({children}: {children: React.ReactNode}) => (
+      <em className="italic">{children}</em>
+    ),
+    ul: ({children}: {children: React.ReactNode}) => (
+      <ul className="list-disc list-inside mb-4 space-y-2">{children}</ul>
+    ),
+    ol: ({children}: {children: React.ReactNode}) => (
+      <ol className="list-decimal list-inside mb-4 space-y-2">{children}</ol>
+    ),
+    li: ({children}: {children: React.ReactNode}) => (
+      <li className="text-sm sm:text-base md:text-lg lg:text-lg xl:text-xl leading-relaxed">{children}</li>
+    ),
+  }), []);
+
+  // Video-specific markdown components with white text and shadows
+  const videoMarkdownComponents = useMemo(() => ({
+    ...markdownComponents,
+    h1: ({children}: {children: React.ReactNode}) => (
+      <h1 className="text-white drop-shadow-lg font-bold mb-2">{children}</h1>
+    ),
+    h2: ({children}: {children: React.ReactNode}) => (
+      <h2 className="text-white drop-shadow-md font-bold mb-2">{children}</h2>
+    ),
+    h3: ({children}: {children: React.ReactNode}) => (
+      <h3 className="text-white drop-shadow-md font-bold mb-2">{children}</h3>
+    ),
+    p: ({children}: {children: React.ReactNode}) => (
+      <p className="text-white drop-shadow-sm leading-relaxed mb-4">{children}</p>
+    ),
+    a: ({children, href}: {children: React.ReactNode, href?: string}) => (
+      <a href={href} className="text-blue-200 hover:text-blue-100 underline transition-colors">
+        {children}
+      </a>
+    ),
+    strong: ({children}: {children: React.ReactNode}) => (
+      <strong className="font-semibold text-white drop-shadow-sm">{children}</strong>
+    ),
+    em: ({children}: {children: React.ReactNode}) => (
+      <em className="italic text-white drop-shadow-sm">{children}</em>
+    ),
+    li: ({children}: {children: React.ReactNode}) => (
+      <li className="text-white drop-shadow-sm leading-relaxed">{children}</li>
+    ),
+  }), [markdownComponents]);
+
+  // Memoized ReactMarkdown components for performance
+  const MemoizedStandardMarkdown = useMemo(() => (
+    <ReactMarkdown 
+      remarkPlugins={[remarkGfm]}
+      components={markdownComponents}
+    >
+      {content.content}
+    </ReactMarkdown>
+  ), [content.content, markdownComponents]);
+
+  const MemoizedVideoMarkdown = useMemo(() => (
+    <ReactMarkdown 
+      remarkPlugins={[remarkGfm]}
+      components={videoMarkdownComponents}
+    >
+      {content.content}
+    </ReactMarkdown>
+  ), [content.content, videoMarkdownComponents]);
+
   const needsReadMore = contentHeight > availableHeight;
   const shouldShowReadMore = needsReadMore && !hasVideo;
   
@@ -119,10 +220,9 @@ const MarkdownContentComponent: React.FC<MarkdownContentComponentProps> = ({
             )}
           </div>
           
-          <div 
-            className="text-sm sm:text-base md:text-lg lg:text-lg xl:text-xl leading-relaxed !text-white drop-shadow-sm"
-            dangerouslySetInnerHTML={{ __html: marked(content.content) }}
-          />
+          <div className="text-sm sm:text-base md:text-lg lg:text-lg xl:text-xl leading-relaxed">
+            {MemoizedVideoMarkdown}
+          </div>
         </div>
       ) : (
         // Standard sections with overlay design
@@ -158,10 +258,9 @@ const MarkdownContentComponent: React.FC<MarkdownContentComponentProps> = ({
               </h1>
               
               {/* Content */}
-              <div 
-                className="text-sm sm:text-base md:text-lg lg:text-lg xl:text-xl leading-relaxed"
-                dangerouslySetInnerHTML={{ __html: marked(content.content) }}
-              />
+              <div className="text-sm sm:text-base md:text-lg lg:text-lg xl:text-xl leading-relaxed">
+                {MemoizedStandardMarkdown}
+              </div>
               
               {/* Show Less Button at Bottom */}
               {isExpanded && shouldShowReadMore && (
@@ -184,7 +283,7 @@ const MarkdownContentComponent: React.FC<MarkdownContentComponentProps> = ({
           {shouldShowReadMore && !isExpanded && availableHeight > 0 && (
             <div 
               className="absolute bottom-0 left-0 right-0 pointer-events-none"
-              style={{ height: `${availableHeight * 0.1}px` }}
+              style={{ height: `${availableHeight * OVERLAY_HEIGHT_RATIO}px` }}
             >
               {/* Blur Gradient Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-white via-white/90 to-transparent backdrop-blur-sm" />
