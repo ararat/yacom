@@ -6,10 +6,12 @@ import {
 } from "react";
 import Image from "../components/image";
 import Link from "next/link";
+import { SectionConfig } from "./MarkdownContentComponent";
 
 const Navigation = (props: {
   SiteTitle: string;
   SiteDescription: string;
+  sections?: SectionConfig[];
 }): JSX.Element => {
   const [navbar, setNavbar] = useState(false);
   return (
@@ -70,36 +72,20 @@ const Navigation = (props: {
             }`}
           >
             <ul className="items-center justify-center space-y-4 md:flex md:space-x-8 md:space-y-0" role="menubar">
-              <li className="text-white" role="none">
-                <Link 
-                  href="/#welcome" 
-                  className="block py-2 px-3 rounded-md hover:bg-slate-700 hover:text-blue-300 transition-all duration-200 text-center md:text-left"
-                  role="menuitem"
-                  onClick={() => setNavbar(false)}
-                >
-                  Welcome
-                </Link>
-              </li>
-              <li className="text-white" role="none">
-                <Link 
-                  href="/#about" 
-                  className="block py-2 px-3 rounded-md hover:bg-slate-700 hover:text-blue-300 transition-all duration-200 text-center md:text-left"
-                  role="menuitem"
-                  onClick={() => setNavbar(false)}
-                >
-                  About
-                </Link>
-              </li>
-              <li className="text-white" role="none">
-                <Link 
-                  href="/#blog" 
-                  className="block py-2 px-3 rounded-md hover:bg-slate-700 hover:text-blue-300 transition-all duration-200 text-center md:text-left"
-                  role="menuitem"
-                  onClick={() => setNavbar(false)}
-                >
-                  Thoughts
-                </Link>
-              </li>
+              {(props.sections || [])
+                .filter(section => section?.enabled)
+                .map(section => (
+                  <li key={section.id} className="text-white" role="none">
+                    <Link 
+                      href={`/#${section.id}`}
+                      className="block py-2 px-3 rounded-md hover:bg-slate-700 hover:text-blue-300 transition-all duration-200 text-center md:text-left"
+                      role="menuitem"
+                      onClick={() => setNavbar(false)}
+                    >
+                      {section.navTitle}
+                    </Link>
+                  </li>
+                ))}
             </ul>
           </div>
         </div>
