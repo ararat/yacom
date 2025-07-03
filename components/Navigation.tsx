@@ -39,10 +39,9 @@ const Navigation: React.FC<NavigationProps> = (props) => {
   const handleSiteTitleClick = (e: React.MouseEvent) => {
     if (typeof window !== "undefined" && window.location.pathname === "/") {
       e.preventDefault();
-      router.push("/").then(() => {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      });
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
+    // For other pages, allow normal navigation to home page
   };
 
   // Generate structured data for blog posts
@@ -150,15 +149,13 @@ const Navigation: React.FC<NavigationProps> = (props) => {
         </div>
 
         {/* Desktop menu items */}
-        <div className="hidden md:block">
-          <StandardNavigation
-            SiteDescription={props.SiteDescription}
-            sections={props.sections}
-            navbar={navbar}
-            setNavbar={setNavbar}
-            menuItemsOnly={true}
-          />
-        </div>
+        <StandardNavigation
+          SiteDescription={props.SiteDescription}
+          sections={props.sections}
+          navbar={navbar}
+          setNavbar={setNavbar}
+          menuItemsOnly={true}
+        />
       </div>
     </nav>
   );

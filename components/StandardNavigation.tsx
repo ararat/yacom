@@ -69,7 +69,7 @@ const StandardNavigation: React.FC<StandardNavigationProps> = (props) => {
       <div>
         <div
           className={`flex-1 justify-self-center pb-3 mt-8 md:block md:pb-0 md:mt-0 ${
-            props.navbar ? "block" : "hidden"
+            props.navbar ? "block" : "hidden md:block"
           }`}
         >
           <ul className="items-center justify-center space-y-4 md:flex md:space-x-8 md:space-y-0" role="menubar">
