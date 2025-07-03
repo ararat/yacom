@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:yuvalararat.com)",
+      "Bash(rm:*)",
+      "Bash(mkdir:*)",
+      "Bash(npm run build:*)",
+      "Bash(find:*)",
+      "Bash(npm test:*)",
+      "Bash(npm run test:coverage:*)",
+      "Bash(gh issue create:*)"
+    ],
+    "deny": []
+  }
+}
