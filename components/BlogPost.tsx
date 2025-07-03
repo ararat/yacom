@@ -24,9 +24,14 @@ const BlogPost = (props: {
             alt={props.title}
             width={300}
             height={180}
-            layout="responsive"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="w-full h-full object-center object-cover transition-transform duration-300 group-hover:scale-105"
             loading="lazy"
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+            }}
           />
         </div>
         <div className="p-2 sm:p-4 lg:p-5 xl:p-6 flex flex-col flex-grow">

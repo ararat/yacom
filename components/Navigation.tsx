@@ -1,97 +1,165 @@
-import {
-  DispatchWithoutAction,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
-import Image from "../components/image";
+import React, { useState } from "react";
 import Link from "next/link";
-import { SectionConfig } from "./MarkdownContentComponent";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import StandardNavigation from "./StandardNavigation";
+import BlogPostNavigation from "./BlogPostNavigation";
 
-const Navigation = (props: {
+interface NavigationSection {
+  id: string;
+  navTitle: string;
+  enabled: boolean;
+}
+
+interface StandardNavigationProps {
+  variant: "standard";
   SiteTitle: string;
   SiteDescription: string;
-  sections?: SectionConfig[];
-}): JSX.Element => {
+  sections?: NavigationSection[];
+}
+
+interface BlogPostNavigationProps {
+  variant: "blogPost";
+  siteTitle: string;
+  postTitle: string;
+}
+
+type NavigationProps = StandardNavigationProps | BlogPostNavigationProps;
+
+const Navigation: React.FC<NavigationProps> = (props) => {
+  // State for mobile menu (only used for standard navigation)
   const [navbar, setNavbar] = useState(false);
+  const router = useRouter();
+
+  // Get site title from either prop structure
+  const siteTitle =
+    props.variant === "standard" ? props.SiteTitle : props.siteTitle;
+
+  // Handle site title click for scroll-to-top behavior
+  const handleSiteTitleClick = (e: React.MouseEvent) => {
+    if (typeof window !== "undefined" && window.location.pathname === "/") {
+      e.preventDefault();
+      router.push("/").then(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    }
+  };
+
+  // Generate structured data for blog posts
+  const blogPostStructuredData =
+    props.variant === "blogPost"
+      ? {
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              name: "Home",
+              item: "https://yuvalararat.com",
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              name: "Thoughts",
+              item: "https://yuvalararat.com/#blog",
+            },
+            {
+              "@type": "ListItem",
+              position: 3,
+              name: props.postTitle,
+              item: typeof window !== "undefined" ? window.location.href : "",
+            },
+          ],
+        }
+      : null;
+
+  if (props.variant === "blogPost") {
+    return (
+      <>
+        {/* Structured data for blog posts */}
+        <Head>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(blogPostStructuredData),
+            }}
+          />
+        </Head>
+
+        {/* Blog post navigation */}
+        <nav 
+          className="fixed top-0 left-0 right-0 bg-slate-800/95 dark:bg-dark-surface/95 backdrop-blur-sm text-white py-4 z-50 shadow-lg transition-all duration-300"
+          role="navigation"
+          aria-label="Blog post navigation"
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6">
+            <div className="flex items-center justify-between">
+              {/* Site Title - Left */}
+              <h1 className="text-xl sm:text-2xl font-bold flex-shrink-0">
+                <Link
+                  href="/"
+                  className="hover:text-blue-300 transition-colors duration-200 focus:ring-2 focus:ring-blue-300 focus:outline-none rounded-md px-2 py-1 -mx-2 -my-1"
+                  onClick={handleSiteTitleClick}
+                  aria-label={`${siteTitle} - Return to homepage`}
+                >
+                  {siteTitle}
+                </Link>
+              </h1>
+
+              {/* Sub-component content */}
+              <BlogPostNavigation postTitle={props.postTitle} />
+            </div>
+          </div>
+        </nav>
+      </>
+    );
+  }
+
+  // Standard navigation
   return (
-    <nav className="fixed top-0 left-0 right-0 bg-slate-800/95 backdrop-blur-sm text-white py-2 z-50 shadow-lg transition-all duration-300">
+    <nav 
+      className="fixed top-0 left-0 right-0 bg-slate-800/95 dark:bg-dark-surface/95 backdrop-blur-sm text-white py-2 z-50 shadow-lg transition-all duration-300"
+      role="navigation"
+      aria-label="Main navigation"
+    >
       <div className="justify-between px-4 sm:px-6 mx-auto lg:max-w-7xl md:items-center md:flex">
         <div>
           <div className="flex items-center justify-between py-2 md:py-3 md:block">
             <h2 className="text-xl sm:text-2xl text-white font-bold hover:text-blue-300 transition-colors duration-200">
-              <Link href="/" className="block">{props.SiteTitle}</Link>
+              <Link 
+                href="/" 
+                className="block focus:ring-2 focus:ring-blue-300 focus:outline-none rounded-md px-2 py-1 -mx-2 -my-1" 
+                onClick={handleSiteTitleClick}
+                aria-label={`${siteTitle} - Return to homepage`}
+              >
+                {siteTitle}
+              </Link>
             </h2>
 
-            <div className="md:hidden">
-              <button
-                id="Navigation"
-                value="Navigation"
-                className="p-2 text-white rounded-md outline-none focus:ring-2 focus:ring-blue-300 hover:bg-slate-700 transition-colors duration-200"
-                onClick={() => setNavbar(!navbar)}
-                aria-label={navbar ? "Close menu" : "Open menu"}
-                aria-expanded={navbar}
-              >
-                {navbar ? (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-6 h-6 text-white"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                ) : (
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-6 h-6 text-white"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M4 6h16M4 12h16M4 18h16"
-                    />
-                  </svg>
-                )}
-              </button>
-            </div>
+            {/* Mobile menu button */}
+            <StandardNavigation
+              SiteDescription={props.SiteDescription}
+              sections={props.sections}
+              navbar={navbar}
+              setNavbar={setNavbar}
+              mobileButtonOnly={true}
+            />
           </div>
         </div>
-        <div>
-          <div
-            className={`flex-1 justify-self-center pb-3 mt-8 md:block md:pb-0 md:mt-0 ${
-              navbar ? "block" : "hidden"
-            }`}
-          >
-            <ul className="items-center justify-center space-y-4 md:flex md:space-x-8 md:space-y-0" role="menubar">
-              {(props.sections || [])
-                .filter(section => section?.enabled)
-                .map(section => (
-                  <li key={section.id} className="text-white" role="none">
-                    <Link 
-                      href={`/#${section.id}`}
-                      className="block py-2 px-3 rounded-md hover:bg-slate-700 hover:text-blue-300 transition-all duration-200 text-center md:text-left"
-                      role="menuitem"
-                      onClick={() => setNavbar(false)}
-                    >
-                      {section.navTitle}
-                    </Link>
-                  </li>
-                ))}
-            </ul>
-          </div>
-        </div>
+
+        {/* Desktop menu items */}
+        <StandardNavigation
+          SiteDescription={props.SiteDescription}
+          sections={props.sections}
+          navbar={navbar}
+          setNavbar={setNavbar}
+          menuItemsOnly={true}
+        />
       </div>
     </nav>
   );
 };
 
 export default Navigation;
+export type { NavigationSection };

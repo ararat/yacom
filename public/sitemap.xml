@@ -12,6 +12,10 @@
     <changefreq>hourly</changefreq>
   </url>
   <url>
+    <loc>https://yuvalararat.com/blog/2024-07-building-a-modern-portfolio-with-nextjs-and-cloudflare</loc>
+    <changefreq>hourly</changefreq>
+  </url>
+  <url>
     <loc>https://yuvalararat.com/blog/blog-1 copy</loc>
     <changefreq>hourly</changefreq>
   </url>

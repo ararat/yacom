@@ -70,7 +70,6 @@ const LazyVideo: React.FC<LazyVideoProps> = ({
       poster={poster}
       className={className}
       aria-label="Background video"
-      loading="lazy"
     >
       {isIntersecting && <source src={src} type={type} />}
       <div className="absolute inset-0 bg-amber-600 flex items-center justify-center text-white">

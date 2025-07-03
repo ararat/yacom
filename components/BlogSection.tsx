@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import BlogPost from './BlogPost';
+import { useDebounce } from '../hooks/useDebounce';
 
 interface BlogSectionProps {
   posts: Array<{
@@ -39,16 +40,19 @@ const BlogSection: React.FC<BlogSectionProps> = ({ posts }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredPosts, setFilteredPosts] = useState(posts);
   const [visibleCount, setVisibleCount] = useState(6);
+  
+  // Debounce search term to improve performance
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
-  // Real-time search filtering
+  // Search filtering with debounced term
   useEffect(() => {
-    if (!searchTerm.trim()) {
+    if (!debouncedSearchTerm.trim()) {
       setFilteredPosts(posts);
       setVisibleCount(6); // Reset to initial count when clearing search
       return;
     }
     
-    const searchLower = searchTerm.toLowerCase();
+    const searchLower = debouncedSearchTerm.toLowerCase();
     const filtered = posts.filter(post => {
       const title = post.frontMatter.title?.toLowerCase() || '';
       const description = post.frontMatter.description?.toLowerCase() || '';
@@ -61,37 +65,28 @@ const BlogSection: React.FC<BlogSectionProps> = ({ posts }) => {
     
     setFilteredPosts(filtered);
     setVisibleCount(filtered.length); // Show all search results
-  }, [searchTerm, posts]);
+  }, [debouncedSearchTerm, posts]);
 
   // Infinite scroll logic - only for non-search mode
-  const hasMore = !searchTerm && visibleCount < filteredPosts.length;
+  const hasMore = !debouncedSearchTerm && visibleCount < filteredPosts.length;
   
   const loadMore = useCallback(() => {
-    // Store scroll position before state change
-    const scrollY = window.scrollY;
-    
     setVisibleCount(prev => {
       const newCount = Math.min(prev + 6, filteredPosts.length);
-      
-      // Restore scroll position after DOM updates
-      requestAnimationFrame(() => {
-        window.scrollTo(0, scrollY);
-      });
-      
       return newCount;
     });
   }, [filteredPosts.length]);
   
   const triggerRef = useInfiniteScroll(loadMore, hasMore);
   
-  const visiblePosts = searchTerm ? filteredPosts : filteredPosts.slice(0, visibleCount);
+  const visiblePosts = debouncedSearchTerm ? filteredPosts : filteredPosts.slice(0, visibleCount);
 
   return (
-    <div className="w-full mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 pt-20 sm:pt-24 pb-16">
+    <div className="w-full mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 pt-20 sm:pt-24 pb-16 text-gray-900 dark:text-dark-text">
       {/* Title */}
-      <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-center text-gray-800 mb-8 sm:mb-12">
+      <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-center text-gray-800 dark:text-dark-text mb-8 sm:mb-12 transition-colors duration-300">
         Recent Thoughts
-        {searchTerm && (
+        {debouncedSearchTerm && (
           <span className="block text-lg sm:text-xl font-normal text-gray-600 mt-2">
             {filteredPosts.length} {filteredPosts.length === 1 ? 'result' : 'results'} found
           </span>
@@ -106,7 +101,7 @@ const BlogSection: React.FC<BlogSectionProps> = ({ posts }) => {
             placeholder="Search thoughts..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full px-4 py-3 pl-10 text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+            className="w-full px-4 py-3 pl-10 text-gray-700 dark:text-dark-text bg-white dark:bg-dark-surface border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
             aria-label="Search blog posts"
           />
           <div className="absolute inset-y-0 left-0 flex items-center pl-3">
@@ -186,9 +181,9 @@ const BlogSection: React.FC<BlogSectionProps> = ({ posts }) => {
           </div>
           <p className="text-xl text-gray-600 mb-2">No thoughts found</p>
           <p className="text-gray-500">
-            {searchTerm ? (
+            {debouncedSearchTerm ? (
               <>
-                No results matching <span className="font-semibold">"{searchTerm}"</span>
+                No results matching <span className="font-semibold">&quot;{debouncedSearchTerm}&quot;</span>
                 <br />
                 <button 
                   onClick={() => setSearchTerm('')}
@@ -205,7 +200,7 @@ const BlogSection: React.FC<BlogSectionProps> = ({ posts }) => {
       )}
 
       {/* Search Tips */}
-      {searchTerm && filteredPosts.length > 0 && (
+      {debouncedSearchTerm && filteredPosts.length > 0 && (
         <div className="mt-12 text-center">
           <p className="text-sm text-gray-500">
             Tip: Search by title, description, or tags to find specific topics

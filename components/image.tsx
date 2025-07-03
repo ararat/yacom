@@ -2,13 +2,7 @@ import Image from 'next/image';
 import React, { FC } from "react";
 
 
-// Define your component props
-type ImageProperties = {
-  src: string;
-  width: string;
-  height: string;
-  quality: number;
-}
+import { ImageLoaderProps } from 'next/image';
 
 type ImgProps = {
   src: string;
@@ -18,19 +12,22 @@ type ImgProps = {
   quality?: string | number;
   className?: string;
   loading?: 'lazy' | 'eager';
-  layout?: string;
+  layout?: string; // Legacy support
+  sizes?: string;
+  style?: React.CSSProperties;
   priority?: boolean;
 }
-const cloudflareImageLoader = ({ src, width, height, quality }: ImageProperties) => {
+
+const cloudflareImageLoader = ({ src, width, quality }: ImageLoaderProps) => {
   if (!quality) {
     quality = 75
   }
   // src should already be handled by the component, so we can trust it exists
-  return `https://image-resize.yuvalararat.workers.dev?width=${width}&height=${height}&quality=${quality}&image=${process.env.site_address}${src}`
+  return `https://image-resize.yuvalararat.workers.dev?width=${width}&quality=${quality}&image=${process.env.site_address}${src}`
 }
 
 export default function Img(props: ImgProps) {
-  const { alt, loading, className = '', priority, ...restProps } = props;
+  const { alt, loading, className = '', priority, layout, sizes, style, ...restProps } = props;
   
   // Don't use lazy loading if priority is set
   const effectiveLoading = priority ? 'eager' : (loading || 'lazy');
@@ -44,7 +41,16 @@ export default function Img(props: ImgProps) {
     alt: alt || 'Image',
     loading: effectiveLoading,
     priority,
-    className: `transition-opacity duration-300 ${className}`
+    className: `transition-opacity duration-300 ${className}`,
+    width: typeof restProps.width === 'string' ? parseInt(restProps.width) : restProps.width,
+    height: typeof restProps.height === 'string' ? parseInt(restProps.height) : restProps.height,
+    quality: typeof restProps.quality === 'string' ? parseInt(restProps.quality) : restProps.quality,
+    ...(sizes && { sizes }),
+    ...(style && { style }),
+    // Handle legacy layout prop by converting to modern style if needed
+    ...(layout === 'responsive' && !style && {
+      style: { width: '100%', height: 'auto' }
+    })
   };
 
   if (process.env.NODE_ENV === 'development') {
