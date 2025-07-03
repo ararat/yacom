@@ -123,39 +123,42 @@ const Navigation: React.FC<NavigationProps> = (props) => {
       role="navigation"
       aria-label="Main navigation"
     >
-      <div className="justify-between px-4 sm:px-6 mx-auto lg:max-w-7xl md:items-center md:flex">
-        <div>
-          <div className="flex items-center justify-between py-2 md:py-3 md:block">
-            <h2 className="text-xl sm:text-2xl text-white font-bold hover:text-blue-300 transition-colors duration-200">
-              <Link 
-                href="/" 
-                className="block focus:ring-2 focus:ring-blue-300 focus:outline-none rounded-md px-2 py-1 -mx-2 -my-1" 
-                onClick={handleSiteTitleClick}
-                aria-label={`${siteTitle} - Return to homepage`}
-              >
-                {siteTitle}
-              </Link>
-            </h2>
+      <div className="flex justify-between px-4 sm:px-6 mx-auto w-full md:items-center">
+        {/* Site Title */}
+        <div className="flex items-center py-2 md:py-3">
+          <h2 className="text-xl sm:text-2xl text-white font-bold hover:text-blue-300 transition-colors duration-200">
+            <Link 
+              href="/" 
+              className="block focus:ring-2 focus:ring-blue-300 focus:outline-none rounded-md px-2 py-1 -mx-2 -my-1" 
+              onClick={handleSiteTitleClick}
+              aria-label={`${siteTitle} - Return to homepage`}
+            >
+              {siteTitle}
+            </Link>
+          </h2>
+        </div>
 
-            {/* Mobile menu button */}
-            <StandardNavigation
-              SiteDescription={props.SiteDescription}
-              sections={props.sections}
-              navbar={navbar}
-              setNavbar={setNavbar}
-              mobileButtonOnly={true}
-            />
-          </div>
+        {/* Mobile menu button - Right aligned */}
+        <div className="flex items-center">
+          <StandardNavigation
+            SiteDescription={props.SiteDescription}
+            sections={props.sections}
+            navbar={navbar}
+            setNavbar={setNavbar}
+            mobileButtonOnly={true}
+          />
         </div>
 
         {/* Desktop menu items */}
-        <StandardNavigation
-          SiteDescription={props.SiteDescription}
-          sections={props.sections}
-          navbar={navbar}
-          setNavbar={setNavbar}
-          menuItemsOnly={true}
-        />
+        <div className="hidden md:block">
+          <StandardNavigation
+            SiteDescription={props.SiteDescription}
+            sections={props.sections}
+            navbar={navbar}
+            setNavbar={setNavbar}
+            menuItemsOnly={true}
+          />
+        </div>
       </div>
     </nav>
   );
