@@ -52,6 +52,14 @@ const SECTIONS_CONFIG: SectionConfig[] = [
     enabled: true,
     hideFromNav: false
   },
+  {
+    id: "experience",
+    navTitle: "Experience",
+    backgroundColor: "bg-blue-100",
+    contentFile: "experience",
+    enabled: true,
+    hideFromNav: false
+  },
 ];
 
 const Home = (props: {
