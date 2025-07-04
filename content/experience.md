@@ -1,45 +1,27 @@
 # Professional Experience
 
-## Principal Engineer | Adobe
-*2019 - Present*
+## Adobe Systems (01/2013 - Present)
 
-Leading enterprise-scale digital experience solutions serving millions of users globally. Architecting cloud-native platforms and mentoring engineering teams across multiple products.
+### Engineering Manager (2022 - Present)
+- Leading a team of 17 engineers, transforming it into a mature and effective working model with clear, measurable customer impact.
+- Successfully guiding the team through changes from re-orgs and office closures by directing the future structure and ways of working.
 
-**Key Achievements:**
-- Designed and implemented microservices architecture reducing deployment time by 75%
-- Led migration of legacy systems to cloud-native solutions, improving scalability by 300%
-- Established engineering best practices adopted across 8 product teams
-- Mentored 20+ engineers, with 85% receiving promotions within 2 years
+### Principal Architect APAC & Architecture Practice Lead APAC (2015 - 2022)
+- Established and led a Centre of Excellence (CoE), aligning its strategic roadmap with organizational technology and business objectives.
+- Delivered solutions for the largest customers in the region, including Reliance JIO, ANZ Bank, Nine Media, and Qantas.
 
-## Senior Software Architect | Previous Company
-*2015 - 2019*
+### CQ/AEM Senior Technical Architect (2013 - 2016)
+- Architected a world-first AEM on Cloud implementation.
+- Achieved an 800% reduction in content delivery speed through solution architecture.
 
-Architected e-commerce platforms processing $50M+ in annual revenue. Led digital transformation initiatives and established DevOps practices.
+## Previous Experience
 
-**Key Achievements:**
-- Built headless commerce platform serving 1M+ customers
-- Reduced page load times by 60% through performance optimization
-- Implemented CI/CD pipelines reducing deployment failures by 90%
-- Led team of 12 engineers across frontend, backend, and DevOps
+**Senior Vignette WCM Consultant, OpenText (Vignette) Pty Ltd** (2008 - 2012)
 
-## Lead Developer | Startup
-*2012 - 2015*
+**Engineering Manager, Matrix Ltd** (2006 - 2007)
 
-Full-stack development and team leadership at a fast-growing SaaS company. Helped scale from MVP to enterprise-ready platform.
+**Technical Lead/Architect, eWave LTD** (2004 - 2006)
 
-**Key Achievements:**
-- Developed MVP that secured $5M Series A funding
-- Scaled platform from 100 to 10,000+ active users
-- Established engineering culture and hiring practices
-- Built real-time analytics system processing 1M+ events daily
+**CTO, Netschool LTD** (2004)
 
-## Software Engineer | Consulting Firm
-*2009 - 2012*
-
-Delivered custom solutions for Fortune 500 clients across finance, healthcare, and retail sectors.
-
-**Key Achievements:**
-- Delivered 15+ projects on time and under budget
-- Specialized in enterprise integrations and data migration
-- Received "Outstanding Performance" rating for 3 consecutive years
-- Led technical training for 30+ junior developers
+**Co-Founder, Developer, TreeWay** (1999 - 2001) and **Migdal-Or Systems** (1998 - 1999)
