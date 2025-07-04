@@ -25,8 +25,13 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({
     
     if (headingElements.length === 0) return;
 
+    let isScrolling = false;
+
     const observer = new IntersectionObserver(
       (entries) => {
+        // Don't update active ID during manual scrolling to prevent conflicts
+        if (isScrolling) return;
+        
         // Find the heading that's currently most visible
         const visibleEntries = entries.filter(entry => entry.isIntersecting);
         
@@ -37,16 +42,30 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({
         }
       },
       {
-        rootMargin: '-140px 0px -80% 0px', // Account for fixed header height
-        threshold: 0,
+        rootMargin: '-160px 0px -70% 0px', // More conservative margins
+        threshold: [0, 0.25], // Multiple thresholds for better detection
       }
     );
+
+    // Detect scroll events to prevent observer conflicts
+    let scrollTimeout: NodeJS.Timeout;
+    const handleScroll = () => {
+      isScrolling = true;
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        isScrolling = false;
+      }, 150);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
     headingElements.forEach(element => {
       if (element) observer.observe(element);
     });
 
     return () => {
+      window.removeEventListener('scroll', handleScroll);
+      clearTimeout(scrollTimeout);
       headingElements.forEach(element => {
         if (element) observer.unobserve(element);
       });
@@ -55,46 +74,26 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({
 
   const handleHeadingClick = (id: string) => {
     const element = document.getElementById(id);
-    if (element) {
-      // Check if this is the first heading (typically h1)
-      const isFirstHeading = toc.length > 0 && toc[0].id === id && toc[0].level === 1;
-      
-      if (isFirstHeading) {
-        // For the main title, scroll to show the article top with header visible
-        // Find the article element or use a reasonable offset
-        const articleElement = document.querySelector('article');
-        if (articleElement) {
-          const articleTop = articleElement.getBoundingClientRect().top + window.pageYOffset;
-          const offsetTop = Math.max(0, articleTop - 140); // Account for fixed header
-          
-          window.scrollTo({
-            top: offsetTop,
-            behavior: 'smooth'
-          });
-        } else {
-          // Fallback: scroll to element with offset
-          const elementTop = element.getBoundingClientRect().top + window.pageYOffset;
-          const offsetTop = Math.max(0, elementTop - 140);
-          
-          window.scrollTo({
-            top: offsetTop,
-            behavior: 'smooth'
-          });
-        }
-      } else {
-        // For other headings, scroll with offset for fixed header
-        const elementTop = element.getBoundingClientRect().top + window.pageYOffset;
-        const offsetTop = Math.max(0, elementTop - 140); // Account for fixed header + padding
-        
-        window.scrollTo({
-          top: offsetTop,
-          behavior: 'smooth'
-        });
-      }
-      setActiveId(id);
-    } else {
+    if (!element) {
       console.warn(`Element with id '${id}' not found. Make sure headings have proper IDs.`);
+      return;
     }
+
+    // Prevent race conditions by temporarily disabling the intersection observer
+    const headingElements = toc.map(item => document.getElementById(item.id)).filter(Boolean);
+    
+    // Calculate scroll position
+    const elementTop = element.getBoundingClientRect().top + window.pageYOffset;
+    const offsetTop = Math.max(0, elementTop - 140); // Account for fixed header + padding
+    
+    // Set active ID immediately to prevent jumping
+    setActiveId(id);
+    
+    // Scroll to the element
+    window.scrollTo({
+      top: offsetTop,
+      behavior: 'smooth'
+    });
   };
 
   const renderTOCItem = (item: TOCItem, index: number) => {
