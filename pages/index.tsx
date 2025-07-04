@@ -76,7 +76,7 @@ const Home = (props: {
         </Head>
       </div>
 
-      <div className="md:snap-y md:snap-proximity min-h-full h-screen w-auto overflow-y-scroll overflow-x-hidden bg-white dark:bg-dark-bg transition-colors duration-300">
+      <div className="snap-y snap-mandatory min-h-full h-screen w-auto overflow-y-scroll overflow-x-hidden bg-white dark:bg-dark-bg transition-colors duration-300">
         <Navigation
           variant="standard"
           SiteTitle={props.SiteTitle}
@@ -91,7 +91,7 @@ const Home = (props: {
         {SECTIONS_CONFIG
           .filter(section => section.enabled)
           .map(section => (
-            <div key={section.id} className="md:snap-start">
+            <div key={section.id}>
               <MarkdownContentComponent
                 section={section}
                 content={props.content[section.contentFile]}
@@ -101,7 +101,7 @@ const Home = (props: {
 
         {/* Blog Section - Endless Scroll */}
         <div
-          className="md:snap-start bg-cyan-500 dark:bg-cyan-600 w-screen min-h-screen transition-colors duration-300"
+          className="snap-start bg-cyan-500 dark:bg-cyan-600 w-screen min-h-screen transition-colors duration-300"
           id="blog"
         >
           <BlogSection posts={props.posts} />

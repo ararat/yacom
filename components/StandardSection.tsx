@@ -60,7 +60,7 @@ const StandardSection: React.FC<StandardSectionProps> = ({
   ), [content.content]);
 
   const contentElement = (
-    <div className="px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 py-6 w-full bg-opacity-0 justify-content-center">
+    <div className={`px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 py-6 w-full bg-opacity-0 justify-content-center ${isExpanded ? 'h-auto' : ''}`}>
       {/* Standard sections with overlay design */}
       <div className="relative w-full">
         {/* Content Area - Fixed or Expandable Height */}
@@ -68,7 +68,7 @@ const StandardSection: React.FC<StandardSectionProps> = ({
           ref={scrollableContentRef}
           className={`${
             isExpanded 
-              ? 'max-h-[75vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-transparent' 
+              ? 'max-h-[90vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-transparent' 
               : 'overflow-hidden'
           }`}
           style={!isExpanded && availableHeight ? { height: `${availableHeight}px` } : {}}
@@ -129,7 +129,7 @@ const StandardSection: React.FC<StandardSectionProps> = ({
   return (
     <div 
       ref={sectionRef}
-      className={`md:snap-start ${section.backgroundColor} w-screen h-screen flex items-center justify-center overflow-hidden`}
+      className={`snap-start ${section.backgroundColor} w-screen h-screen flex ${isExpanded ? 'items-start justify-center pt-4' : 'items-center justify-center'} overflow-hidden`}
       id={section.id}
       style={{ touchAction: 'pan-y', overscrollBehavior: 'contain' }}
     >
