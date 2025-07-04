@@ -74,7 +74,7 @@ const VideoBackgroundSection: React.FC<VideoBackgroundSectionProps> = ({
 
   return (
     <div 
-      className={`md:snap-start ${section.backgroundColor} w-screen h-screen relative overflow-hidden`}
+      className={`snap-start ${section.backgroundColor} w-screen h-screen relative overflow-hidden`}
       id={section.id}
       style={{ touchAction: 'pan-y', overscrollBehavior: 'contain' }}
     >
