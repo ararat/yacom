@@ -4,7 +4,7 @@ date: '2017-05-09T16:45:26+12:00'
 status: publish
 permalink: /2017/05/stress-testing-customisations-on-aem-author-with-siege
 author: 'Yuval Ararat'
-excerpt: ''
+excerpt: 'Learn how to stress test AEM Author customizations using Siege tool to ensure performance and stability under load.'
 type: post
 id: 1431
 thumbnail: ''
