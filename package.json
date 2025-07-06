@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "set WEBSITE_URL=https://yuvalararat.com && next build",
+    "build:cloudflare": "npx @cloudflare/next-on-pages",
     "start": "next start",
     "lint": "next lint"
   },
@@ -23,6 +24,7 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.23.3",
+    "@cloudflare/next-on-pages": "^1.13.5",
     "@fullhuman/postcss-purgecss": "^5.0.0",
     "@types/node": "20.0.0",
     "@types/react": "18.2.0",
