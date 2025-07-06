@@ -1,31 +1,31 @@
-# Expertise & Skills
+# Areas of Expertise
 
-## Technical Leadership
-- **Team Building**: Scaling engineering teams from 5 to 50+ engineers
-- **Mentorship**: Developing junior engineers into technical leaders
-- **Architecture**: Designing systems that handle millions of requests daily
-- **Strategy**: Aligning technical roadmaps with business objectives
+## Strategic & Organizational Leadership
 
-## Cloud & Infrastructure
-- **AWS/Azure/GCP**: Multi-cloud architecture and migration strategies
-- **Kubernetes**: Container orchestration and microservices deployment
-- **DevOps**: CI/CD pipelines, infrastructure as code, and automated testing
-- **Monitoring**: Observability, logging, and performance optimization
+**Strategic Planning**: Contribute to the development of strategic goals and planning for large consulting organizations.
 
-## Software Development
-- **Languages**: JavaScript/TypeScript, Python, Java, Go, C#
-- **Frameworks**: React, Next.js, Node.js, Spring Boot, .NET
-- **Databases**: PostgreSQL, MongoDB, Redis, Elasticsearch
-- **APIs**: REST, GraphQL, gRPC, event-driven architectures
+**Vision & Roadmaps**: Develop and communicate a clear vision and strategic roadmap for a Centre of Excellence (CoE), aligning with business objectives.
 
-## Enterprise Solutions
-- **Content Management**: Adobe Experience Manager, Sitecore, Drupal
-- **E-commerce**: Shopify, Magento, custom platforms
-- **Integration**: ESB, API gateways, microservices communication
-- **Security**: OAuth, SAML, encryption, security audits
+**Change Management**: Certified Prosci Change Management Practitioner, successfully leading teams through organizational change.
 
-## Recent Focus Areas
-- **AI/ML**: Large language models, prompt engineering, AI-powered applications
-- **Performance**: Core Web Vitals, CDN optimization, edge computing
-- **Accessibility**: WCAG compliance, inclusive design principles
-- **Sustainability**: Green coding practices, energy-efficient architectures
+**AI Adoption**: Led and increased AI development tool adoption to 100%, guiding new and efficiency-focused ways to harness technology.
+
+## Team Building & Mentorship
+
+**Engineering Management**: Led teams of up to 23 engineers, managing resource allocation, performance, and career development.
+
+**Talent Development**: Recruit, develop, and retain top engineering talent to ensure a diverse and inclusive workforce.
+
+**Enablement at Scale**: Initiated and led the creation of an enablement program for architects, successfully training over 600 active Adobe architects.
+
+**Mentorship**: Recruited and professionally developed a team of architects through personal meetings, focus areas, and skill matrices.
+
+## Technical Architecture & Execution
+
+**Enterprise Architecture**: As a TOGAF® 9.2 Certified Practitioner and Principal Architect, I've established technical standards and best practices for software development and infrastructure across organizations.
+
+**Process Improvement**: Develop and implement delivery processes to improve engagement quality, efficiency, productivity, and risk mitigation.
+
+**Pioneering Cloud Solutions**: Led the world's first AEM on Cloud implementation with Chaos Monkey and AWS Auto Scale/Auto Heal capabilities.
+
+**Impactful Delivery**: Architected solutions that achieved an 800% reduction in the delivery speed of content.
