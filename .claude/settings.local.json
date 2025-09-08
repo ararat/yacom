@@ -8,7 +8,8 @@
       "Bash(find:*)",
       "Bash(npm test:*)",
       "Bash(npm run test:coverage:*)",
-      "Bash(gh issue create:*)"
+      "Bash(gh issue create:*)",
+      "Bash(git commit:*)"
     ],
     "deny": []
   }

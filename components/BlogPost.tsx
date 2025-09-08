@@ -9,7 +9,7 @@ const BlogPost = (props: {
   description: string;
   imageSrc: string;
   className: string;
-}): JSX.Element => {
+}): React.JSX.Element => {
   const imgSrc =
     props.imageSrc === "" ? "/img/blog/blog-thumbnail.jpeg" : props.imageSrc;
   return (

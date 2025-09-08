@@ -7,7 +7,7 @@ interface UseExpandedStateReturn {
 }
 
 export const useExpandedState = (
-  scrollableContentRef: RefObject<HTMLDivElement>
+  scrollableContentRef: RefObject<HTMLDivElement | null>
 ): UseExpandedStateReturn => {
   const [isExpanded, setIsExpanded] = useState(false);
 
