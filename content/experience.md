@@ -1,27 +1,28 @@
 # Professional Experience
 
-## Adobe Systems (01/2013 - Present)
+## Adobe Systems (2013 - Present)
 
-### Engineering Manager (2022 - Present)
-- Leading a team of 17 engineers, transforming it into a mature and effective working model with clear, measurable customer impact.
-- Successfully guiding the team through changes from re-orgs and office closures by directing the future structure and ways of working.
+### Senior Engineering Manager, Marketo (2021 - Present)
+- Lead a 22-person customer-funded engineering team supporting strategic engagements tied to roughly $43M in ARR.
+- Built a clear operating model through reorgs, office closures, and a 30% headcount reduction without dropping major commitments.
+- Drove 80%+ organic AI tooling adoption and helped ship a hosted MCP layer across Marketo APIs in three weeks.
 
-### Principal Architect APAC & Architecture Practice Lead APAC (2015 - 2022)
-- Established and led a Centre of Excellence (CoE), aligning its strategic roadmap with organizational technology and business objectives.
-- Delivered solutions for the largest customers in the region, including Reliance JIO, ANZ Bank, Nine Media, and Qantas.
+### Principal Architect and Architecture Practice Lead, APAC (2016 - 2021)
+- Led complex multi-solution Adobe programs across APAC for customers including Reliance JIO, Allianz, Woolworths, NAB, and ANZ.
+- Co-designed Adobe's Architecture Centre of Excellence, then established and led the APAC practice to lift delivery quality and architectural consistency at scale.
+- Built and enabled a team of architects across the region while contributing to global capability growth across hundreds of practitioners.
 
-### CQ/AEM Senior Technical Architect (2013 - 2016)
-- Architected a world-first AEM on Cloud implementation.
-- Achieved an 800% reduction in content delivery speed through solution architecture.
+### Senior Technical Architect, CQ/AEM (2013 - 2016)
+- Led a world-first AEM on AWS implementation with auto-scale, auto-heal, blue-green deployment, and modern CI/CD practices.
+- Helped win and deliver major Experience Cloud programs, including a 5M AUD ANZ engagement and large enterprise implementations across Australia and New Zealand.
+- Documented Sprint 0 and personalization approaches that became reference material for Adobe teams globally.
 
-## Previous Experience
+## Earlier Experience
 
-**Senior Vignette WCM Consultant, OpenText (Vignette) Pty Ltd** (2008 - 2012)
+**Senior WCM Consultant, OpenText (Vignette)** (2007 - 2012)
 
-**Engineering Manager, Matrix Ltd** (2006 - 2007)
+**Senior Engineering Manager, Matrix Systems** (2005 - 2007)
 
-**Technical Lead/Architect, eWave LTD** (2004 - 2006)
+**Technical Lead / Architect, eWave** (2003 - 2005)
 
-**CTO, Netschool LTD** (2004)
-
-**Co-Founder, Developer, TreeWay** (1999 - 2001) and **Migdal-Or Systems** (1998 - 1999)
+**Co-Founder, CTO, Developer, Various Startups** (1999 - 2003)
