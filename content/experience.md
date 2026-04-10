@@ -2,17 +2,17 @@
 
 ## Adobe Systems (01/2013 - Present)
 
-### Engineering Manager (2022 - Present)
-- Leading a team of 17 engineers, transforming it into a mature and effective working model with clear, measurable customer impact.
+### Engineering Manager (2021 - Present)
+- Leading a team of 22 engineers and customer managers, transforming it into a mature and effective working model with clear, measurable customer impact.
 - Successfully guiding the team through changes from re-orgs and office closures by directing the future structure and ways of working.
 
 ### Principal Architect APAC & Architecture Practice Lead APAC (2015 - 2022)
 - Established and led a Centre of Excellence (CoE), aligning its strategic roadmap with organizational technology and business objectives.
-- Delivered solutions for the largest customers in the region, including Reliance JIO, ANZ Bank, Nine Media, and Qantas.
+- Delivered solutions for the largest customers in APAC, including Reliance JIO, ANZ Bank, Nine Media, and Qantas.
 
 ### CQ/AEM Senior Technical Architect (2013 - 2016)
-- Architected a world-first AEM on Cloud implementation.
-- Achieved an 800% reduction in content delivery speed through solution architecture.
+- Architected a world-first AEM Auto Heal Auto Scale on AWS implementation for an FSI.
+- Defined Sprint 0, Java Coding standards and AEM delivery standards to APAC PS.Q
 
 ## Previous Experience
 
