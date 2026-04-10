@@ -12,7 +12,7 @@
 
 ## Team Building & Mentorship
 
-**Engineering Management**: Led teams of up to 23 engineers, managing resource allocation, performance, and career development.
+**Engineering Management**: Led teams of up to 22 engineers, managing resource allocation, performance, and career development.
 
 **Talent Development**: Recruit, develop, and retain top engineering talent to ensure a diverse and inclusive workforce.
 
