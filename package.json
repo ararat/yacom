@@ -10,7 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@fullpage/react-fullpage": "^0.1.50",
+    "@fullpage/react-fullpage": "^0.1.49",
     "@tailwindcss/typography": "^0.5.15",
     "gray-matter": "^4.0.3",
     "next": "^15.1.7",
