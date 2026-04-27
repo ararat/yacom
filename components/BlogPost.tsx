@@ -1,3 +1,4 @@
+import React from "react";
 import Link from "next/link";
 import Image from "../components/image";
 
@@ -9,7 +10,7 @@ const BlogPost = (props: {
   description: string;
   imageSrc: string;
   className: string;
-}): JSX.Element => {
+}): React.ReactElement => {
   const imgSrc =
     props.imageSrc === "" ? "/img/blog/blog-thumbnail.jpeg" : props.imageSrc;
   return (

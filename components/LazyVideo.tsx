@@ -29,13 +29,14 @@ const LazyVideo: React.FC<LazyVideoProps> = ({
       }
     );
 
-    if (videoRef.current) {
-      observer.observe(videoRef.current);
+    const videoEl = videoRef.current;
+    if (videoEl) {
+      observer.observe(videoEl);
     }
 
     return () => {
-      if (videoRef.current) {
-        observer.unobserve(videoRef.current);
+      if (videoEl) {
+        observer.unobserve(videoEl);
       }
     };
   }, []);
