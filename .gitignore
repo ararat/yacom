@@ -31,10 +31,6 @@ out
 .next
 !.next/cache
 
-# OpenNext / Cloudflare build output
-.open-next
-.worker-next
-.wrangler
 
 # Test coverage
 coverage
@@ -52,3 +48,4 @@ Thumbs.db
 .env.development.local
 .env.test.local
 .env.production.local
+package-lock.json

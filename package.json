@@ -5,22 +5,19 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "build:cloudflare": "opennextjs-cloudflare build",
-    "deploy": "opennextjs-cloudflare deploy",
-    "preview": "opennextjs-cloudflare preview",
+    "build:cloudflare": "npx @cloudflare/next-on-pages",
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
-    "prebuild": "node scripts/generate-sitemap.mjs"
+    "test:coverage": "jest --coverage"
   },
   "dependencies": {
     "@fullpage/react-fullpage": "^0.1.49",
     "@tailwindcss/typography": "^0.5.15",
     "gray-matter": "^4.0.3",
-    "next": "^16.2.4",
+    "next": "^15.5.15",
     "postcss-preset-env": "^10.1.4",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
@@ -30,7 +27,6 @@
     "tailwindcss": "^3.4.17"
   },
   "devDependencies": {
-    "@opennextjs/cloudflare": "^1.19.4",
     "@fullhuman/postcss-purgecss": "^6.0.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
@@ -43,12 +39,12 @@
     "@typescript-eslint/parser": "^8.32.0",
     "babel-jest": "^29.7.0",
     "eslint": "^9.26.0",
-    "eslint-config-next": "^16.2.4",
+    "eslint-config-next": "^15.5.15",
     "globby": "^14.0.2",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "typescript": "^5.8.3",
-    "wrangler": "^4.85.0"
+    "@cloudflare/next-on-pages": "^1.13.16"
   },
   "overrides": {
     "glob": "^11.0.0",

@@ -6,6 +6,7 @@ interface LazyVideoProps {
   className?: string;
   poster?: string;
   preload?: 'none' | 'metadata' | 'auto';
+  eager?: boolean; // Load immediately without waiting for intersection
 }
 
 const LazyVideo: React.FC<LazyVideoProps> = ({ 
@@ -13,53 +14,43 @@ const LazyVideo: React.FC<LazyVideoProps> = ({
   type, 
   className, 
   poster,
-  preload = 'none'
+  preload = 'none',
+  eager = false,
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [isIntersecting, setIntersecting] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
+  // If eager, start as intersecting so video loads immediately on mount
+  const [isIntersecting, setIntersecting] = useState(eager);
+  const [isMounted, setIsMounted] = useState(false);
+
+  // Track client mount to avoid SSR/hydration mismatch
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
+    if (eager) return; // Skip observer for eager-loaded videos
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         setIntersecting(entry.isIntersecting);
       },
-      {
-        rootMargin: "50px",
-      }
+      { rootMargin: "50px" }
     );
 
     const videoEl = videoRef.current;
-    if (videoEl) {
-      observer.observe(videoEl);
-    }
-
-    return () => {
-      if (videoEl) {
-        observer.unobserve(videoEl);
-      }
-    };
-  }, []);
+    if (videoEl) observer.observe(videoEl);
+    return () => { if (videoEl) observer.unobserve(videoEl); };
+  }, [eager]);
 
   useEffect(() => {
-    if (isIntersecting && videoRef.current && !isLoaded) {
-      // Load video source when intersecting
-      const video = videoRef.current;
-      if (!video.src || video.src !== src) {
-        video.src = src;
-        video.load();
-        setIsLoaded(true);
-      }
+    if (!isMounted || !isIntersecting || !videoRef.current) return;
+    const video = videoRef.current;
+    if (!video.src || video.src !== src) {
+      video.src = src;
+      video.load();
     }
-  }, [isIntersecting, src, isLoaded]);
-
-  useEffect(() => {
-    if (isIntersecting && videoRef.current && isLoaded) {
-      videoRef.current.play().catch(() => {
-        // Auto-play prevented, handle gracefully
-      });
-    }
-  }, [isIntersecting, isLoaded]);
+    video.play().catch(() => {});
+  }, [isMounted, isIntersecting, src]);
 
   return (
     <video
@@ -67,15 +58,13 @@ const LazyVideo: React.FC<LazyVideoProps> = ({
       loop
       muted
       playsInline
-      preload={preload}
+      preload={eager ? 'auto' : preload}
       poster={poster}
       className={className}
       aria-label="Background video"
     >
-      {isIntersecting && <source src={src} type={type} />}
-      <div className="absolute inset-0 bg-amber-600 flex items-center justify-center text-white">
-        Your browser does not support video backgrounds.
-      </div>
+      {/* Only render source tag client-side to avoid hydration mismatch */}
+      {isMounted && isIntersecting && <source src={src} type={type} />}
     </video>
   );
 };
