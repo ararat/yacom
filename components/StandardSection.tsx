@@ -60,7 +60,8 @@ const StandardSection: React.FC<StandardSectionProps> = ({
   ), [content.content]);
 
   const contentElement = (
-    <div className={`px-6 sm:px-10 md:px-16 lg:px-24 xl:px-32 py-6 w-full max-w-5xl mx-auto ${isExpanded ? 'h-auto' : ''}`}>
+    <div className={`w-full px-6 sm:px-10 md:px-16 lg:px-24 xl:px-32 py-6 ${isExpanded ? 'h-auto' : ''}`}
+      style={{ maxWidth: '1920px', marginLeft: 'auto', marginRight: 'auto' }}>
       {/* Standard sections with overlay design */}
       <div className="relative w-full">
         {/* Content Area - Fixed or Expandable Height */}
@@ -130,7 +131,7 @@ const StandardSection: React.FC<StandardSectionProps> = ({
   return (
     <div 
       ref={sectionRef}
-      className={`snap-start w-full h-screen flex ${isExpanded ? 'items-start justify-center pt-4' : 'items-center justify-center'} overflow-hidden`}
+      className={`snap-start w-screen h-screen flex ${isExpanded ? 'items-start justify-center pt-4' : 'items-center justify-center'} overflow-hidden`}
       style={{ backgroundColor: section.bgColor, touchAction: 'pan-y', overscrollBehavior: 'contain' }}
       id={section.id}
     >

@@ -84,8 +84,7 @@ const Home = (props: {
         </Head>
       </div>
 
-      <div className="flex justify-center" style={{backgroundColor:"#1a0533"}}>
-      <div className="snap-y snap-proximity min-h-full h-screen overflow-y-scroll overflow-x-hidden w-full" style={{maxWidth:"1920px"}}>
+      <div className="snap-y snap-proximity min-h-full h-screen w-screen overflow-y-scroll overflow-x-hidden" style={{backgroundColor:"#1a0533"}}>
         <Navigation
           variant="standard"
           SiteTitle={props.SiteTitle}
@@ -110,13 +109,12 @@ const Home = (props: {
 
         {/* Blog Section - Endless Scroll */}
         <div
-          className="snap-start w-full min-h-screen transition-colors duration-300" style={{backgroundColor:"#160a30"}}
+          className="snap-start w-screen min-h-screen transition-colors duration-300" style={{backgroundColor:"#160a30"}}
           id="blog"
         >
           <BlogSection posts={props.posts} />
         </div>
         {/* </div> */}
-      </div>
       </div>
     </Fragment>
   );
