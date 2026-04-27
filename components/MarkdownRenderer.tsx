@@ -13,7 +13,7 @@ const HeadingRenderer = ({ level, children, ...props }: any) => {
   const text = React.Children.toArray(children).join('');
   const id = generateHeadingId(text);
   
-  const Tag = `h${level}` as keyof JSX.IntrinsicElements;
+  const Tag = `h${level}` as keyof React.JSX.IntrinsicElements;
   
   return (
     <Tag id={id} {...props}>
