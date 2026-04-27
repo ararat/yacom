@@ -48,7 +48,7 @@ const VideoBackgroundSection: React.FC<VideoBackgroundSectionProps> = ({
   ), [content.content]);
 
   const contentElement = (
-    <div className="px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 py-6 w-full pt-16 mx-4 sm:mx-6 md:mx-8 lg:mx-12 xl:mx-16 2xl:mx-20 bg-amber-600 bg-opacity-50 dark:bg-opacity-70 dark:bg-slate-700 dark:prose-invert rounded-xl max-h-[85vh] overflow-y-auto">
+    <div className="px-6 sm:px-8 md:px-10 py-6 pt-16 w-full max-w-3xl bg-obs-base/75 backdrop-blur-sm rounded-xl border border-obs-border max-h-[85vh] overflow-y-auto">
       <div 
         className="prose prose-invert prose-sm sm:prose-base lg:prose-lg xl:prose-xl 2xl:prose-2xl max-w-none"
         style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-y' }}

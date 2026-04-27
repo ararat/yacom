@@ -82,12 +82,12 @@ const BlogSection: React.FC<BlogSectionProps> = ({ posts }) => {
   const visiblePosts = debouncedSearchTerm ? filteredPosts : filteredPosts.slice(0, visibleCount);
 
   return (
-    <div className="w-full mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 pt-20 sm:pt-24 pb-16 text-gray-900 dark:text-dark-text">
+    <div className="w-full max-w-site mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 pt-20 sm:pt-24 pb-16 text-obs-text">
       {/* Title */}
-      <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-center text-gray-800 dark:text-dark-text mb-8 sm:mb-12 transition-colors duration-300">
+      <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-center text-obs-text mb-8 sm:mb-12">
         Recent Thoughts
         {debouncedSearchTerm && (
-          <span className="block text-lg sm:text-xl font-normal text-gray-600 mt-2">
+          <span className="block text-lg sm:text-xl font-normal text-obs-muted mt-2">
             {filteredPosts.length} {filteredPosts.length === 1 ? 'result' : 'results'} found
           </span>
         )}
@@ -101,12 +101,12 @@ const BlogSection: React.FC<BlogSectionProps> = ({ posts }) => {
             placeholder="Search thoughts..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full px-4 py-3 pl-10 text-gray-700 dark:text-dark-text bg-white dark:bg-dark-surface border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+            className="w-full px-4 py-3 pl-10 text-obs-text bg-obs-surface border border-obs-border rounded-lg focus:ring-2 focus:ring-violet-mid focus:border-transparent transition-all duration-200"
             aria-label="Search blog posts"
           />
           <div className="absolute inset-y-0 left-0 flex items-center pl-3">
             <svg 
-              className="w-5 h-5 text-gray-400" 
+              className="w-5 h-5 text-obs-muted" 
               fill="none" 
               stroke="currentColor" 
               viewBox="0 0 24 24"
@@ -123,7 +123,7 @@ const BlogSection: React.FC<BlogSectionProps> = ({ posts }) => {
           {searchTerm && (
             <button
               onClick={() => setSearchTerm('')}
-              className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600"
+              className="absolute inset-y-0 right-0 flex items-center pr-3 text-obs-muted hover:text-violet-bright"
               aria-label="Clear search"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -163,9 +163,9 @@ const BlogSection: React.FC<BlogSectionProps> = ({ posts }) => {
       ) : (
         // Empty State
         <div className="text-center py-12">
-          <div className="mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+          <div className="mx-auto w-24 h-24 bg-obs-raised rounded-full flex items-center justify-center mb-4">
             <svg 
-              className="w-12 h-12 text-gray-400" 
+              className="w-12 h-12 text-obs-muted" 
               fill="none" 
               stroke="currentColor" 
               viewBox="0 0 24 24"
@@ -179,15 +179,15 @@ const BlogSection: React.FC<BlogSectionProps> = ({ posts }) => {
               />
             </svg>
           </div>
-          <p className="text-xl text-gray-600 mb-2">No thoughts found</p>
-          <p className="text-gray-500">
+          <p className="text-xl text-obs-muted mb-2">No thoughts found</p>
+          <p className="text-obs-muted">
             {debouncedSearchTerm ? (
               <>
                 No results matching <span className="font-semibold">&quot;{debouncedSearchTerm}&quot;</span>
                 <br />
                 <button 
                   onClick={() => setSearchTerm('')}
-                  className="text-blue-600 hover:text-blue-800 underline mt-2 inline-block"
+                  className="text-violet-bright hover:text-violet-glow underline mt-2 inline-block"
                 >
                   Clear search to see all thoughts
                 </button>
@@ -202,7 +202,7 @@ const BlogSection: React.FC<BlogSectionProps> = ({ posts }) => {
       {/* Search Tips */}
       {debouncedSearchTerm && filteredPosts.length > 0 && (
         <div className="mt-12 text-center">
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-obs-muted">
             Tip: Search by title, description, or tags to find specific topics
           </p>
         </div>

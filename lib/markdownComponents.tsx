@@ -32,7 +32,7 @@ export const standardMarkdownComponents = {
     </p>
   ),
   a: ({ children, href, ...props }: AProps) => (
-    <a href={href} className="text-blue-600 hover:text-blue-800 underline transition-colors" {...props}>
+    <a href={href} className="text-violet-bright hover:text-violet-glow underline transition-colors" {...props}>
       {children}
     </a>
   ),
@@ -69,7 +69,7 @@ export const videoMarkdownComponents = {
     <p className="text-white drop-shadow-sm leading-relaxed mb-4" {...props}>{children}</p>
   ),
   a: ({ children, href, ...props }: AProps) => (
-    <a href={href} className="text-blue-200 hover:text-blue-100 underline transition-colors" {...props}>
+    <a href={href} className="text-violet-bright hover:text-violet-glow underline transition-colors" {...props}>
       {children}
     </a>
   ),

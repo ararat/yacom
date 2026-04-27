@@ -88,17 +88,17 @@ const Navigation: React.FC<NavigationProps> = (props) => {
 
         {/* Blog post navigation */}
         <nav 
-          className="fixed top-0 left-0 right-0 bg-slate-800/95 dark:bg-dark-surface/95 backdrop-blur-sm text-white py-4 z-50 shadow-lg transition-all duration-300"
+          className="fixed top-0 left-0 right-0 bg-obs-base/95 backdrop-blur-sm text-obs-text py-4 z-50 border-b border-obs-border transition-all duration-300"
           role="navigation"
           aria-label="Blog post navigation"
         >
-          <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="mx-auto px-4 sm:px-6 max-w-site">
             <div className="flex items-center justify-between">
               {/* Site Title - Left */}
               <h1 className="text-xl sm:text-2xl font-bold flex-shrink-0">
                 <Link
                   href="/"
-                  className="hover:text-blue-300 transition-colors duration-200 focus:ring-2 focus:ring-blue-300 focus:outline-none rounded-md px-2 py-1 -mx-2 -my-1"
+                  className="hover:text-violet-bright transition-colors duration-200 focus:ring-2 focus:ring-violet-mid focus:outline-none rounded-md px-2 py-1 -mx-2 -my-1"
                   onClick={handleSiteTitleClick}
                   aria-label={`${siteTitle} - Return to homepage`}
                 >
@@ -118,17 +118,17 @@ const Navigation: React.FC<NavigationProps> = (props) => {
   // Standard navigation
   return (
     <nav 
-      className="fixed top-0 left-0 right-0 bg-slate-800/95 dark:bg-dark-surface/95 backdrop-blur-sm text-white py-2 z-50 shadow-lg transition-all duration-300"
+      className="fixed top-0 left-0 right-0 bg-obs-base/95 backdrop-blur-sm text-obs-text py-2 z-50 border-b border-obs-border transition-all duration-300"
       role="navigation"
       aria-label="Main navigation"
     >
-      <div className="flex justify-between px-4 sm:px-6 mx-auto w-full md:items-center">
+      <div className="flex justify-between px-4 sm:px-6 mx-auto w-full max-w-site md:items-center">
         {/* Site Title */}
         <div className="flex items-center py-2 md:py-3">
-          <h2 className="text-xl sm:text-2xl text-white font-bold hover:text-blue-300 transition-colors duration-200">
+          <h2 className="text-xl sm:text-2xl text-white font-bold hover:text-violet-bright transition-colors duration-200">
             <Link 
               href="/" 
-              className="block focus:ring-2 focus:ring-blue-300 focus:outline-none rounded-md px-2 py-1 -mx-2 -my-1" 
+              className="block focus:ring-2 focus:ring-violet-mid focus:outline-none rounded-md px-2 py-1 -mx-2 -my-1" 
               onClick={handleSiteTitleClick}
               aria-label={`${siteTitle} - Return to homepage`}
             >

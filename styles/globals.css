@@ -2,13 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Global styles for better typography and spacing */
 @layer base {
   html {
     scroll-behavior: smooth;
   }
-  
   body {
+    background-color: #0a0a0f;
+    color: #f0ecff;
     font-feature-settings: "rlig" 1, "calt" 1;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -16,21 +16,33 @@
   }
 }
 
-/* Line clamp utilities for text truncation */
+/* Site-wide max-width container */
+.site-container {
+  width: 100%;
+  max-width: 1920px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Violet accent glow on interactive elements */
+.violet-focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #7c3aed;
+}
+
+/* Line clamp utilities */
 .line-clamp-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-
 .line-clamp-3 {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-
 .line-clamp-4 {
   display: -webkit-box;
   -webkit-line-clamp: 4;
@@ -38,60 +50,21 @@
   overflow: hidden;
 }
 
-/* Enhanced focus styles for accessibility */
 @layer components {
   .focus-ring {
-    @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+    @apply focus:outline-none focus:ring-2 focus:ring-violet-mid focus:ring-offset-2 focus:ring-offset-obs-base;
   }
-  
-  /* Loading skeleton animation */
-  @keyframes shimmer {
-    0% {
-      background-position: -200px 0;
-    }
-    100% {
-      background-position: calc(200px + 100%) 0;
-    }
-  }
-  
-  .skeleton {
-    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-    background-size: 200px 100%;
-    animation: shimmer 1.5s infinite;
-  }
-  
-  /* Smooth hover animations */
+
   .hover-lift {
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   }
-  
   .hover-lift:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 30px rgba(168, 85, 247, 0.15);
   }
-  
-}
 
-/* html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  /* Read-more overlay uses violet fade */
+  .violet-fade {
+    background: linear-gradient(to top, #13101e 0%, rgba(19,16,30,0.92) 40%, transparent 100%);
+  }
 }
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.page-section {
-  padding-top: 80px;
-  align-content: safe center;
-  height: 100vh;
-  width: 100vw;
-}
-
-* {
-  box-sizing: border-box;
-} */

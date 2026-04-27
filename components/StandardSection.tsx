@@ -60,7 +60,7 @@ const StandardSection: React.FC<StandardSectionProps> = ({
   ), [content.content]);
 
   const contentElement = (
-    <div className={`px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 py-6 w-full bg-opacity-0 justify-content-center ${isExpanded ? 'h-auto' : ''}`}>
+    <div className={`px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 py-6 w-full max-w-site mx-auto bg-opacity-0 justify-content-center ${isExpanded ? 'h-auto' : ''}`}>
       {/* Standard sections with overlay design */}
       <div className="relative w-full">
         {/* Content Area - Fixed or Expandable Height */}
@@ -73,7 +73,7 @@ const StandardSection: React.FC<StandardSectionProps> = ({
           }`}
           style={!isExpanded && availableHeight ? { height: `${availableHeight}px` } : {}}
         >
-          <div ref={contentRef} className="prose prose-sm sm:prose-base lg:prose-lg xl:prose-xl 2xl:prose-2xl max-w-none">
+          <div ref={contentRef} className="prose prose-invert prose-sm sm:prose-base lg:prose-lg xl:prose-xl 2xl:prose-2xl max-w-none prose-headings:text-violet-glow prose-a:text-violet-bright prose-strong:text-obs-text">
             {/* Image for non-video sections */}
             {section.hasImage && section.imageConfig && (
               <div className="flex justify-center sm:justify-start mb-6">
@@ -100,10 +100,10 @@ const StandardSection: React.FC<StandardSectionProps> = ({
             
             {/* Show Less Button at Bottom */}
             {isExpanded && shouldShowReadMore && (
-              <div className="text-center pt-6 border-t border-gray-200 mt-6">
+              <div className="text-center pt-6 border-t border-obs-border mt-6">
                 <button
                   onClick={handleShowLess}
-                  className="inline-flex items-center gap-2 px-4 py-2 text-sm text-gray-500 hover:text-gray-700 transition-colors"
+                  className="inline-flex items-center gap-2 px-4 py-2 text-sm text-obs-muted hover:text-violet-bright transition-colors"
                 >
                   <span>Show Less</span>
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
