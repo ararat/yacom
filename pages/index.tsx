@@ -109,7 +109,7 @@ const Home = (props: {
 
         {/* Blog Section - Endless Scroll */}
         <div
-          className="snap-start w-screen min-h-screen transition-colors duration-300" style={{backgroundColor:"#160a30"}}
+          className="snap-start w-screen h-screen overflow-y-auto transition-colors duration-300" style={{backgroundColor:"#160a30"}}
           id="blog"
         >
           <BlogSection posts={props.posts} />

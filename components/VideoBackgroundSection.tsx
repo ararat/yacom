@@ -51,7 +51,7 @@ const VideoBackgroundSection: React.FC<VideoBackgroundSectionProps> = ({
     <div className="px-6 sm:px-8 md:px-10 py-6 pt-16 w-full max-w-3xl bg-obs-base/75 backdrop-blur-sm rounded-xl border border-obs-border max-h-[85vh] overflow-y-auto">
       <div 
         className="prose prose-invert prose-sm sm:prose-base lg:prose-lg xl:prose-xl 2xl:prose-2xl max-w-none"
-        style={{ WebkitOverflowScrolling: 'touch', touchAction: 'pan-y' }}
+        style={{ WebkitOverflowScrolling: 'touch' }}
       >
         {/* Video section content */}
         <div className="text-center sm:text-left mb-6">
@@ -76,7 +76,7 @@ const VideoBackgroundSection: React.FC<VideoBackgroundSectionProps> = ({
     <div 
       className="snap-start w-screen h-screen relative overflow-hidden"
       id={section.id}
-      style={{ backgroundColor: section.bgColor, touchAction: 'pan-y', overscrollBehavior: 'contain' }}
+      style={{ backgroundColor: section.bgColor }}
     >
       <LazyVideo
         src={section.backgroundVideo || ''}

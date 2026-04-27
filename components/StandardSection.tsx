@@ -131,8 +131,8 @@ const StandardSection: React.FC<StandardSectionProps> = ({
   return (
     <div 
       ref={sectionRef}
-      className={`snap-start w-screen h-screen flex ${isExpanded ? 'items-start justify-center pt-4' : 'items-center justify-center'} overflow-hidden`}
-      style={{ backgroundColor: section.bgColor, touchAction: 'pan-y', overscrollBehavior: 'contain' }}
+      className={`snap-start w-screen h-screen flex ${isExpanded ? 'items-start justify-center pt-4' : 'items-center justify-center'}`}
+      style={{ backgroundColor: section.bgColor }}
       id={section.id}
     >
       {contentElement}
