@@ -12,7 +12,7 @@ interface UseContentHeightReturn {
 }
 
 export const useContentHeight = (
-  contentRef: RefObject<HTMLDivElement>,
+  contentRef: RefObject<HTMLDivElement | null>,
   content: any
 ): UseContentHeightReturn => {
   const [availableHeight, setAvailableHeight] = useState(0);

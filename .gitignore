@@ -29,6 +29,7 @@ out
 # Optional REPL history
 .node_repl_history
 .next
+!.next/cache
 
 # OpenNext / Cloudflare build output
 .open-next

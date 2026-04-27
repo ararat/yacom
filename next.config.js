@@ -8,10 +8,13 @@ module.exports = {
   reactStrictMode: true,
   typescript: { ignoreBuildErrors: false },
   images: {
-    loader: "imgix",
-    path: "/",
+    loader: "custom",
+    loaderFile: "./components/image.tsx",
   },
-  output: "export",
+  experimental: {
+    // Enable persistent caching for faster rebuilds (Next.js 16 Turbopack)
+    turbopackPersistentCaching: true,
+  },
   webpack: (config, { isServer }) => {
     if (isServer) {
       require("./scripts/generate-sitemap.js");
