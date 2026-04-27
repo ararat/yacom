@@ -54,8 +54,8 @@ export default function Img(props: ImgProps) {
   };
 
   if (process.env.NODE_ENV === 'development') {
-    return <Image unoptimized={true} alt={imageProps.alt} {...imageProps} />;
+    return <Image unoptimized={true} {...imageProps} />;
   } else {
-    return <Image alt={imageProps.alt} {...imageProps} loader={cloudflareImageLoader} />;
+    return <Image {...imageProps} loader={cloudflareImageLoader} />;
   }
 }
