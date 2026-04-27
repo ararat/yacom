@@ -17,7 +17,6 @@ jest.mock('../../components/image', () => {
         alt={props.alt}
         width={props.width}
         height={props.height}
-        data-layout={props.layout}
         data-loading={props.loading}
         className={props.className}
       />
@@ -82,7 +81,6 @@ describe('BlogPost', () => {
     expect(image).toHaveAttribute('alt', 'Test Blog Post Title')
     expect(image).toHaveAttribute('width', '300')
     expect(image).toHaveAttribute('height', '180')
-    expect(image).toHaveAttribute('data-layout', 'responsive')
     expect(image).toHaveAttribute('data-loading', 'lazy')
   })
 

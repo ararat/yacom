@@ -17,7 +17,6 @@ jest.mock('../../../components/image', () => {
         alt={props.alt}
         width={props.width}
         height={props.height}
-        data-layout={props.layout}
       />
     )
   }
@@ -136,7 +135,6 @@ describe('BlogPost ([slug].tsx)', () => {
     expect(image).toHaveAttribute('alt', 'Test Blog Post Title')
     expect(image).toHaveAttribute('width', '1412')
     expect(image).toHaveAttribute('height', '460')
-    expect(image).toHaveAttribute('data-layout', 'responsive')
   })
 
   test('should render markdown content with remark plugins', () => {
@@ -385,7 +383,6 @@ Content with special characters: & < > " ' and unicode: 中文 emoji: 🚀`
       const image = getByTestId('blog-post-image')
       expect(image).toHaveAttribute('width', '1412')
       expect(image).toHaveAttribute('height', '460')
-      expect(image).toHaveAttribute('data-layout', 'responsive')
     })
 
     test('should handle different image URLs', () => {

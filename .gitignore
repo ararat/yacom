@@ -8,7 +8,6 @@ pids
 *.pid
 *.seed
 
-
 # Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
 .grunt
 
@@ -30,3 +29,24 @@ out
 # Optional REPL history
 .node_repl_history
 .next
+
+# OpenNext / Cloudflare build output
+.open-next
+.worker-next
+
+# Test coverage
+coverage
+
+# Claude AI local settings
+.claude
+
+# OS artifacts
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
