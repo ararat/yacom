@@ -84,7 +84,7 @@ const Home = (props: {
         </Head>
       </div>
 
-      <div className="snap-y snap-proximity min-h-full h-screen w-screen overflow-y-scroll overflow-x-hidden" style={{backgroundColor:"#1a0533"}}>
+      <div className="snap-y snap-mandatory min-h-full h-screen w-screen overflow-y-scroll overflow-x-hidden" style={{backgroundColor:"#1a0533"}}>
         <Navigation
           variant="standard"
           SiteTitle={props.SiteTitle}
