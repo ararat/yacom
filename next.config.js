@@ -8,12 +8,8 @@ module.exports = {
   reactStrictMode: true,
   typescript: { ignoreBuildErrors: false },
   images: {
-    loader: "custom",
-    loaderFile: "./components/image.tsx",
-  },
-  experimental: {
-    // Enable persistent caching for faster rebuilds (Next.js 16 Turbopack)
-    turbopackPersistentCaching: true,
+    loader: "imgix",
+    path: "/",
   },
   webpack: (config, { isServer }) => {
     if (isServer) {
