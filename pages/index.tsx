@@ -32,7 +32,7 @@ const SECTIONS_CONFIG: SectionConfig[] = [
   {
     id: "about",
     navTitle: "About",
-    backgroundColor: "bg-obs-surface",
+    backgroundColor: "bg-indigo-950",
     contentFile: "about",
     hasImage: true,
     imageConfig: {
@@ -47,7 +47,7 @@ const SECTIONS_CONFIG: SectionConfig[] = [
   {
     id: "expertise",
     navTitle: "Expertise",
-    backgroundColor: "bg-obs-raised",
+    backgroundColor: "bg-slate-900",
     contentFile: "expertise",
     enabled: true,
     hideFromNav: false
@@ -55,7 +55,7 @@ const SECTIONS_CONFIG: SectionConfig[] = [
   {
     id: "experience",
     navTitle: "Experience",
-    backgroundColor: "bg-obs-surface",
+    backgroundColor: "bg-violet-950",
     contentFile: "experience",
     enabled: true,
     hideFromNav: false
@@ -109,7 +109,7 @@ const Home = (props: {
 
         {/* Blog Section - Endless Scroll */}
         <div
-          className="snap-start bg-obs-base w-screen min-h-screen transition-colors duration-300"
+          className="snap-start bg-[#0d0d1a] w-screen min-h-screen transition-colors duration-300"
           id="blog"
         >
           <BlogSection posts={props.posts} />

@@ -6,6 +6,14 @@ import ReadMoreOverlay from './ReadMoreOverlay';
 import { useContentHeight } from '../hooks/useContentHeight';
 import { useExpandedState } from '../hooks/useExpandedState';
 import { standardMarkdownComponents } from '../lib/markdownComponents';
+const BG_COLOR_MAP: Record<string, string> = {
+  'bg-obs-base':    '#0a0a0f',
+  'bg-obs-surface': '#13101e',
+  'bg-obs-raised':  '#1a1530',
+  'bg-indigo-950':  '#1e1b4b',
+  'bg-slate-900':   '#0f172a',
+  'bg-violet-950':  '#2e1065',
+};
 
 interface SectionConfig {
   id: string;
@@ -60,7 +68,7 @@ const StandardSection: React.FC<StandardSectionProps> = ({
   ), [content.content]);
 
   const contentElement = (
-    <div className={`px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20 py-6 w-full max-w-site mx-auto bg-opacity-0 justify-content-center ${isExpanded ? 'h-auto' : ''}`}>
+    <div className={`px-6 sm:px-10 md:px-16 lg:px-24 xl:px-32 2xl:px-40 py-6 w-full max-w-[1920px] mx-auto ${isExpanded ? 'h-auto' : ''}`}>
       {/* Standard sections with overlay design */}
       <div className="relative w-full">
         {/* Content Area - Fixed or Expandable Height */}
@@ -120,6 +128,7 @@ const StandardSection: React.FC<StandardSectionProps> = ({
           <ReadMoreOverlay
             availableHeight={availableHeight}
             onContinueReading={handleContinueReading}
+            bgColor={BG_COLOR_MAP[section.backgroundColor] || '#0a0a0f'}
           />
         )}
       </div>

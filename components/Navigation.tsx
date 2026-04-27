@@ -122,7 +122,7 @@ const Navigation: React.FC<NavigationProps> = (props) => {
       role="navigation"
       aria-label="Main navigation"
     >
-      <div className="flex justify-between px-4 sm:px-6 mx-auto w-full max-w-site md:items-center">
+      <div className="flex items-center justify-between px-4 sm:px-6 mx-auto w-full max-w-site">
         {/* Site Title */}
         <div className="flex items-center py-2 md:py-3">
           <h2 className="text-xl sm:text-2xl text-white font-bold hover:text-violet-bright transition-colors duration-200">
@@ -138,7 +138,7 @@ const Navigation: React.FC<NavigationProps> = (props) => {
         </div>
 
         {/* Mobile menu button - Right aligned */}
-        <div className="flex items-center">
+        <div className="flex items-center ml-auto md:hidden">
           <StandardNavigation
             SiteDescription={props.SiteDescription}
             sections={props.sections}
@@ -149,13 +149,15 @@ const Navigation: React.FC<NavigationProps> = (props) => {
         </div>
 
         {/* Desktop menu items */}
-        <StandardNavigation
-          SiteDescription={props.SiteDescription}
-          sections={props.sections}
-          navbar={navbar}
-          setNavbar={setNavbar}
-          menuItemsOnly={true}
-        />
+        <div className="hidden md:flex">
+          <StandardNavigation
+            SiteDescription={props.SiteDescription}
+            sections={props.sections}
+            navbar={navbar}
+            setNavbar={setNavbar}
+            menuItemsOnly={true}
+          />
+        </div>
       </div>
     </nav>
   );
