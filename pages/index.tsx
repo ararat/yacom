@@ -22,7 +22,7 @@ const SECTIONS_CONFIG: SectionConfig[] = [
   {
     id: "welcome",
     navTitle: "Welcome",
-    backgroundColor: "bg-obs-base",
+    backgroundColor: "bg-[#1a0533]",
     contentFile: "hero",
     backgroundVideo: "/vid/site-intro.mp4",
     videoPoster: "/img/yuval-ararat.png",
@@ -32,7 +32,7 @@ const SECTIONS_CONFIG: SectionConfig[] = [
   {
     id: "about",
     navTitle: "About",
-    backgroundColor: "bg-indigo-950",
+    backgroundColor: "bg-[#0e1a4a]",
     contentFile: "about",
     hasImage: true,
     imageConfig: {
@@ -47,7 +47,7 @@ const SECTIONS_CONFIG: SectionConfig[] = [
   {
     id: "expertise",
     navTitle: "Expertise",
-    backgroundColor: "bg-slate-900",
+    backgroundColor: "bg-[#0a2a3a]",
     contentFile: "expertise",
     enabled: true,
     hideFromNav: false
@@ -55,7 +55,7 @@ const SECTIONS_CONFIG: SectionConfig[] = [
   {
     id: "experience",
     navTitle: "Experience",
-    backgroundColor: "bg-violet-950",
+    backgroundColor: "bg-[#2a0a2e]",
     contentFile: "experience",
     enabled: true,
     hideFromNav: false
@@ -84,7 +84,7 @@ const Home = (props: {
         </Head>
       </div>
 
-      <div className="snap-y snap-proximity min-h-full h-screen overflow-y-scroll overflow-x-hidden bg-[#0d0b1a]">
+      <div className="snap-y snap-proximity min-h-full h-screen overflow-y-scroll overflow-x-hidden bg-[#1a0533]">
         <Navigation
           variant="standard"
           SiteTitle={props.SiteTitle}
@@ -109,7 +109,7 @@ const Home = (props: {
 
         {/* Blog Section - Endless Scroll */}
         <div
-          className="snap-start bg-[#0d0d1a] w-full min-h-screen transition-colors duration-300"
+          className="snap-start bg-[#160a30] w-full min-h-screen transition-colors duration-300"
           id="blog"
         >
           <BlogSection posts={props.posts} />

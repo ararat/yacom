@@ -7,12 +7,11 @@ import { useContentHeight } from '../hooks/useContentHeight';
 import { useExpandedState } from '../hooks/useExpandedState';
 import { standardMarkdownComponents } from '../lib/markdownComponents';
 const BG_COLOR_MAP: Record<string, string> = {
-  'bg-obs-base':    '#0a0a0f',
-  'bg-obs-surface': '#13101e',
-  'bg-obs-raised':  '#1a1530',
-  'bg-indigo-950':  '#1e1b4b',
-  'bg-slate-900':   '#0f172a',
-  'bg-violet-950':  '#2e1065',
+  'bg-[#1a0533]': '#1a0533',
+  'bg-[#0e1a4a]': '#0e1a4a',
+  'bg-[#0a2a3a]': '#0a2a3a',
+  'bg-[#2a0a2e]': '#2a0a2e',
+  'bg-[#160a30]': '#160a30',
 };
 
 interface SectionConfig {
