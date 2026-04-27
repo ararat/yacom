@@ -6,18 +6,11 @@ import ReadMoreOverlay from './ReadMoreOverlay';
 import { useContentHeight } from '../hooks/useContentHeight';
 import { useExpandedState } from '../hooks/useExpandedState';
 import { standardMarkdownComponents } from '../lib/markdownComponents';
-const BG_COLOR_MAP: Record<string, string> = {
-  'bg-[#1a0533]': '#1a0533',
-  'bg-[#0e1a4a]': '#0e1a4a',
-  'bg-[#0a2a3a]': '#0a2a3a',
-  'bg-[#2a0a2e]': '#2a0a2e',
-  'bg-[#160a30]': '#160a30',
-};
 
 interface SectionConfig {
   id: string;
   navTitle: string;
-  backgroundColor: string;
+  bgColor: string;
   textColor?: string;
   contentFile: string;
   hasImage?: boolean;
@@ -67,7 +60,7 @@ const StandardSection: React.FC<StandardSectionProps> = ({
   ), [content.content]);
 
   const contentElement = (
-    <div className={`px-6 sm:px-10 md:px-16 lg:px-24 xl:px-32 2xl:px-40 py-6 w-full max-w-[1920px] mx-auto ${isExpanded ? 'h-auto' : ''}`}>
+    <div className={`px-6 sm:px-10 md:px-16 lg:px-24 xl:px-32 py-6 w-full max-w-5xl mx-auto ${isExpanded ? 'h-auto' : ''}`}>
       {/* Standard sections with overlay design */}
       <div className="relative w-full">
         {/* Content Area - Fixed or Expandable Height */}
@@ -127,7 +120,7 @@ const StandardSection: React.FC<StandardSectionProps> = ({
           <ReadMoreOverlay
             availableHeight={availableHeight}
             onContinueReading={handleContinueReading}
-            bgColor={BG_COLOR_MAP[section.backgroundColor] || '#0a0a0f'}
+            bgColor={section.bgColor || '#1a0533'}
           />
         )}
       </div>
@@ -137,9 +130,9 @@ const StandardSection: React.FC<StandardSectionProps> = ({
   return (
     <div 
       ref={sectionRef}
-      className={`snap-start ${section.backgroundColor} w-full h-screen flex ${isExpanded ? 'items-start justify-center pt-4' : 'items-center justify-center'} overflow-hidden`}
+      className={`snap-start w-full h-screen flex ${isExpanded ? 'items-start justify-center pt-4' : 'items-center justify-center'} overflow-hidden`}
+      style={{ backgroundColor: section.bgColor, touchAction: 'pan-y', overscrollBehavior: 'contain' }}
       id={section.id}
-      style={{ touchAction: 'pan-y', overscrollBehavior: 'contain' }}
     >
       {contentElement}
     </div>

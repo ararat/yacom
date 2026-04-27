@@ -22,7 +22,7 @@ const SECTIONS_CONFIG: SectionConfig[] = [
   {
     id: "welcome",
     navTitle: "Welcome",
-    backgroundColor: "bg-[#1a0533]",
+    bgColor: "#1a0533",
     contentFile: "hero",
     backgroundVideo: "/vid/site-intro.mp4",
     videoPoster: "/img/yuval-ararat.png",
@@ -32,7 +32,7 @@ const SECTIONS_CONFIG: SectionConfig[] = [
   {
     id: "about",
     navTitle: "About",
-    backgroundColor: "bg-[#0e1a4a]",
+    bgColor: "#0e1a4a",
     contentFile: "about",
     hasImage: true,
     imageConfig: {
@@ -47,7 +47,7 @@ const SECTIONS_CONFIG: SectionConfig[] = [
   {
     id: "expertise",
     navTitle: "Expertise",
-    backgroundColor: "bg-[#0a2a3a]",
+    bgColor: "#0a2a3a",
     contentFile: "expertise",
     enabled: true,
     hideFromNav: false
@@ -55,7 +55,7 @@ const SECTIONS_CONFIG: SectionConfig[] = [
   {
     id: "experience",
     navTitle: "Experience",
-    backgroundColor: "bg-[#2a0a2e]",
+    bgColor: "#2a0a2e",
     contentFile: "experience",
     enabled: true,
     hideFromNav: false
@@ -84,7 +84,8 @@ const Home = (props: {
         </Head>
       </div>
 
-      <div className="snap-y snap-proximity min-h-full h-screen overflow-y-scroll overflow-x-hidden bg-[#1a0533]">
+      <div className="flex justify-center" style={{backgroundColor:"#1a0533"}}>
+      <div className="snap-y snap-proximity min-h-full h-screen overflow-y-scroll overflow-x-hidden w-full" style={{maxWidth:"1920px"}}>
         <Navigation
           variant="standard"
           SiteTitle={props.SiteTitle}
@@ -109,12 +110,13 @@ const Home = (props: {
 
         {/* Blog Section - Endless Scroll */}
         <div
-          className="snap-start bg-[#160a30] w-full min-h-screen transition-colors duration-300"
+          className="snap-start w-full min-h-screen transition-colors duration-300" style={{backgroundColor:"#160a30"}}
           id="blog"
         >
           <BlogSection posts={props.posts} />
         </div>
         {/* </div> */}
+      </div>
       </div>
     </Fragment>
   );

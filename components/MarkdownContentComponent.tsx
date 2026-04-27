@@ -5,7 +5,7 @@ import StandardSection from './StandardSection';
 interface SectionConfig {
   id: string;
   navTitle: string;
-  backgroundColor: string;
+  bgColor: string;
   textColor?: string;
   contentFile: string;
   hasImage?: boolean;

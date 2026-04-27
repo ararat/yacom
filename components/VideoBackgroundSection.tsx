@@ -7,7 +7,7 @@ import { videoMarkdownComponents } from '../lib/markdownComponents';
 interface SectionConfig {
   id: string;
   navTitle: string;
-  backgroundColor: string;
+  bgColor: string;
   textColor?: string;
   contentFile: string;
   hasImage?: boolean;
@@ -74,7 +74,8 @@ const VideoBackgroundSection: React.FC<VideoBackgroundSectionProps> = ({
 
   return (
     <div 
-      className={`snap-start ${section.backgroundColor} w-full h-screen relative overflow-hidden`}
+      className="snap-start w-full h-screen relative overflow-hidden"
+      style={{ backgroundColor: section.bgColor }}
       id={section.id}
       style={{ touchAction: 'pan-y', overscrollBehavior: 'contain' }}
     >

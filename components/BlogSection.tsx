@@ -82,7 +82,7 @@ const BlogSection: React.FC<BlogSectionProps> = ({ posts }) => {
   const visiblePosts = debouncedSearchTerm ? filteredPosts : filteredPosts.slice(0, visibleCount);
 
   return (
-    <div className="w-full max-w-[1920px] mx-auto px-6 sm:px-10 md:px-16 lg:px-24 xl:px-32 2xl:px-40 pt-20 sm:pt-24 pb-16 text-obs-text">
+    <div className="w-full max-w-6xl mx-auto px-6 sm:px-8 md:px-12 pt-20 sm:pt-24 pb-16 text-obs-text">
       {/* Title */}
       <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-center text-obs-text mb-8 sm:mb-12">
         Recent Thoughts
