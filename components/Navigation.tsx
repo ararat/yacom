@@ -34,7 +34,12 @@ const Navigation: React.FC<NavigationProps> = (props) => {
   const handleSiteTitleClick = (e: React.MouseEvent) => {
     if (typeof window !== "undefined" && window.location.pathname === "/") {
       e.preventDefault();
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      const container = document.querySelector(".snap-y");
+      if (container) {
+        container.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
     }
   };
 
