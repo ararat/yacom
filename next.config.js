@@ -11,10 +11,7 @@ module.exports = {
     loader: "imgix",
     path: "/",
   },
-  webpack: (config, { isServer }) => {
-    if (isServer) {
-      require("./scripts/generate-sitemap.js");
-    }
-    return config;
-  },
+  // Next.js 16 uses Turbopack by default; declare empty config to silence
+  // the "webpack config present but no turbopack config" error
+  turbopack: {},
 };
