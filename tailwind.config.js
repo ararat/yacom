@@ -10,7 +10,7 @@ module.exports = {
     extend: {
       colors: {
         // Obsidian & Violet palette
-        'obs-base':    '#0a0a0f',
+        'obs-base':    '#0d0b1a',
         'obs-surface': '#13101e',
         'obs-raised':  '#1a1530',
         'obs-border':  '#2d2550',
