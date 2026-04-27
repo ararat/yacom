@@ -84,7 +84,7 @@ const Home = (props: {
         </Head>
       </div>
 
-      <div className="snap-y snap-mandatory min-h-full h-screen w-auto overflow-y-scroll overflow-x-hidden bg-obs-base">
+      <div className="snap-y snap-mandatory min-h-full h-screen overflow-y-scroll overflow-x-hidden bg-obs-base">
         <Navigation
           variant="standard"
           SiteTitle={props.SiteTitle}
@@ -109,7 +109,7 @@ const Home = (props: {
 
         {/* Blog Section - Endless Scroll */}
         <div
-          className="snap-start bg-[#0d0d1a] w-screen min-h-screen transition-colors duration-300"
+          className="snap-start bg-[#0d0d1a] w-full min-h-screen transition-colors duration-300"
           id="blog"
         >
           <BlogSection posts={props.posts} />
