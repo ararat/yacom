@@ -54,8 +54,10 @@ export default function Img(props: ImgProps) {
   };
 
   if (process.env.NODE_ENV === 'development') {
+    // eslint-disable-next-line jsx-a11y/alt-text
     return <Image unoptimized={true} {...imageProps} />;
   } else {
+    // eslint-disable-next-line jsx-a11y/alt-text
     return <Image {...imageProps} loader={cloudflareImageLoader} />;
   }
 }

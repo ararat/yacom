@@ -75,9 +75,8 @@ const VideoBackgroundSection: React.FC<VideoBackgroundSectionProps> = ({
   return (
     <div 
       className="snap-start w-full h-screen relative overflow-hidden"
-      style={{ backgroundColor: section.bgColor }}
       id={section.id}
-      style={{ touchAction: 'pan-y', overscrollBehavior: 'contain' }}
+      style={{ backgroundColor: section.bgColor, touchAction: 'pan-y', overscrollBehavior: 'contain' }}
     >
       <LazyVideo
         src={section.backgroundVideo || ''}
