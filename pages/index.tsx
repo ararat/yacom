@@ -60,6 +60,14 @@ const SECTIONS_CONFIG: SectionConfig[] = [
     enabled: true,
     hideFromNav: false
   },
+  {
+    id: "presentations",
+    navTitle: "Presentations",
+    bgColor: "#0a3a2a",
+    contentFile: "presentations",
+    enabled: true,
+    hideFromNav: false
+  },
 ];
 
 const Home = (props: {

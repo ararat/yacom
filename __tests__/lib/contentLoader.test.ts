@@ -79,7 +79,8 @@ describe('contentLoader', () => {
         hero: { frontMatter: { title: 'Hero' }, content: '# Hero Content' },
         about: { frontMatter: { title: 'About' }, content: '# About Content' },
         experience: { frontMatter: { title: 'Experience' }, content: '# Experience Content' },
-        expertise: { frontMatter: { title: 'Expertise' }, content: '# Expertise Content' }
+        expertise: { frontMatter: { title: 'Expertise' }, content: '# Expertise Content' },
+        presentations: { frontMatter: { title: 'Presentations' }, content: '# Presentations Content' }
       }
 
       // Mock loadContentSection for each file
@@ -88,23 +89,26 @@ describe('contentLoader', () => {
         .mockReturnValueOnce('/mock/cwd/content/about.md')
         .mockReturnValueOnce('/mock/cwd/content/experience.md')
         .mockReturnValueOnce('/mock/cwd/content/expertise.md')
+        .mockReturnValueOnce('/mock/cwd/content/presentations.md')
 
       mockFs.readFileSync
         .mockReturnValueOnce('---\ntitle: Hero\n---\n# Hero Content')
         .mockReturnValueOnce('---\ntitle: About\n---\n# About Content')
         .mockReturnValueOnce('---\ntitle: Experience\n---\n# Experience Content')
         .mockReturnValueOnce('---\ntitle: Expertise\n---\n# Expertise Content')
+        .mockReturnValueOnce('---\ntitle: Presentations\n---\n# Presentations Content')
 
       mockMatter
         .mockReturnValueOnce({ data: { title: 'Hero' }, content: '# Hero Content' } as any)
         .mockReturnValueOnce({ data: { title: 'About' }, content: '# About Content' } as any)
         .mockReturnValueOnce({ data: { title: 'Experience' }, content: '# Experience Content' } as any)
         .mockReturnValueOnce({ data: { title: 'Expertise' }, content: '# Expertise Content' } as any)
+        .mockReturnValueOnce({ data: { title: 'Presentations' }, content: '# Presentations Content' } as any)
 
       const result = loadAllContentSections()
 
       expect(result).toEqual(mockSections)
-      expect(mockFs.readFileSync).toHaveBeenCalledTimes(4)
+      expect(mockFs.readFileSync).toHaveBeenCalledTimes(5)
     })
 
     test('should handle missing content files gracefully', () => {
@@ -151,7 +155,7 @@ describe('contentLoader', () => {
       const result = loadAllContentSections()
 
       expect(result).toEqual({})
-      expect(warnSpy).toHaveBeenCalledTimes(4)
+      expect(warnSpy).toHaveBeenCalledTimes(5)
       
       warnSpy.mockRestore()
     })

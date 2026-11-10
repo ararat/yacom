@@ -2,5 +2,4 @@
 
 **Engineering Leader**
 
-An accomplished Engineering Leader with over 10 years of experience leading high-performing teams through the ever-changing technology landscape. 
-Proven expertise in digital transformations, Process structuring and embeding, strategic planning, technical thought leadership, and technology assesment and adoption.
+20+ years in software, more than a decade leading engineering organisations through digital transformation and technology adoption.
