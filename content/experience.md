@@ -1,27 +1,26 @@
 # Professional Experience
 
-## Adobe Systems (01/2013 - Present)
+## Adobe — Marketo & AJO B2B (2013 - Present)
 
-### Engineering Manager (2021 - Present)
-- Leading a team of 22 engineers and customer managers, transforming it into a mature and effective working model with clear, measurable customer impact.
-- Successfully guiding the team through changes from re-orgs and office closures by directing the future structure and ways of working.
+### Senior Engineering Manager / Acting Director (2021 - Present)
+- Own the path from company and product strategy to shipped software across two enterprise SaaS product lines within a 350-person, VP-led product organisation; held Acting Director of Engineering scope for 18 months.
+- Instrumented delivery with DORA metrics, shipped three major releases on schedule through a reorganisation, and lifted throughput from 1–2 to 3–4 features per cycle.
+- Maintained 99.9% uptime for key enterprise customers and cut the high-priority technical debt backlog by 83%.
+- Wrote the Model Context Protocol server prototype and delivered the production release, scaling from closed beta to general availability across 4,400 enterprise customers.
+- Defined roles, job descriptions and engineering excellence standards; held 100% retention through two office closures and multiple reorganisations.
 
-### Principal Architect APAC & Architecture Practice Lead APAC (2015 - 2022)
-- Established and led a Centre of Excellence (CoE), aligning its strategic roadmap with organizational technology and business objectives.
-- Delivered solutions for the largest customers in APAC, including Reliance JIO, ANZ Bank, Nine Media, and Qantas.
-
-### CQ/AEM Senior Technical Architect (2013 - 2016)
-- Architected a world-first AEM Auto Heal Auto Scale on AWS implementation for an FSI.
-- Defined Sprint 0, Java Coding standards and AEM delivery standards to APAC PS.
+### Principal Enterprise Architect / APAC Practice Lead (2013 - 2021)
+- Lead architect on tier-1 transformation programmes for Qantas, Telstra, NAB, ANZ, Allianz and Origin Energy; relocated to Auckland in 2016 to rebuild Adobe's NZ practice.
+- Led the first cloud implementation of Adobe Experience Manager in APAC — an auto-scaling, auto-healing AWS environment with chaos testing in production, delivering a 99.95% SLA and a 400% reduction in availability incidents.
+- Authored the Sprint 0 technical best practices, adopted as the global engineering standard across Adobe's international delivery teams.
+- Founded and ran the Multi-Solution Architect enablement programme across APAC, reaching 600+ participants over three years.
 
 ## Previous Experience
 
-**Senior Vignette WCM Consultant, OpenText (Vignette) Pty Ltd** (2008 - 2012)
+**Senior Consultant & Team Lead, OpenText (Vignette), Sydney & Melbourne** (2008 - 2013)
 
-**Engineering Manager, Matrix Ltd** (2006 - 2007)
+**Enterprise Architect & Engineering Manager, Matrix Ltd, Israel** (2006 - 2008)
 
-**Technical Lead/Architect, eWave LTD** (2004 - 2006)
+**Technical Lead & Project Manager, eWave Ltd, Israel** (2004 - 2006)
 
-**CTO, Netschool LTD** (2004)
-
-**Co-Founder, Developer, TreeWay** (1999 - 2001) and **Migdal-Or Systems** (1998 - 1999)
+**CTO & Senior Developer, Netschool, Documenta LLC (NYC), TreeWay** (1998 - 2004)

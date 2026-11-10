@@ -3,16 +3,6 @@ import MarkdownContentComponent from '../../components/MarkdownContentComponent'
 import type { SectionConfig, ContentData } from '../../components/MarkdownContentComponent'
 
 // Mock child components
-jest.mock('../../components/VideoBackgroundSection', () => {
-  return function MockVideoBackgroundSection(props: any) {
-    return (
-      <div data-testid="video-background-section" data-section-id={props.section.id}>
-        Video Background Section for {props.section.navTitle}
-      </div>
-    )
-  }
-})
-
 jest.mock('../../components/StandardSection', () => {
   return function MockStandardSection(props: any) {
     return (
@@ -47,7 +37,7 @@ describe('MarkdownContentComponent', () => {
   })
 
   describe('Standard Section Rendering', () => {
-    test('should render StandardSection when no background video', () => {
+    test('should render StandardSection for a section', () => {
       const section = createMockSection()
       const content = createMockContent()
 
@@ -59,84 +49,6 @@ describe('MarkdownContentComponent', () => {
       expect(standardSection).toBeInTheDocument()
       expect(standardSection).toHaveAttribute('data-section-id', 'test-section')
       expect(standardSection).toHaveTextContent('Standard Section for Test Section')
-    })
-
-    test('should render StandardSection when backgroundVideo is undefined', () => {
-      const section = createMockSection({ backgroundVideo: undefined })
-      const content = createMockContent()
-
-      const { getByTestId, queryByTestId } = render(
-        <MarkdownContentComponent section={section} content={content} />
-      )
-
-      expect(getByTestId('standard-section')).toBeInTheDocument()
-      expect(queryByTestId('video-background-section')).not.toBeInTheDocument()
-    })
-
-    test('should render StandardSection when backgroundVideo is empty string', () => {
-      const section = createMockSection({ backgroundVideo: '' })
-      const content = createMockContent()
-
-      const { getByTestId, queryByTestId } = render(
-        <MarkdownContentComponent section={section} content={content} />
-      )
-
-      expect(getByTestId('standard-section')).toBeInTheDocument()
-      expect(queryByTestId('video-background-section')).not.toBeInTheDocument()
-    })
-  })
-
-  describe('Video Background Section Rendering', () => {
-    test('should render VideoBackgroundSection when backgroundVideo is present', () => {
-      const section = createMockSection({
-        backgroundVideo: '/video/background.mp4',
-      })
-      const content = createMockContent()
-
-      const { getByTestId } = render(
-        <MarkdownContentComponent section={section} content={content} />
-      )
-
-      const videoSection = getByTestId('video-background-section')
-      expect(videoSection).toBeInTheDocument()
-      expect(videoSection).toHaveAttribute('data-section-id', 'test-section')
-      expect(videoSection).toHaveTextContent('Video Background Section for Test Section')
-    })
-
-    test('should render VideoBackgroundSection with video poster', () => {
-      const section = createMockSection({
-        backgroundVideo: '/video/background.mp4',
-        videoPoster: '/img/poster.jpg',
-      })
-      const content = createMockContent()
-
-      const { getByTestId, queryByTestId } = render(
-        <MarkdownContentComponent section={section} content={content} />
-      )
-
-      expect(getByTestId('video-background-section')).toBeInTheDocument()
-      expect(queryByTestId('standard-section')).not.toBeInTheDocument()
-    })
-
-    test('should prioritize video section over standard section', () => {
-      const section = createMockSection({
-        backgroundVideo: '/video/background.mp4',
-        hasImage: true, // This should be ignored when video is present
-        imageConfig: {
-          src: '/img/test.jpg',
-          alt: 'Test image',
-          width: '300',
-          height: '200',
-        },
-      })
-      const content = createMockContent()
-
-      const { getByTestId, queryByTestId } = render(
-        <MarkdownContentComponent section={section} content={content} />
-      )
-
-      expect(getByTestId('video-background-section')).toBeInTheDocument()
-      expect(queryByTestId('standard-section')).not.toBeInTheDocument()
     })
   })
 
@@ -194,26 +106,8 @@ describe('MarkdownContentComponent', () => {
 
       render(<MarkdownContentComponent section={section} content={content} />)
 
-      // The mock component should receive the props and render the section id
       const standardSection = document.querySelector('[data-section-id="props-test"]')
       expect(standardSection).toBeInTheDocument()
-    })
-
-    test('should pass section and content props to VideoBackgroundSection', () => {
-      const section = createMockSection({
-        id: 'video-props-test',
-        navTitle: 'Video Props Test',
-        backgroundVideo: '/video/test.mp4',
-      })
-      const content = createMockContent({
-        frontMatter: { title: 'Video Props Test' },
-        content: 'Video props test content',
-      })
-
-      render(<MarkdownContentComponent section={section} content={content} />)
-
-      const videoSection = document.querySelector('[data-section-id="video-props-test"]')
-      expect(videoSection).toBeInTheDocument()
     })
   })
 
@@ -349,29 +243,6 @@ const code = 'example';
       const standardSection = getByTestId('standard-section')
       expect(standardSection).toHaveAttribute('data-section-id', 'section-with-special-chars_123')
     })
-
-    test('should handle backgroundVideo with different URL formats', () => {
-      const testCases = [
-        '/video/local.mp4',
-        'https://example.com/remote.mp4',
-        './relative/video.mp4',
-        'video.mp4',
-      ]
-
-      testCases.forEach((videoUrl) => {
-        const section = createMockSection({ 
-          id: `test-${videoUrl.replace(/[^a-zA-Z0-9]/g, '-')}`,
-          backgroundVideo: videoUrl 
-        })
-        const content = createMockContent()
-
-        const { getByTestId } = render(
-          <MarkdownContentComponent section={section} content={content} />
-        )
-
-        expect(getByTestId('video-background-section')).toBeInTheDocument()
-      })
-    })
   })
 
   describe('Type Safety', () => {
@@ -383,8 +254,6 @@ const code = 'example';
         textColor: 'text-gray-900',
         contentFile: 'type-test',
         hasImage: false,
-        backgroundVideo: undefined,
-        videoPoster: undefined,
         enabled: true,
         hideFromNav: false,
       }

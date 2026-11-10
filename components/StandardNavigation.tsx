@@ -24,7 +24,7 @@ const StandardNavigation: React.FC<StandardNavigationProps> = (props) => {
         <button
           id="Navigation"
           value="Navigation"
-          className="p-2 text-white rounded-md outline-none focus:ring-2 focus:ring-blue-300 hover:bg-slate-700 transition-colors duration-200"
+          className="p-2 text-gray-700 dark:text-dark-text rounded-md outline-none focus:ring-2 focus:ring-blue-500 hover:bg-gray-100 dark:hover:bg-dark-surface transition-colors duration-200"
           onClick={() => props.setNavbar(!props.navbar)}
           aria-label={props.navbar ? "Close menu" : "Open menu"}
           aria-expanded={props.navbar}
@@ -32,7 +32,7 @@ const StandardNavigation: React.FC<StandardNavigationProps> = (props) => {
           {props.navbar ? (
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="w-6 h-6 text-white"
+              className="w-6 h-6"
               viewBox="0 0 20 20"
               fill="currentColor"
             >
@@ -45,7 +45,7 @@ const StandardNavigation: React.FC<StandardNavigationProps> = (props) => {
           ) : (
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="w-6 h-6 text-white"
+              className="w-6 h-6"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -76,10 +76,10 @@ const StandardNavigation: React.FC<StandardNavigationProps> = (props) => {
             {(props.sections || [])
               .filter(section => section?.enabled)
               .map(section => (
-                <li key={section.id} className="text-white" role="none">
-                  <Link 
+                <li key={section.id} className="text-gray-700 dark:text-dark-text" role="none">
+                  <Link
                     href={`/#${section.id}`}
-                    className="block py-2 px-3 rounded-md hover:bg-slate-700 hover:text-blue-300 focus:bg-slate-700 focus:text-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all duration-200 text-center md:text-left"
+                    className="block py-2 px-3 rounded-md hover:bg-gray-100 dark:hover:bg-dark-surface hover:text-blue-600 focus:bg-gray-100 dark:focus:bg-dark-surface focus:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-center md:text-left"
                     role="menuitem"
                     onClick={() => props.setNavbar(false)}
                     onKeyDown={(e) => {

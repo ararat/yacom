@@ -305,8 +305,8 @@ describe('StandardNavigation', () => {
 
       const button = getByRole('button')
       expect(button).toHaveClass(
-        'p-2', 'text-white', 'rounded-md', 'outline-none',
-        'focus:ring-2', 'focus:ring-blue-300', 'hover:bg-slate-700',
+        'p-2', 'text-gray-700', 'rounded-md', 'outline-none',
+        'focus:ring-2', 'focus:ring-blue-500', 'hover:bg-gray-100',
         'transition-colors', 'duration-200'
       )
     })
@@ -324,8 +324,8 @@ describe('StandardNavigation', () => {
 
       const homeLink = getByRole('link', { name: 'Home' })
       expect(homeLink).toHaveClass(
-        'block', 'py-2', 'px-3', 'rounded-md', 'hover:bg-slate-700',
-        'hover:text-blue-300', 'transition-all', 'duration-200',
+        'block', 'py-2', 'px-3', 'rounded-md', 'hover:bg-gray-100',
+        'hover:text-blue-600', 'transition-all', 'duration-200',
         'text-center', 'md:text-left'
       )
     })

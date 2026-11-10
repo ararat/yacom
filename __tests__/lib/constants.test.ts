@@ -1,9 +1,4 @@
 import {
-  NAVIGATION_HEIGHT,
-  CONTENT_MARGINS,
-  AVAILABLE_HEIGHT_RATIO,
-  OVERLAY_HEIGHT_RATIO,
-  EXPANDED_MAX_HEIGHT,
   INITIAL_POSTS_COUNT,
   POSTS_LOAD_INCREMENT,
   INFINITE_SCROLL_THRESHOLD,
@@ -14,28 +9,6 @@ import {
 } from '../../lib/constants'
 
 describe('Constants', () => {
-  describe('UI Layout Constants', () => {
-    test('should have correct navigation height', () => {
-      expect(NAVIGATION_HEIGHT).toBe(80)
-    })
-
-    test('should have correct content margins', () => {
-      expect(CONTENT_MARGINS).toBe(40)
-    })
-
-    test('should have correct available height ratio', () => {
-      expect(AVAILABLE_HEIGHT_RATIO).toBe(0.9)
-    })
-
-    test('should have correct overlay height ratio', () => {
-      expect(OVERLAY_HEIGHT_RATIO).toBe(0.1)
-    })
-
-    test('should have correct expanded max height', () => {
-      expect(EXPANDED_MAX_HEIGHT).toBe('75vh')
-    })
-  })
-
   describe('Infinite Scroll Constants', () => {
     test('should have correct initial posts count', () => {
       expect(INITIAL_POSTS_COUNT).toBe(6)

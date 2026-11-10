@@ -1,5 +1,4 @@
 import React from 'react';
-import VideoBackgroundSection from './VideoBackgroundSection';
 import StandardSection from './StandardSection';
 
 interface SectionConfig {
@@ -15,8 +14,6 @@ interface SectionConfig {
     width: string;
     height: string;
   };
-  backgroundVideo?: string;
-  videoPoster?: string;
   enabled: boolean;
   hideFromNav?: boolean;
 }
@@ -31,21 +28,14 @@ interface MarkdownContentComponentProps {
   content: ContentData;
 }
 
-const MarkdownContentComponent: React.FC<MarkdownContentComponentProps> = ({ 
-  section, 
-  content 
+const MarkdownContentComponent: React.FC<MarkdownContentComponentProps> = ({
+  section,
+  content
 }) => {
   // Guard against undefined content
   if (!content) {
     console.warn(`No content found for section: ${section.id}`);
     return null;
-  }
-
-  // Route to appropriate component based on section configuration
-  const hasVideo = section.backgroundVideo;
-
-  if (hasVideo) {
-    return <VideoBackgroundSection section={section} content={content} />;
   }
 
   return <StandardSection section={section} content={content} />;

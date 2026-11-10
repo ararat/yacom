@@ -1,5 +1,4 @@
-import fs from "fs";
-import { globby } from "globby";
+const fs = require("fs");
 
 function addPage(page) {
   const path = page
@@ -17,6 +16,9 @@ function addPage(page) {
 }
 
 async function generateSitemap() {
+  // globby is ESM-only; this file must stay CommonJS since it's require()'d from next.config.js.
+  const { globby } = await import("globby");
+
   // Ignore Next.js specific files (e.g., _app.js) and API routes.
   const pages = await globby([
     "pages/**/*{.tsx,.mdx,.md}",

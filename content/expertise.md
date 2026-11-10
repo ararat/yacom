@@ -2,30 +2,30 @@
 
 ## Strategic & Organizational Leadership
 
-**Strategic Planning**: Contribute to the development of strategic goals and planning for large consulting organizations.
+**Engineering Leadership**: Lead engineering managers and senior ICs across multiple squads, owning organisational design, capacity and roadmap planning, delivery risk management, hiring and succession.
 
-**Vision & Roadmaps**: Develop and communicate a clear vision and strategic roadmap for a Centre of Excellence (CoE), aligning with business objectives.
+**Commercial Accountability**: Carry a US$43M renewal commitment and lead headcount and investment planning with Finance, translating company and product strategy into measurable engineering outcomes tied to customer commitments.
 
-**Change Management**: Certified Prosci Change Management Practitioner, successfully leading teams through organizational change.
+**Change Leadership**: Certified Prosci Change Management Practitioner — held 100% retention through two office closures and multiple reorganisations by rebuilding team structure and ways of working.
 
-**AI Adoption**: Led and increased AI development tool adoption to 100%, guiding new and efficiency-focused ways to harness technology.
+**AI Adoption**: Drove AI coding and AI Factory adoption across teams and the wider group, running structured experiments on where AI measurably improves throughput.
 
-## Team Building & Mentorship
+## Delivery, Governance & Reliability
 
-**Engineering Management**: Led teams of up to 23 engineers, managing resource allocation, performance, and career development.
+**DORA-Instrumented Delivery**: Instrument delivery with DORA metrics — lead time for change, deployment frequency, change failure rate, MTTR — using PR-level quality gates and automated coverage.
 
-**Talent Development**: Recruit, develop, and retain top engineering talent to ensure a diverse and inclusive workforce.
+**Release Governance**: Stage-gated intake-to-delivery, ARB and security review, and release confidence forecasting and reporting across enterprise SaaS product lines.
 
-**Enablement at Scale**: Initiated and led the creation of an enablement program for architects, successfully training over 600 active Adobe architects.
+**High Availability**: Maintained 99.9% uptime for key enterprise accounts, and earlier delivered a 99.95% SLA with a 400% reduction in availability incidents on the first cloud AEM implementation in APAC.
 
-**Mentorship**: Recruited and professionally developed a team of architects through personal meetings, focus areas, and skill matrices.
+**Secure Delivery**: DevSecOps and secure SDLC in certified environments — SOC 2 Type 2, ISO 27001/27017/27018, HIPAA-ready, FedRAMP Tailored, GDPR, CSA Star Level 2.
 
 ## Technical Architecture & Execution
 
-**Enterprise Architecture**: As a TOGAF® 9.2 Certified Practitioner and Principal Architect, I've established technical standards and best practices for software development and infrastructure across organizations.
+**Cloud-Native & DevOps**: AWS, Docker, Kubernetes, Kafka event streaming, Spark, Snowflake, Splunk; CI/CD with Jenkins, Maven, Artifactory, SonarQube, CircleCI, Argo; auto-scaling and auto-healing architectures, chaos testing.
 
-**Process Improvement**: Develop and implement delivery processes to improve engagement quality, efficiency, productivity, and risk mitigation.
+**Enterprise Architecture**: TOGAF® 9.2 Certified Practitioner — distributed systems, REST API design and standards, high-volume data ingestion and personalisation pipelines, and monolith to domain-oriented migration.
 
-**Pioneering Cloud Solutions**: Led the world's first AEM on Cloud implementation with Chaos Monkey and AWS Auto Scale/Auto Heal capabilities.
+**Hands-On Engineering**: Java (Spring Boot), TypeScript/JavaScript, Scala, SQL, Python, React.js and Next.js, with hands-on architecture and API design review.
 
-**Impactful Delivery**: Architected solutions that achieved an 800% reduction in the delivery speed of content.
+**Pioneering AI Platform Delivery**: Wrote the Model Context Protocol server prototype and delivered the production release — 150 tools, now GA to 4,400 enterprise customers at millions of API calls a day.

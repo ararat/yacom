@@ -1,5 +1,5 @@
 # Yuval Ararat
 
-**Strategic Engineering Leader | Digital Transformation | People Empowerment**
+**Director of Software Engineering | Enterprise B2B SaaS | Cloud-Native Platforms**
 
-An accomplished Engineering Leader with over 20 years of experience leading high-performing teams through the ever-changing technology landscape. Proven expertise in digital transformations, strategic planning, technical leadership, and process improvement.
+Engineering leader with 25+ years in software and 12+ years leading engineering functions, translating company and product strategy into measurable engineering outcomes across enterprise SaaS platforms.

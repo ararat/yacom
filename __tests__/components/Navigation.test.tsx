@@ -267,10 +267,41 @@ describe('Navigation', () => {
 
       const nav = container.querySelector('nav')
       expect(nav).toHaveClass(
-        'fixed', 'top-0', 'left-0', 'right-0', 'bg-slate-800/95',
-        'backdrop-blur-sm', 'text-white', 'z-50', 'shadow-lg',
+        'fixed', 'top-0', 'left-0', 'right-0', 'bg-white/90',
+        'backdrop-blur-sm', 'text-gray-900', 'z-50', 'border-b',
         'transition-all', 'duration-300'
       )
+    })
+
+    test('should have no shadow before scrolling', () => {
+      const { container } = render(
+        <Navigation
+          variant="standard"
+          SiteTitle="Test Site"
+          SiteDescription="Test Description"
+          sections={mockSections}
+        />
+      )
+
+      const nav = container.querySelector('nav')
+      expect(nav).toHaveClass('shadow-none')
+    })
+
+    test('should gain a shadow once the page scrolls', () => {
+      const { container } = render(
+        <Navigation
+          variant="standard"
+          SiteTitle="Test Site"
+          SiteDescription="Test Description"
+          sections={mockSections}
+        />
+      )
+
+      Object.defineProperty(window, 'scrollY', { value: 100, configurable: true })
+      fireEvent.scroll(window)
+
+      const nav = container.querySelector('nav')
+      expect(nav).toHaveClass('shadow-md')
     })
 
     test('should have correct container classes', () => {
@@ -351,7 +382,7 @@ describe('Navigation', () => {
       )
 
       const siteLink = getByRole('link', { name: 'Test Site' })
-      expect(siteLink).toHaveClass('hover:text-blue-300', 'transition-colors', 'duration-200')
+      expect(siteLink).toHaveClass('hover:text-blue-600', 'transition-colors', 'duration-200')
     })
   })
 })

@@ -1,11 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Fragment } from "react";
-import BlogPost from "../components/BlogPost";
 import Head from "next/head";
-import Image from "../components/image";
 import Navigation from "../components/Navigation";
-import Link from "next/link";
-import LazyVideo from "../components/LazyVideo";
+import ScrollProgressBar from "../components/ScrollProgressBar";
 
 import matter from "gray-matter";
 import fs from "fs";
@@ -14,6 +11,8 @@ import MarkdownContentComponent, {
   SectionConfig,
   ContentData,
 } from "../components/MarkdownContentComponent";
+import HeroSection from "../components/HeroSection";
+import Footer from "../components/Footer";
 import { loadAllContentSections } from "../lib/contentLoader";
 import BlogSection from "../components/BlogSection";
 
@@ -22,17 +21,15 @@ const SECTIONS_CONFIG: SectionConfig[] = [
   {
     id: "welcome",
     navTitle: "Welcome",
-    backgroundColor: "bg-amber-600",
+    backgroundColor: "bg-white",
     contentFile: "hero",
-    backgroundVideo: "/vid/site-intro.mp4",
-    videoPoster: "/img/yuval-ararat.png",
     enabled: true,
     hideFromNav: false
   },
   {
     id: "about",
     navTitle: "About",
-    backgroundColor: "bg-lime-100",
+    backgroundColor: "bg-gray-50 dark:bg-dark-surface",
     contentFile: "about",
     hasImage: true,
     imageConfig: {
@@ -47,7 +44,7 @@ const SECTIONS_CONFIG: SectionConfig[] = [
   {
     id: "expertise",
     navTitle: "Expertise",
-    backgroundColor: "bg-slate-100",
+    backgroundColor: "bg-white dark:bg-dark-bg",
     contentFile: "expertise",
     enabled: true,
     hideFromNav: false
@@ -55,7 +52,7 @@ const SECTIONS_CONFIG: SectionConfig[] = [
   {
     id: "experience",
     navTitle: "Experience",
-    backgroundColor: "bg-blue-100",
+    backgroundColor: "bg-gray-50 dark:bg-dark-surface",
     contentFile: "experience",
     enabled: true,
     hideFromNav: false
@@ -73,6 +70,20 @@ const Home = (props: {
   ];
   content: { [key: string]: ContentData };
 }) => {
+  const heroSection = SECTIONS_CONFIG.find(section => section.id === "welcome");
+  const contentSections = SECTIONS_CONFIG.filter(
+    section => section.enabled && section.id !== "welcome"
+  );
+
+  // Scroll-snap is scoped to this page only (not blog posts), so it's toggled
+  // on the body here rather than applied globally in globals.css.
+  useEffect(() => {
+    document.body.classList.add("snap-y", "snap-proximity");
+    return () => {
+      document.body.classList.remove("snap-y", "snap-proximity");
+    };
+  }, []);
+
   return (
     <Fragment>
       <div className="min-h-full">
@@ -84,7 +95,8 @@ const Home = (props: {
         </Head>
       </div>
 
-      <div className="snap-y snap-mandatory min-h-full h-screen w-auto overflow-y-scroll overflow-x-hidden bg-white dark:bg-dark-bg transition-colors duration-300">
+      <div className="min-h-full w-full bg-white dark:bg-dark-bg transition-colors duration-300">
+        <ScrollProgressBar />
         <Navigation
           variant="standard"
           SiteTitle={props.SiteTitle}
@@ -95,26 +107,31 @@ const Home = (props: {
             { id: "blog", navTitle: "Thoughts", enabled: true }
           ].filter(Boolean)}
         />
-        {/* All Markdown Sections */}
-        {SECTIONS_CONFIG
-          .filter(section => section.enabled)
-          .map(section => (
-            <div key={section.id}>
-              <MarkdownContentComponent
-                section={section}
-                content={props.content[section.contentFile]}
-              />
-            </div>
-          ))}
 
-        {/* Blog Section - Endless Scroll */}
+        {/* Hero */}
+        {heroSection && props.content[heroSection.contentFile] && (
+          <HeroSection id={heroSection.id} content={props.content[heroSection.contentFile]} />
+        )}
+
+        {/* Content Sections */}
+        {contentSections.map(section => (
+          <div key={section.id}>
+            <MarkdownContentComponent
+              section={section}
+              content={props.content[section.contentFile]}
+            />
+          </div>
+        ))}
+
+        {/* Blog Section */}
         <div
-          className="snap-start bg-cyan-500 dark:bg-cyan-600 w-screen min-h-screen transition-colors duration-300"
+          className="bg-white dark:bg-dark-bg w-full min-h-screen min-h-[100svh] snap-start scroll-mt-16"
           id="blog"
         >
           <BlogSection posts={props.posts} />
         </div>
-        {/* </div> */}
+
+        <Footer siteTitle={props.SiteTitle} />
       </div>
     </Fragment>
   );
@@ -190,13 +207,13 @@ export async function getStaticProps() {
         try {
           const dateA = new Date(a.frontMatter.date).getTime();
           const dateB = new Date(b.frontMatter.date).getTime();
-          
+
           // Handle invalid dates
           if (isNaN(dateA) || isNaN(dateB)) {
             console.warn('Invalid date found in posts, using alphabetical sort');
             return a.slug.localeCompare(b.slug);
           }
-          
+
           return dateB - dateA;
         } catch (sortError) {
           console.error('Error sorting posts:', sortError);
@@ -224,7 +241,7 @@ export async function getStaticProps() {
     };
   } catch (error) {
     console.error('Critical error in getStaticProps:', error);
-    
+
     // Return minimal props to prevent build failure
     return {
       props: {

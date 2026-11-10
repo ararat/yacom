@@ -1,15 +1,12 @@
 module.exports = {
     plugins: [
+        // Tailwind's own content-based JIT purging (see tailwind.config.js `content`)
+        // already removes unused classes, including arbitrary-value classes like
+        // `min-h-[100svh]`. A second PurgeCSS pass here used a hand-written
+        // extractor regex that didn't account for `[...]` arbitrary values, so it
+        // silently stripped those classes from production builds only. Removing
+        // the redundant pass avoids that class of dev/prod drift.
         'tailwindcss',
-        process.env.NODE_ENV === 'production' ?
-            ['@fullhuman/postcss-purgecss', {
-                content: [
-                    './pages/**/*.{js,jsx,ts,tsx}',
-                    './components/**/*.{js,jsx,ts,tsx}',
-                ],
-                defaultExtractor: content => content.match(/[\w-/:]+(?<!:)/g) || [],
-            },
-            ] : undefined,
         'postcss-preset-env'
     ],
 }

@@ -26,11 +26,21 @@ jest.mock('../../components/Navigation', () => {
   }
 })
 
+jest.mock('../../components/HeroSection', () => {
+  return function MockHeroSection(props: any) {
+    return (
+      <div data-testid="hero-section" data-section-id={props.id}>
+        Hero: {props.content?.content}
+      </div>
+    )
+  }
+})
+
 jest.mock('../../components/MarkdownContentComponent', () => {
   return function MockMarkdownContentComponent(props: any) {
     return (
-      <div 
-        data-testid="markdown-content" 
+      <div
+        data-testid="markdown-content"
         data-section-id={props.section.id}
         data-section-title={props.section.navTitle}
       >
@@ -47,6 +57,12 @@ jest.mock('../../components/BlogSection', () => {
         Blog Section with {props.posts.length} posts
       </div>
     )
+  }
+})
+
+jest.mock('../../components/Footer', () => {
+  return function MockFooter(props: any) {
+    return <div data-testid="footer">Footer: {props.siteTitle}</div>
   }
 })
 
@@ -73,7 +89,7 @@ const mockProps = {
   ],
   content: {
     hero: {
-      frontMatter: { title: 'Welcome' },
+      frontMatter: {},
       content: '# Welcome\n\nWelcome content',
     },
     about: {
@@ -84,6 +100,10 @@ const mockProps = {
       frontMatter: { title: 'My Expertise' },
       content: '# Expertise\n\nExpertise content',
     },
+    experience: {
+      frontMatter: { title: 'My Experience' },
+      content: '# Experience\n\nExperience content',
+    },
   },
 }
 
@@ -93,7 +113,9 @@ describe('Home Page', () => {
 
     expect(getByTestId('head')).toBeInTheDocument()
     expect(getByTestId('navigation')).toBeInTheDocument()
+    expect(getByTestId('hero-section')).toBeInTheDocument()
     expect(getByTestId('blog-section')).toBeInTheDocument()
+    expect(getByTestId('footer')).toBeInTheDocument()
   })
 
   test('should set correct page title and meta description', () => {
@@ -116,30 +138,39 @@ describe('Home Page', () => {
     const { getByTestId } = render(<Home {...mockProps} />)
 
     const navSections = getByTestId('nav-sections')
-    
+
     // Should include enabled sections from SECTIONS_CONFIG
     expect(navSections.querySelector('[data-section-id="welcome"]')).toHaveTextContent('Welcome')
     expect(navSections.querySelector('[data-section-id="about"]')).toHaveTextContent('About')
     expect(navSections.querySelector('[data-section-id="expertise"]')).toHaveTextContent('Expertise')
-    
+    expect(navSections.querySelector('[data-section-id="experience"]')).toHaveTextContent('Experience')
+
     // Should include blog section
     expect(navSections.querySelector('[data-section-id="blog"]')).toHaveTextContent('Thoughts')
   })
 
-  test('should render all enabled markdown sections', () => {
+  test('should render the hero section separately from content sections', () => {
+    const { getByTestId } = render(<Home {...mockProps} />)
+
+    const hero = getByTestId('hero-section')
+    expect(hero).toHaveAttribute('data-section-id', 'welcome')
+    expect(hero).toHaveTextContent('Welcome content')
+  })
+
+  test('should render all enabled non-hero markdown sections', () => {
     const { getAllByTestId } = render(<Home {...mockProps} />)
 
     const markdownSections = getAllByTestId('markdown-content')
-    expect(markdownSections).toHaveLength(3) // welcome, about, expertise
+    expect(markdownSections).toHaveLength(3) // about, expertise, experience
 
-    expect(markdownSections[0]).toHaveAttribute('data-section-id', 'welcome')
-    expect(markdownSections[0]).toHaveAttribute('data-section-title', 'Welcome')
+    expect(markdownSections[0]).toHaveAttribute('data-section-id', 'about')
+    expect(markdownSections[0]).toHaveAttribute('data-section-title', 'About')
 
-    expect(markdownSections[1]).toHaveAttribute('data-section-id', 'about')
-    expect(markdownSections[1]).toHaveAttribute('data-section-title', 'About')
+    expect(markdownSections[1]).toHaveAttribute('data-section-id', 'expertise')
+    expect(markdownSections[1]).toHaveAttribute('data-section-title', 'Expertise')
 
-    expect(markdownSections[2]).toHaveAttribute('data-section-id', 'expertise')
-    expect(markdownSections[2]).toHaveAttribute('data-section-title', 'Expertise')
+    expect(markdownSections[2]).toHaveAttribute('data-section-id', 'experience')
+    expect(markdownSections[2]).toHaveAttribute('data-section-title', 'Experience')
   })
 
   test('should render blog section with posts', () => {
@@ -149,31 +180,25 @@ describe('Home Page', () => {
     expect(blogSection).toHaveTextContent('Blog Section with 2 posts')
   })
 
-  test('should have correct blog section styling and id', () => {
+  test('should have correct blog section id', () => {
     const { container } = render(<Home {...mockProps} />)
 
     const blogContainer = container.querySelector('#blog')
     expect(blogContainer).toBeInTheDocument()
-    expect(blogContainer).toHaveClass(
-      'snap-start', 'bg-cyan-500', 'w-screen', 'min-h-screen'
-    )
   })
 
-  test('should have correct main container styling', () => {
-    const { container } = render(<Home {...mockProps} />)
+  test('should render footer with site title', () => {
+    const { getByTestId } = render(<Home {...mockProps} />)
 
-    const mainContainer = container.querySelector('.snap-y')
-    expect(mainContainer).toHaveClass(
-      'snap-y', 'snap-mandatory', 'min-h-full', 'h-screen', 'w-auto',
-      'overflow-y-scroll', 'overflow-x-hidden'
-    )
+    const footer = getByTestId('footer')
+    expect(footer).toHaveTextContent('Footer: Test Site Title')
   })
 
   test('should include SEO meta tags', () => {
     const { getByTestId } = render(<Home {...mockProps} />)
 
     const head = getByTestId('head')
-    
+
     // Check if meta tags are present (they would be rendered as children)
     expect(head.innerHTML).toContain('name="description"')
     expect(head.innerHTML).toContain('itemProp="name"')
@@ -191,58 +216,37 @@ describe('Home Page', () => {
       expect(blogSection).toHaveTextContent('Blog Section with 0 posts')
     })
 
-    test('should handle missing content for sections', () => {
+    test('should still render a MarkdownContentComponent per configured section when content is missing', () => {
       const propsWithMissingContent = {
         ...mockProps,
         content: {
           hero: mockProps.content.hero,
-          // Missing about and expertise content
+          // Missing about, expertise, experience content
         },
       }
 
       const { getAllByTestId } = render(<Home {...propsWithMissingContent} />)
 
-      // Should still render all sections even with missing content
-      const markdownSections = getAllByTestId('markdown-content')
-      expect(markdownSections).toHaveLength(3)
+      // index.tsx delegates the missing-content guard to MarkdownContentComponent itself
+      expect(getAllByTestId('markdown-content')).toHaveLength(3)
     })
 
     test('should handle empty content object', () => {
       const propsWithNoContent = { ...mockProps, content: {} }
-      const { getAllByTestId } = render(<Home {...propsWithNoContent} />)
+      const { queryByTestId, getAllByTestId } = render(<Home {...propsWithNoContent} />)
 
-      // Should still render section components
-      const markdownSections = getAllByTestId('markdown-content')
-      expect(markdownSections).toHaveLength(3)
+      expect(queryByTestId('hero-section')).not.toBeInTheDocument()
+      expect(getAllByTestId('markdown-content')).toHaveLength(3)
     })
   })
 
   describe('Section Configuration', () => {
-    test('should only render enabled sections', () => {
-      // The SECTIONS_CONFIG in the component has all sections enabled
-      const { getAllByTestId } = render(<Home {...mockProps} />)
-
-      const markdownSections = getAllByTestId('markdown-content')
-      expect(markdownSections).toHaveLength(3) // All sections are enabled
-    })
-
-    test('should filter out hideFromNav sections from navigation', () => {
-      const { getByTestId } = render(<Home {...mockProps} />)
-
-      const navSections = getByTestId('nav-sections')
-      
-      // All sections in SECTIONS_CONFIG have hideFromNav: false, so all should appear
-      expect(navSections.querySelector('[data-section-id="welcome"]')).toBeInTheDocument()
-      expect(navSections.querySelector('[data-section-id="about"]')).toBeInTheDocument()
-      expect(navSections.querySelector('[data-section-id="expertise"]')).toBeInTheDocument()
-    })
-
     test('should include blog section in navigation', () => {
       const { getByTestId } = render(<Home {...mockProps} />)
 
       const navSections = getByTestId('nav-sections')
       const blogSection = navSections.querySelector('[data-section-id="blog"]')
-      
+
       expect(blogSection).toBeInTheDocument()
       expect(blogSection).toHaveTextContent('Thoughts')
     })
@@ -253,11 +257,10 @@ describe('Home Page', () => {
       const { getAllByTestId } = render(<Home {...mockProps} />)
 
       const markdownSections = getAllByTestId('markdown-content')
-      
-      // Verify each section gets its corresponding content
-      expect(markdownSections[0]).toHaveTextContent('Section: Welcome (welcome)')
-      expect(markdownSections[1]).toHaveTextContent('Section: About (about)')
-      expect(markdownSections[2]).toHaveTextContent('Section: Expertise (expertise)')
+
+      expect(markdownSections[0]).toHaveTextContent('Section: About (about)')
+      expect(markdownSections[1]).toHaveTextContent('Section: Expertise (expertise)')
+      expect(markdownSections[2]).toHaveTextContent('Section: Experience (experience)')
     })
 
     test('should handle posts data correctly', () => {
@@ -270,33 +273,17 @@ describe('Home Page', () => {
 
   describe('Layout Structure', () => {
     test('should have correct document structure', () => {
-      const { container } = render(<Home {...mockProps} />)
+      const { container, getByTestId } = render(<Home {...mockProps} />)
 
       // Should have Fragment wrapper with min-h-full div
       const minHeightDiv = container.querySelector('.min-h-full')
       expect(minHeightDiv).toBeInTheDocument()
 
-      // Should have snap container
-      const snapContainer = container.querySelector('.snap-y.snap-mandatory')
-      expect(snapContainer).toBeInTheDocument()
-    })
-
-    test('should maintain proper component order', () => {
-      const { container } = render(<Home {...mockProps} />)
-
-      const snapContainer = container.querySelector('.snap-y.snap-mandatory')
-      const children = Array.from(snapContainer?.children || [])
-
-      // Navigation should be first
-      expect(children[0]).toHaveAttribute('data-testid', 'navigation')
-
-      // Markdown sections should follow
-      expect(children[1]).toHaveAttribute('data-testid', 'markdown-content')
-      expect(children[2]).toHaveAttribute('data-testid', 'markdown-content')
-      expect(children[3]).toHaveAttribute('data-testid', 'markdown-content')
-
-      // Blog section should be last
-      expect(children[4]).toHaveAttribute('id', 'blog')
+      // Navigation, hero, content, blog and footer should all be present
+      expect(getByTestId('navigation')).toBeInTheDocument()
+      expect(getByTestId('hero-section')).toBeInTheDocument()
+      expect(getByTestId('blog-section')).toBeInTheDocument()
+      expect(getByTestId('footer')).toBeInTheDocument()
     })
   })
 

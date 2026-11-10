@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -29,7 +29,16 @@ type NavigationProps = StandardNavigationProps | BlogPostNavigationProps;
 const Navigation: React.FC<NavigationProps> = (props) => {
   // State for mobile menu (only used for standard navigation)
   const [navbar, setNavbar] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const router = useRouter();
+
+  // Elevate the nav with a shadow once the page has scrolled past the top
+  useEffect(() => {
+    const onScroll = () => setIsScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   // Get site title from either prop structure
   const siteTitle =
@@ -87,8 +96,10 @@ const Navigation: React.FC<NavigationProps> = (props) => {
         </Head>
 
         {/* Blog post navigation */}
-        <nav 
-          className="fixed top-0 left-0 right-0 bg-slate-800/95 dark:bg-dark-surface/95 backdrop-blur-sm text-white py-4 z-50 shadow-lg transition-all duration-300"
+        <nav
+          className={`fixed top-0 left-0 right-0 bg-white/90 dark:bg-dark-bg/90 backdrop-blur-sm text-gray-900 dark:text-dark-text py-4 z-50 border-b border-gray-200 dark:border-gray-800 transition-all duration-300 ${
+            isScrolled ? "shadow-md" : "shadow-none"
+          }`}
           role="navigation"
           aria-label="Blog post navigation"
         >
@@ -98,7 +109,7 @@ const Navigation: React.FC<NavigationProps> = (props) => {
               <h1 className="text-xl sm:text-2xl font-bold flex-shrink-0">
                 <Link
                   href="/"
-                  className="hover:text-blue-300 transition-colors duration-200 focus:ring-2 focus:ring-blue-300 focus:outline-none rounded-md px-2 py-1 -mx-2 -my-1"
+                  className="hover:text-blue-600 transition-colors duration-200 focus:ring-2 focus:ring-blue-500 focus:outline-none rounded-md px-2 py-1 -mx-2 -my-1"
                   onClick={handleSiteTitleClick}
                   aria-label={`${siteTitle} - Return to homepage`}
                 >
@@ -117,18 +128,20 @@ const Navigation: React.FC<NavigationProps> = (props) => {
 
   // Standard navigation
   return (
-    <nav 
-      className="fixed top-0 left-0 right-0 bg-slate-800/95 dark:bg-dark-surface/95 backdrop-blur-sm text-white py-2 z-50 shadow-lg transition-all duration-300"
+    <nav
+      className={`fixed top-0 left-0 right-0 bg-white/90 dark:bg-dark-bg/90 backdrop-blur-sm text-gray-900 dark:text-dark-text py-2 z-50 border-b border-gray-200 dark:border-gray-800 transition-all duration-300 ${
+        isScrolled ? "shadow-md" : "shadow-none"
+      }`}
       role="navigation"
       aria-label="Main navigation"
     >
-      <div className="flex justify-between px-4 sm:px-6 mx-auto w-full md:items-center">
+      <div className="flex justify-between px-4 sm:px-6 mx-auto w-full max-w-7xl md:items-center">
         {/* Site Title */}
         <div className="flex items-center py-2 md:py-3">
-          <h2 className="text-xl sm:text-2xl text-white font-bold hover:text-blue-300 transition-colors duration-200">
-            <Link 
-              href="/" 
-              className="block focus:ring-2 focus:ring-blue-300 focus:outline-none rounded-md px-2 py-1 -mx-2 -my-1" 
+          <h2 className="text-xl sm:text-2xl font-bold hover:text-blue-600 transition-colors duration-200">
+            <Link
+              href="/"
+              className="block focus:ring-2 focus:ring-blue-500 focus:outline-none rounded-md px-2 py-1 -mx-2 -my-1"
               onClick={handleSiteTitleClick}
               aria-label={`${siteTitle} - Return to homepage`}
             >

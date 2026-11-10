@@ -286,7 +286,7 @@ describe('BlogSection', () => {
       const { getByRole, container } = render(<BlogSection posts={manyPosts} />)
 
       const searchInput = getByRole('textbox', { name: 'Search blog posts' })
-      fireEvent.change(searchInput, { target: { value: 'Post' })
+      fireEvent.change(searchInput, { target: { value: 'Post' } })
 
       const trigger = container.querySelector('[aria-hidden="true"].h-4')
       expect(trigger).not.toBeInTheDocument()

@@ -1,10 +1,3 @@
-// UI Layout Constants
-export const NAVIGATION_HEIGHT = 80; // Fixed navigation height in pixels
-export const CONTENT_MARGINS = 40; // Top/bottom margins in pixels
-export const AVAILABLE_HEIGHT_RATIO = 0.9; // Use 90% of available space
-export const OVERLAY_HEIGHT_RATIO = 0.1; // Bottom 10% for blur overlay
-export const EXPANDED_MAX_HEIGHT = '75vh'; // Maximum height when expanded
-
 // Infinite Scroll Constants
 export const INITIAL_POSTS_COUNT = 6; // Initial number of posts to show
 export const POSTS_LOAD_INCREMENT = 6; // Number of posts to load on each scroll
