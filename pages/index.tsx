@@ -15,7 +15,6 @@ const S = "#ffc93c";
 const A = "#2ec4b6";
 const C = "#3d5afe";
 const V = "#8b5cf6";
-const I = "#120820";
 const W = "#ffffff";
 
 const TAGS = [
@@ -213,42 +212,61 @@ const JSON_LD = {
 };
 
 /**
- * Drives the shape motion. Writes scroll and pointer values as CSS variables
- * directly on the shapes (not on the page root), so each frame restyles a few
- * dozen elements rather than the whole document.
+ * Drives everything tied to scroll and pointer, in one animation frame:
+ * shape rotation/drift, colour fields sliding into place as their section
+ * arrives, the progress stripe, the active nav link, and reveal-on-enter.
+ * Without JavaScript or with reduced motion the page renders in its final state.
  */
-function useShapeMotion() {
+function usePageMotion() {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const root = ref.current;
-    if (!root || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!root) return;
 
-    const shapes = Array.from(root.querySelectorAll<HTMLElement>("[data-shape]"));
-    const state = { sy: 0, p: 0, mx: 0, my: 0 };
+    const sections = Array.from(root.querySelectorAll<HTMLElement>("main > section[id]"));
+    const links = Array.from(root.querySelectorAll<HTMLAnchorElement>("[data-spy]"));
+    const progress = root.querySelector<HTMLElement>("[data-progress]");
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const shapes = reduced ? [] : Array.from(root.querySelectorAll<HTMLElement>("[data-shape]"));
+    const fields = reduced ? [] : Array.from(root.querySelectorAll<HTMLElement>("[data-field]"));
+    const state = { mx: 0, my: 0 };
     let frame = 0;
 
     const paint = () => {
       frame = 0;
-      const sy = String(Math.round(state.sy));
-      const p = state.p.toFixed(3);
+      const vh = window.innerHeight;
+      const max = document.documentElement.scrollHeight - vh;
+      const sy = String(Math.round(window.scrollY));
+      const p = (max > 0 ? Math.min(window.scrollY / max, 1) : 0).toFixed(3);
       const mx = state.mx.toFixed(3);
       const my = state.my.toFixed(3);
+
+      // Read layout first, then write styles, to avoid forced reflows.
+      const fieldTops = fields.map((f) => f.parentElement!.getBoundingClientRect().top);
+      let active = "";
+      for (const s of sections) {
+        if (s.getBoundingClientRect().top <= vh * 0.4) active = s.id;
+      }
+
       for (const shape of shapes) {
         shape.style.setProperty("--sy", sy);
         shape.style.setProperty("--p", p);
         shape.style.setProperty("--mx", mx);
         shape.style.setProperty("--my", my);
       }
+      fields.forEach((field, i) => {
+        const v = Math.min(Math.max((vh - fieldTops[i]) / (vh * 0.45), 0), 1);
+        field.style.setProperty("--v", v.toFixed(3));
+      });
+      progress?.style.setProperty("--p", p);
+      for (const link of links) {
+        if (link.dataset.spy === active) link.setAttribute("aria-current", "true");
+        else link.removeAttribute("aria-current");
+      }
     };
     const schedule = () => {
       if (!frame) frame = requestAnimationFrame(paint);
-    };
-    const onScroll = () => {
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      state.sy = window.scrollY;
-      state.p = max > 0 ? window.scrollY / max : 0;
-      schedule();
     };
     const onMove = (e: PointerEvent) => {
       state.mx = e.clientX / window.innerWidth - 0.5;
@@ -256,16 +274,37 @@ function useShapeMotion() {
       schedule();
     };
 
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
+    schedule();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule, { passive: true });
     // Pointer drift only makes sense with a mouse or trackpad.
-    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    const finePointer = !reduced && window.matchMedia("(hover: hover) and (pointer: fine)").matches;
     if (finePointer) window.addEventListener("pointermove", onMove, { passive: true });
+
+    // Reveal blocks as they enter the viewport (once each).
+    let observer: IntersectionObserver | undefined;
+    if (!reduced && "IntersectionObserver" in window) {
+      root.setAttribute("data-js", "");
+      observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (!entry.isIntersecting) continue;
+            entry.target.setAttribute("data-in", "");
+            observer?.unobserve(entry.target);
+          }
+        },
+        { rootMargin: "0px 0px -12% 0px", threshold: 0.08 },
+      );
+      root.querySelectorAll("[data-reveal]").forEach((el) => observer?.observe(el));
+    }
 
     return () => {
       cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
       window.removeEventListener("pointermove", onMove);
+      observer?.disconnect();
+      root.removeAttribute("data-js");
     };
   }, []);
 
@@ -273,7 +312,7 @@ function useShapeMotion() {
 }
 
 export default function Home() {
-  const pageRef = useShapeMotion();
+  const pageRef = usePageMotion();
 
   // Placeholder endorsements never reach production; they show in development only.
   const realEndorsements = ENDORSEMENTS.filter((e) => e.name !== "Name");
@@ -305,7 +344,7 @@ export default function Home() {
         </a>
         <nav aria-label="Primary">
           {NAV.map(([label, href]) => (
-            <a key={href} href={href}>
+            <a key={href} href={href} data-spy={href.slice(1)}>
               {label}
             </a>
           ))}
@@ -313,10 +352,11 @@ export default function Home() {
             Get in touch
           </a>
         </nav>
+        <span className={styles.progress} data-progress="" aria-hidden="true" />
       </header>
 
       <main id="top">
-        <section className={`${styles.hero} ${styles.themeInk}`}>
+        <section className={styles.hero}>
           <div className={styles.heroShapes}>
             <Shape k="circle" c={M} c2={V} size="44%" top="2%" right="4%" f={40} fx={["tint"]} />
             <Shape k="tri" c={S} size="34%" top="8%" left="10%" f={-30} r={0.12} fx={["spin"]} />
@@ -326,9 +366,8 @@ export default function Home() {
             <Shape k="circle" c={A} size="14%" bottom="18%" right="10%" f={70} fx={["hue"]} />
             <Shape k="ring" c={W} size="16%" top="0%" left="48%" f={-50} r={0.2} />
           </div>
-          <Shape k="zig" c={A} size="7rem" bottom="8%" left="42%" r={0.1} fx={["turn"]} />
           <Shape k="plus" c={T} size="3rem" top="22%" left="45%" r={0.3} fx={["spin"]} />
-          <Shape k="dots" c={V} size="4.5rem" top="42%" left="-1.5rem" fx={["hue"]} />
+          <Shape k="zig" c={A} size="7rem" bottom="8%" left="42%" r={0.1} fx={["turn"]} />
 
           <p className={styles.eyebrow}>AI-native engineering leadership · Adobe</p>
           <h1>
@@ -349,12 +388,14 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="perspective" className={`${styles.section} ${styles.themeInk}`}>
-          <Shape k="quarter" c={T} size="clamp(8rem, 16vw, 14rem)" bottom="-3rem" right="-3rem" r={0.08} fx={["hue"]} />
-          <Shape k="plus" c={A} size="3.5rem" top="9%" right="6%" fx={["spin", "tint"]} c2={S} />
-          <Shape k="pill" c={M} size="6rem" bottom="4%" left="40%" r={-0.15} fx={["turn"]} />
-          <p className={styles.eyebrow}>01 · Perspective</p>
-          <div className={styles.about}>
+        <section id="perspective" className={`${styles.section} ${styles.headOn}`}>
+          <span className={styles.field} data-field="" />
+          <Shape k="plus" c={S} size="3.5rem" top="9%" right="6%" r={0.2} fx={["spin"]} />
+          <Shape k="ring" c={W} size="5rem" bottom="8%" right="10%" fx={["turn"]} r={-0.1} />
+          <div className={styles.head}>
+            <p className={styles.eyebrow}>01 · Perspective</p>
+          </div>
+          <div className={styles.about} data-reveal="">
             <div className={styles.portrait}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/img/yuval-ararat.png" alt="Yuval Ararat" width={600} height={469} loading="lazy" />
@@ -383,15 +424,17 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="approach" className={`${styles.section} ${styles.themeCobalt}`}>
-          <Shape k="half" c={S} size="clamp(9rem, 18vw, 16rem)" top="-3rem" right="6%" r={0.1} fx={["turn"]} />
-          <Shape k="ring" c={M} size="9rem" bottom="-3rem" left="-2rem" r={-0.15} fx={["tint"]} c2={T} />
-          <Shape k="dots" c={W} size="4.5rem" top="2rem" left="48%" fx={["spin"]} />
-          <p className={styles.eyebrow}>02 · Approach</p>
-          <h2>
-            Four principles for an <em>AI-first</em> engineering organisation.
-          </h2>
-          <div className={styles.approach}>
+        <section id="approach" className={`${styles.section} ${styles.headOn}`}>
+          <span className={styles.field} data-field="" />
+          <Shape k="half" c={A} size="clamp(7rem, 13vw, 11rem)" top="12%" right="8%" r={0.1} fx={["turn"]} />
+          <Shape k="dots" c={W} size="4.5rem" top="34%" right="24%" fx={["spin"]} />
+          <div className={styles.head} data-reveal="">
+            <p className={styles.eyebrow}>02 · Approach</p>
+            <h2>
+              Four principles for an <em>AI-first</em> engineering organisation.
+            </h2>
+          </div>
+          <div className={`${styles.approach} ${styles.stagger}`} data-reveal="">
             {APPROACH.map((a) => (
               <article key={a.n}>
                 <span className={styles.num}>{a.n}</span>
@@ -402,15 +445,17 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="career" className={`${styles.section} ${styles.themeInk}`}>
-          <Shape k="circle" c={V} size="clamp(14rem, 30vw, 26rem)" top="10%" right="-8rem" fx={["hue"]} />
-          <Shape k="tri" c={S} size="5rem" top="16%" right="22%" r={0.18} fx={["spin"]} />
-          <Shape k="arch" c={A} c2={M} size="7rem" bottom="8%" right="12%" fx={["tint", "turn"]} />
-          <p className={styles.eyebrow}>03 · Career</p>
-          <h2>
-            Thirteen years at Adobe, from architect to <em>engineering executive.</em>
-          </h2>
-          <ol className={styles.timeline}>
+        <section id="career" className={styles.section}>
+          <span className={styles.field} data-field="" />
+          <Shape k="tri" c={C} size="4.5rem" top="12%" right="30%" r={0.18} fx={["spin"]} />
+          <Shape k="arch" c={W} size="5rem" bottom="5%" right="4%" fx={["turn"]} />
+          <div className={styles.head} data-reveal="">
+            <p className={styles.eyebrow}>03 · Career</p>
+            <h2>
+              Thirteen years at Adobe, from architect to <em>engineering executive.</em>
+            </h2>
+          </div>
+          <ol className={`${styles.timeline} ${styles.stagger}`} data-reveal="">
             {CAREER.map((c) => (
               <li key={c.when}>
                 <span className={styles.when}>{c.when}</span>
@@ -420,19 +465,26 @@ export default function Home() {
               </li>
             ))}
           </ol>
-          <p className={styles.earlier}>
+          <p className={styles.earlier} data-reveal="">
             <span>Earlier</span> {EARLIER}
+          </p>
+          <p className={styles.bigstat} data-reveal="">
+            <strong>13</strong>
+            <span>years at Adobe</span>
           </p>
         </section>
 
-        <section id="impact" className={`${styles.section} ${styles.themeInk2}`}>
-          <Shape k="square" c={A} size="6rem" top="5rem" right="8%" r={0.12} fx={["spin"]} />
-          <Shape k="zig" c={S} size="8rem" top="3rem" right="24%" fx={["turn"]} />
-          <p className={styles.eyebrow}>04 · Selected impact</p>
-          <h2>
-            Outcomes, <em>not activity.</em>
-          </h2>
-          <div className={styles.cards}>
+        <section id="impact" className={styles.section}>
+          <span className={styles.field} data-field="" />
+          <Shape k="zig" c={V} size="7rem" top="4.5rem" right="22%" fx={["turn"]} />
+          <Shape k="square" c={W} size="4rem" top="5rem" right="8%" r={0.12} fx={["spin"]} />
+          <div className={styles.head} data-reveal="">
+            <p className={styles.eyebrow}>04 · Selected impact</p>
+            <h2>
+              Outcomes, <em>not activity.</em>
+            </h2>
+          </div>
+          <div className={`${styles.cards} ${styles.stagger}`} data-reveal="">
             {IMPACT.map((i) => (
               <article key={i.label} className={i.wide ? `${styles.card} ${styles.wide}` : styles.card}>
                 <p className={styles.label}>{i.label}</p>
@@ -441,12 +493,7 @@ export default function Home() {
               </article>
             ))}
           </div>
-        </section>
-
-        <section className={`${styles.band} ${styles.themeSun}`} aria-label="Track record">
-          <Shape k="circle" c={M} size="5rem" top="-2rem" left="4%" r={0.1} fx={["tint"]} c2={V} />
-          <Shape k="diamond" c={C} size="4rem" bottom="-1.5rem" right="6%" r={-0.2} fx={["spin"]} />
-          <div className={styles.stats}>
+          <div className={`${styles.stats} ${styles.stagger}`} aria-label="Track record" data-reveal="">
             {STATS.map(([n, label]) => (
               <div key={label} className={styles.stat}>
                 <strong>{n}</strong>
@@ -457,15 +504,17 @@ export default function Home() {
         </section>
 
         {showEndorsements && (
-          <section id="endorsements" className={`${styles.section} ${styles.themeMagenta}`}>
-            <Shape k="circle" c={S} c2={A} size="clamp(8rem, 16vw, 14rem)" top="-3rem" right="5%" fx={["tint"]} />
-            <Shape k="diamond" c={I} size="4.5rem" bottom="10%" left="2%" r={0.15} fx={["spin"]} />
-            <Shape k="half" c={V} size="7rem" top="20%" right="28%" r={-0.08} fx={["turn"]} />
-            <p className={styles.eyebrow}>05 · Endorsements</p>
-            <h2>
-              In their <em>words.</em>
-            </h2>
-            <div className={styles.quotes}>
+          <section id="endorsements" className={styles.section}>
+            <span className={styles.field} data-field="" />
+            <Shape k="diamond" c={M} size="4rem" top="14%" right="9%" r={0.15} fx={["spin"]} />
+            <Shape k="half" c={W} size="6rem" top="10%" right="24%" r={-0.08} fx={["turn"]} />
+            <div className={styles.head} data-reveal="">
+              <p className={styles.eyebrow}>05 · Endorsements</p>
+              <h2>
+                In their <em>words.</em>
+              </h2>
+            </div>
+            <div className={`${styles.quotes} ${styles.stagger}`} data-reveal="">
               {endorsements.map((e, i) => (
                 <figure key={i} className={styles.quote}>
                   <blockquote>{e.quote}</blockquote>
@@ -479,15 +528,17 @@ export default function Home() {
           </section>
         )}
 
-        <section id="presentations" className={`${styles.section} ${styles.themeInk}`}>
-          <Shape k="arch" c={T} size="clamp(9rem, 18vw, 15rem)" bottom="-1rem" right="6%" fx={["hue"]} />
-          <Shape k="plus" c={M} size="3rem" top="22%" right="30%" r={0.25} fx={["spin"]} />
-          <Shape k="ring" c={A} size="5rem" top="12%" right="10%" fx={["tint"]} c2={S} />
-          <p className={styles.eyebrow}>{num(6)} · Presentations</p>
-          <h2>
-            On <em>stage.</em>
-          </h2>
-          <ul className={styles.media}>
+        <section id="presentations" className={styles.section}>
+          <span className={styles.field} data-field="" />
+          <Shape k="ring" c={T} size="5rem" top="10%" left="52%" fx={["turn"]} r={0.1} />
+          <Shape k="plus" c={W} size="2.75rem" bottom="5%" left="50%" r={0.25} fx={["spin"]} />
+          <div className={styles.head} data-reveal="">
+            <p className={styles.eyebrow}>{num(6)} · Presentations</p>
+            <h2>
+              On <em>stage.</em>
+            </h2>
+          </div>
+          <ul className={`${styles.media} ${styles.stagger}`} data-reveal="">
             {MEDIA.map((m) => (
               <li key={m.url}>
                 <a href={m.url}>
@@ -505,20 +556,23 @@ export default function Home() {
               </li>
             ))}
           </ul>
-          <p className={styles.more}>
-            <a href={SLIDESHARE}>All presentations on SlideShare →</a>
-          </p>
+          <a className={styles.aside} href={SLIDESHARE} data-reveal="">
+            <span>Every deck, in one place.</span>
+            All presentations on SlideShare →
+          </a>
         </section>
 
-        <section id="writing" className={`${styles.section} ${styles.themeAqua}`}>
-          <Shape k="quarter" c={C} size="clamp(8rem, 16vw, 13rem)" top="0" right="0" r={0.06} fx={["turn"]} />
-          <Shape k="dots" c={I} size="4.5rem" bottom="10%" right="8%" fx={["spin"]} />
-          <Shape k="tri" c={M} c2={S} size="4rem" top="2.5rem" right="24%" fx={["tint", "spin"]} />
-          <p className={styles.eyebrow}>{num(7)} · Writing</p>
-          <h2>
-            Notes on where engineering is <em>going.</em>
-          </h2>
-          <div className={styles.articles}>
+        <section id="writing" className={styles.section}>
+          <span className={styles.field} data-field="" />
+          <Shape k="ring" c={W} size="4.5rem" top="9%" right="6%" r={0.1} fx={["turn"]} />
+          <Shape k="tri" c={S} size="4rem" bottom="3%" right="20%" r={-0.14} fx={["spin"]} />
+          <div className={styles.head} data-reveal="">
+            <p className={styles.eyebrow}>{num(7)} · Writing</p>
+            <h2>
+              Notes on where engineering is <em>going.</em>
+            </h2>
+          </div>
+          <div className={`${styles.articles} ${styles.stagger}`} data-reveal="">
             {WRITING.map((w) => (
               <a key={w.url} className={styles.article} href={w.url}>
                 <p className={styles.label}>
@@ -532,22 +586,26 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="contact" className={`${styles.cta} ${styles.themeViolet}`}>
-          <Shape k="circle" c={M} c2={T} size="clamp(10rem, 20vw, 18rem)" bottom="-6rem" left="-4rem" fx={["tint"]} f={25} />
-          <Shape k="square" c={S} size="clamp(6rem, 12vw, 10rem)" top="-2rem" right="-1rem" r={0.1} fx={["spin"]} f={-25} />
-          <Shape k="tri" c={A} size="5rem" top="18%" left="10%" r={-0.14} fx={["turn"]} f={35} />
-          <Shape k="ring" c={I} size="5rem" bottom="12%" right="12%" fx={["hue"]} f={-40} />
-          <p className={styles.eyebrow}>What&apos;s next</p>
-          <h2>
-            Let&apos;s build the engineering organisation <em>AI makes possible.</em>
-          </h2>
-          <div className={styles.actions}>
-            <a className={styles.primary} href={LINKEDIN}>
-              LinkedIn ↗
-            </a>
-            <a className={styles.secondary} href={SLIDESHARE}>
-              SlideShare ↗
-            </a>
+        <section id="contact" className={styles.cta}>
+          <Shape k="circle" c={M} c2={V} size="clamp(10rem, 20vw, 18rem)" bottom="-6rem" left="-4rem" fx={["tint"]} f={25} />
+          <Shape k="quarter" c={V} size="clamp(7rem, 13vw, 11rem)" top="0" right="0" fx={["turn"]} f={-20} />
+          <Shape k="square" c={C} size="clamp(5rem, 9vw, 8rem)" bottom="-2rem" right="9%" r={0.1} fx={["spin"]} f={-25} />
+          <Shape k="tri" c={S} size="5rem" top="18%" left="10%" r={-0.14} fx={["spin"]} f={35} />
+          <Shape k="circle" c={A} size="3.5rem" bottom="20%" right="24%" fx={["hue"]} f={-40} />
+          <Shape k="ring" c={W} size="4.5rem" top="14%" right="20%" r={0.2} f={30} />
+          <div data-reveal="">
+            <p className={styles.eyebrow}>What&apos;s next</p>
+            <h2>
+              Let&apos;s build the engineering organisation <em>AI makes possible.</em>
+            </h2>
+            <div className={styles.actions}>
+              <a className={styles.primary} href={LINKEDIN}>
+                LinkedIn ↗
+              </a>
+              <a className={styles.secondary} href={SLIDESHARE}>
+                SlideShare ↗
+              </a>
+            </div>
           </div>
         </section>
       </main>
