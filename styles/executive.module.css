@@ -123,8 +123,8 @@
 .section[id="endorsements"] {
   --c: var(--violet);
   --ct: #bda4ff;
-  --on: #fff;
-  --emon: var(--sun);
+  --on: var(--night);
+  --emon: #fff;
 }
 
 .section[id="presentations"] {
@@ -872,7 +872,7 @@
 .quotes {
   --pop: var(--sun);
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1.25rem;
 }
 
@@ -909,8 +909,68 @@
 }
 
 .quote figcaption span {
+  display: block;
   color: var(--muted);
   font-size: 0.85rem;
+}
+
+.quote figcaption span + span {
+  color: var(--ct);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-top: 0.3rem;
+}
+
+/* The lead quote: paper card across the full row */
+.quoteFeature {
+  grid-column: 1 / -1;
+  background: var(--paper);
+  color: var(--night);
+  border-color: transparent;
+}
+
+.quoteFeature blockquote {
+  font-size: clamp(1.5rem, 2.6vw, 2.2rem);
+  line-height: 1.3;
+  max-width: 34em;
+}
+
+.quoteFeature blockquote::before {
+  color: var(--violet);
+}
+
+.page .quoteFeature figcaption strong {
+  color: var(--night);
+}
+
+.page .quoteFeature figcaption span {
+  color: #3d3353;
+}
+
+.page .quoteFeature figcaption span + span {
+  color: #5b36c9;
+}
+
+.page .quoteFeature:hover {
+  transform: translateY(-4px) rotate(-0.5deg);
+}
+
+/* Pill so the link reads on purple or on the section's colour */
+.more {
+  display: inline-block;
+  margin-top: 2rem;
+  padding: 0.6rem 1.3rem;
+  border-radius: 999px;
+  background: var(--night);
+  font-weight: 600;
+  color: var(--ct);
+  transition: transform 0.4s var(--bounce);
+}
+
+.more:hover {
+  transform: translateX(6px);
 }
 
 /* ---------- Presentations ---------- */
@@ -1178,6 +1238,10 @@
   }
 
   .about {
+    grid-template-columns: 1fr;
+  }
+
+  .quotes {
     grid-template-columns: 1fr;
   }
 

@@ -46,12 +46,15 @@ describe('Home page', () => {
     expect(hrefs).toContain('https://www.slideshare.net/ararat')
   })
 
-  test('does not publish placeholder endorsements outside development', () => {
+  test('shows the selected LinkedIn recommendations, featured first', () => {
     const { container } = render(<Home />)
 
-    expect(container.querySelector('#endorsements')).not.toBeInTheDocument()
+    const quotes = container.querySelectorAll('#endorsements figure')
+    expect(quotes).toHaveLength(4)
+    expect(quotes[0]).toHaveTextContent('Shady Ibrahim')
+    expect(quotes[0]).toHaveTextContent('true walking encyclopedia')
     expect(screen.queryByText('Quote to be added.')).not.toBeInTheDocument()
-    expect(screen.getByText('05 · Presentations')).toBeInTheDocument()
+    expect(screen.getByText('06 · Presentations')).toBeInTheDocument()
   })
 
   test('emits valid Person structured data with "<" escaped', () => {

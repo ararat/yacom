@@ -2,6 +2,7 @@ import Head from "next/head";
 import { useEffect, useRef } from "react";
 import Shape from "../components/Shape";
 import { jsonLd } from "../lib/jsonLd";
+import { RECOMMENDATIONS } from "../data/recommendations";
 import styles from "../styles/executive.module.css";
 
 const SITE = "https://yuvalararat.com";
@@ -102,14 +103,6 @@ const STATS = [
   ["~20", "engineers across squads"],
   ["3,000+", "enterprise customers on our AI release"],
   ["US$43M", "renewal commitments carried"],
-];
-
-/* Placeholder endorsements. Replace each quote, name and role with a real,
-   attributed quote before this section goes live. */
-const ENDORSEMENTS = [
-  { quote: "Quote to be added.", name: "Name", role: "Title, Company" },
-  { quote: "Quote to be added.", name: "Name", role: "Title, Company" },
-  { quote: "Quote to be added.", name: "Name", role: "Title, Company" },
 ];
 
 const MEDIA = [
@@ -314,10 +307,7 @@ function usePageMotion() {
 export default function Home() {
   const pageRef = usePageMotion();
 
-  // Placeholder endorsements never reach production; they show in development only.
-  const realEndorsements = ENDORSEMENTS.filter((e) => e.name !== "Name");
-  const endorsements =
-    realEndorsements.length > 0 ? realEndorsements : process.env.NODE_ENV === "development" ? ENDORSEMENTS : [];
+  const endorsements = RECOMMENDATIONS.filter((r) => r.show);
   const showEndorsements = endorsements.length > 0;
   const num = (n: number) => String(showEndorsements ? n : n - 1).padStart(2, "0");
 
@@ -515,16 +505,22 @@ export default function Home() {
               </h2>
             </div>
             <div className={`${styles.quotes} ${styles.stagger}`} data-reveal="">
-              {endorsements.map((e, i) => (
-                <figure key={i} className={styles.quote}>
-                  <blockquote>{e.quote}</blockquote>
+              {endorsements.map((e) => (
+                <figure key={e.name} className={e.featured ? `${styles.quote} ${styles.quoteFeature}` : styles.quote}>
+                  <blockquote>{e.excerpt}</blockquote>
                   <figcaption>
                     <strong>{e.name}</strong>
-                    <span>{e.role}</span>
+                    <span>{e.title}</span>
+                    <span>
+                      {e.relationship} · {e.date.slice(0, 4)}
+                    </span>
                   </figcaption>
                 </figure>
               ))}
             </div>
+            <a className={styles.more} href={`${LINKEDIN}/details/recommendations/`} data-reveal="">
+              All {RECOMMENDATIONS.length} recommendations on LinkedIn →
+            </a>
           </section>
         )}
 
