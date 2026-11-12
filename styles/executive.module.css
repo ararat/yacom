@@ -25,7 +25,7 @@
   --violet: #8b5cf6;
   --padx: clamp(1.25rem, 7vw, 9rem);
   --pady: clamp(4.5rem, 10vw, 8rem);
-  --display: "Bodoni 72", Didot, "Bodoni MT", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --display: "Playfair Display Variable", "Bodoni 72", Didot, Georgia, serif;
   --sans: "Avenir Next", Avenir, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
 
@@ -42,6 +42,16 @@
 .page a {
   color: inherit;
   text-decoration: none;
+}
+
+.page h1,
+.page h2,
+.page h3,
+.num,
+.metric,
+.stat strong,
+.bigstat strong {
+  font-variant-numeric: lining-nums;
 }
 
 .page h1,
@@ -66,6 +76,7 @@
 
 .page em {
   font-style: italic;
+  letter-spacing: 0;
   color: var(--ct);
 }
 
@@ -137,7 +148,8 @@
 }
 
 .section[id="perspective"] .field {
-  --cut: polygon(0 0, 37% 0, 26% 100%, 0 100%);
+  /* Tied to the portrait column so it never reaches the text column */
+  --cut: polygon(0 0, calc(var(--padx) + 20rem) 0, calc(var(--padx) + 13rem) 100%, 0 100%);
   --fx: -22%;
 }
 
@@ -461,7 +473,7 @@
 
 .page .primary {
   color: #fff;
-  background: var(--magenta);
+  background: #d91a68;
   box-shadow: 5px 5px 0 var(--sun);
 }
 
@@ -836,8 +848,9 @@
   display: block;
   font-family: var(--display);
   font-weight: 700;
-  font-size: clamp(2rem, 4.4vw, 4rem);
+  font-size: clamp(2rem, 3.6vw, 3.4rem);
   line-height: 1;
+  white-space: nowrap;
   color: var(--on);
   transition: transform 0.45s var(--bounce), color 0.3s;
 }
@@ -1113,8 +1126,20 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .hero {
+    min-height: auto;
+    padding-top: 19rem;
+  }
+
   .heroShapes {
-    opacity: 0.4;
+    top: 4.5rem;
+    right: var(--padx);
+    width: 13rem;
+    transform: none;
+  }
+
+  .hero > .shape {
+    display: none;
   }
 
   .hero h1,
@@ -1206,20 +1231,12 @@
   }
 
   .hero {
-    min-height: auto;
     padding-top: 17rem;
   }
 
   .heroShapes {
-    opacity: 1;
-    top: 4.5rem;
     right: 0.5rem;
     width: 12rem;
-    transform: none;
-  }
-
-  .hero > .shape {
-    display: none;
   }
 }
 

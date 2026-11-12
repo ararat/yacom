@@ -4,6 +4,8 @@ import Script from 'next/script'
 import { ThemeProvider } from '../contexts/ThemeContext'
 
 import "../styles/tailwind.css";
+import "@fontsource-variable/playfair-display/wght.css";
+import "@fontsource-variable/playfair-display/wght-italic.css";
 
 
 function MyApp({ Component, pageProps }: AppProps) {
