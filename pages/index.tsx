@@ -4,101 +4,99 @@ import styles from "../styles/executive.module.css";
 const LINKEDIN = "https://www.linkedin.com/in/yuvalararat";
 const SLIDESHARE = "https://www.slideshare.net/ararat";
 
-const STATS = [
-  ["20+", "years in software engineering"],
-  ["12+", "years in technical and engineering leadership"],
-  ["~20", "engineers across multiple squads"],
-  ["3,000+", "enterprise customers on our flagship AI release"],
-  ["US$43M", "in customer renewal commitments carried"],
+const TAGS = [
+  "AI-Native Engineering",
+  "Agentic Systems and MCP",
+  "Engineering Excellence",
+  "Enterprise Architecture · TOGAF 9.2",
+  "Change Leadership · Prosci",
+  "Cloud Platforms · AWS",
+  "Customer Data at Scale",
 ];
 
-const TAGS = [
-  "Engineering Leadership",
-  "Enterprise Architecture",
-  "TOGAF 9.2",
-  "Prosci Change Management",
-  "PRINCE2",
-  "Applied AI and MCP",
-  "AWS and Cloud",
-  "Customer Data Platforms",
+const APPROACH = [
+  {
+    n: "01",
+    title: "AI-native delivery",
+    text: "Agentic, human-in-the-loop engineering as the default operating model. Our AI-Factory pilot moved one project from 1–2 to 3–4 features per release cycle.",
+  },
+  {
+    n: "02",
+    title: "Forward-deployed innovation",
+    text: "Engineers embedded with top-tier customers, packaged as an innovation hub and roadmap accelerator that customers invest in.",
+  },
+  {
+    n: "03",
+    title: "Engineering excellence",
+    text: "DORA-aligned measurement, pull-request quality gates, blameless reviews and architecture guardrails that scale without becoming bottlenecks.",
+  },
+  {
+    n: "04",
+    title: "Talent that compounds",
+    text: "Growth ladders, succession pipelines and weekly coaching. High performance and personal ownership, without burnout.",
+  },
 ];
 
 const CAREER = [
   {
     when: "2021 to Present",
-    role: "Senior Engineering Manager, Acting Director of Engineering",
+    role: "Senior Engineering Manager · Acting Director of Engineering",
     org: "Adobe · Marketo Engage and Adobe Journey Optimizer B2B",
-    note: "Leads a multi-squad, customer-facing engineering organisation and carries accountability for US$43M in customer renewal commitments.",
+    note: "Leads a multi-squad, forward-deployed engineering organisation inside a 350-person product group. Took the team from traditional delivery to AI-assisted and AI-driven engineering, shipped the Marketo MCP server, and carries accountability for US$43M in customer renewal commitments.",
   },
   {
     when: "2013 to 2021",
-    role: "Principal Enterprise Architect, APAC Competency Lead",
+    role: "Principal Enterprise Architect · APAC Competency Lead",
     org: "Adobe Consulting Services · Auckland and Melbourne",
-    note: "Ran the APAC architecture practice and rebuilt Adobe's New Zealand consulting presence from zero long-term retainers to more than ten multi-year customer commitments.",
-  },
-  {
-    when: "2008 to 2013",
-    role: "Senior Consultant to Practice Lead",
-    org: "OpenText (Vignette) · Sydney and Melbourne",
-    note: "Combined solution architecture, project management and pre-sales on enterprise content programmes.",
-  },
-  {
-    when: "2006 to 2008",
-    role: "Senior Engineering Manager",
-    org: "Matrix · Israel",
-    note: "Embedded as Enterprise Architect under the CIO of Keshet.",
-  },
-  {
-    when: "2004 to 2006",
-    role: "Engineering Manager",
-    org: "eWave · Israel",
-    note: "Engineering management, alongside support for RFPs, demonstrations, supplier management and pricing discussions.",
-  },
-  {
-    when: "2003 to 2004",
-    role: "Chief Technology Officer",
-    org: "Netschool · Israel",
-    note: "Technology leadership of an education-sector startup.",
-  },
-  {
-    when: "2001 to 2003",
-    role: "Senior Software Engineer",
-    org: "Documenta, for Wachovia · New York",
-    note: "Software engineering for Wachovia.",
+    note: "Led the APAC architecture practice for five years and advised CIO and CSO-level leaders across banking, telecommunications, energy and media. Rebuilt Adobe's New Zealand consulting presence from zero long-term retainers to more than ten multi-year customer commitments.",
   },
 ];
 
+const EARLIER = "Practice Lead, OpenText (2008–2013) · Chief Technology Officer, Netschool (2003–2004)";
+
 const IMPACT = [
   {
-    label: "Applied AI",
-    metric: "150 tools",
-    text: "Wrote the first iteration of the Marketo MCP server, then productionised it with two engineers. 200 closed-beta customers in four weeks; now generally available to 3,000+ enterprise customers.",
-  },
-  {
-    label: "Talent and retention",
-    metric: "100%",
-    text: "Team retention through two office closures and reorganisation. Five hires, and onboarding cut from six weeks to three.",
+    label: "Agentic AI in production",
+    metric: "150 tools · 3,000+ customers",
+    text: "Wrote the first iteration of the Marketo Model Context Protocol server, then productionised it with two engineers. 200 closed-beta customers in four weeks, now generally available and serving millions of API calls a day.",
+    wide: true,
   },
   {
     label: "Predictable delivery",
-    metric: "3 releases",
-    text: "Major releases shipped on schedule through a significant reorganisation, backed by CI quality gates and DORA-aligned reporting.",
+    metric: "3 of 3",
+    text: "Major releases shipped on schedule through a significant reorganisation.",
   },
   {
-    label: "Technical debt",
-    metric: "83%",
-    text: "Reduction in the high-priority backlog, including services that had stood still for more than three years.",
+    label: "Platform health",
+    metric: "−83%",
+    text: "High-priority technical debt, unblocking services that had stood still for three years.",
   },
   {
-    label: "AI-Factory pilot",
-    metric: "1–2 → 3–4",
-    text: "Features per release cycle on a human-in-the-loop pilot of AI-assisted delivery, on one project.",
+    label: "Talent",
+    metric: "100%",
+    text: "Retention through two office closures. Onboarding halved from six weeks to three.",
   },
   {
-    label: "Cloud reliability",
+    label: "Cloud first",
     metric: "99.95% SLA",
-    text: "One of the first AEM deployments on AWS (2014): auto-scaling, auto-healing, fourfold lower downtime and eightfold shorter content time-to-market.",
+    text: "One of the first AEM deployments on AWS (2014): self-healing, auto-scaling, chaos-tested in production.",
   },
+];
+
+const STATS = [
+  ["20+", "years in software"],
+  ["12+", "years leading engineering"],
+  ["~20", "engineers across squads"],
+  ["3,000+", "enterprise customers on our AI release"],
+  ["US$43M", "renewal commitments carried"],
+];
+
+/* Placeholder endorsements. Replace each quote, name and role with a real,
+   attributed quote before this section goes live. */
+const ENDORSEMENTS = [
+  { quote: "Quote to be added.", name: "Name", role: "Title, Company" },
+  { quote: "Quote to be added.", name: "Name", role: "Title, Company" },
+  { quote: "Quote to be added.", name: "Name", role: "Title, Company" },
 ];
 
 const MEDIA = [
@@ -142,8 +140,8 @@ const WRITING = [
 ];
 
 const NAV = [
-  ["About", "#about"],
-  ["Track record", "#track-record"],
+  ["Perspective", "#perspective"],
+  ["Approach", "#approach"],
   ["Career", "#career"],
   ["Impact", "#impact"],
   ["Presentations", "#presentations"],
@@ -154,10 +152,10 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <Head>
-        <title>Yuval Ararat | Engineering Leader</title>
+        <title>Yuval Ararat | AI-Native Engineering Leader</title>
         <meta
           name="description"
-          content="Engineering leader turning technology into measurable business advantage. Senior Engineering Manager at Adobe, former Principal Enterprise Architect."
+          content="AI-native engineering leader at Adobe. Turning agentic AI from experiment into shipped product, operating model and commercial advantage."
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
@@ -180,69 +178,50 @@ export default function Home() {
 
       <main id="top">
         <section className={styles.hero}>
-          <p className={styles.eyebrow}>
-            Engineering Leadership · Enterprise Architecture · Applied AI
-          </p>
+          <p className={styles.eyebrow}>AI-native engineering leadership · Adobe</p>
           <h1>
-            Engineering leadership that turns technology into business{" "}
-            <em>advantage.</em>
+            Leading engineering into the <em>agentic era.</em>
           </h1>
           <p className={styles.lead}>
-            Senior Engineering Manager at Adobe, currently Acting Director of
-            Engineering for Marketo Engage and Adobe Journey Optimizer B2B. I
-            lead multi-squad teams that ship enterprise AI, protect customer
-            renewals and keep delivery predictable.
+            Senior Engineering Manager and Acting Director of Engineering for
+            Marketo Engage and Adobe Journey Optimizer B2B. I turn AI from
+            experiment into shipped product, a new operating model and
+            measurable commercial advantage.
           </p>
           <div className={styles.actions}>
             <a className={styles.primary} href={LINKEDIN}>
               Connect on LinkedIn ↗
             </a>
-            <a className={styles.secondary} href="#presentations">
-              View presentations →
+            <a className={styles.secondary} href="#impact">
+              See the impact →
             </a>
           </div>
         </section>
 
-        <section id="track-record" className={styles.band}>
-          <p className={styles.eyebrow}>01 · Track record</p>
-          <div className={styles.stats}>
-            {STATS.map(([n, label]) => (
-              <div key={label} className={styles.stat}>
-                <strong>{n}</strong>
-                <span>{label}</span>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section id="about" className={styles.section}>
-          <p className={styles.eyebrow}>02 · About</p>
+        <section id="perspective" className={styles.section}>
+          <p className={styles.eyebrow}>01 · Perspective</p>
           <div className={styles.about}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/img/yuval-ararat.png"
-              alt="Yuval Ararat"
-              width={600}
-              height={469}
-              loading="lazy"
-            />
+            <div className={styles.portrait}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/img/yuval-ararat.png" alt="Yuval Ararat" width={600} height={469} loading="lazy" />
+            </div>
             <div>
               <h2>
-                A customer-facing engineering team, run as a <em>value engine.</em>
+                Engineering is not a cost centre. It is the <em>value engine.</em>
               </h2>
               <p>
-                I lead a forward-deployed team of engineers and solution
-                architects, the only customer-facing engineering team in a
-                350-person product organisation. We turn top-tier customer
-                problems into shipped product and a roadmap customers can buy
-                into, so engineering is seen as a source of value, not a cost
-                centre.
+                I lead the only customer-facing engineering team in a
+                350-person product organisation: a forward-deployed unit of
+                engineers and solution architects that converts top-tier
+                customer problems into shipped product. We moved from
+                traditional delivery to AI-assisted and AI-driven engineering,
+                with people firmly in the loop.
               </p>
               <p>
-                Before that, I spent eight years as a Principal Enterprise
-                Architect, five of them leading Adobe&apos;s APAC architecture
-                practice and advising CIO and CSO-level stakeholders across
-                banking, telecommunications, energy and media.
+                Twenty years in software, eight as a Principal Enterprise
+                Architect, and an early start as a startup CTO. I bring
+                architectural depth to every AI decision and commercial
+                discipline to every roadmap.
               </p>
               <ul className={styles.tags}>
                 {TAGS.map((t) => (
@@ -253,9 +232,27 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="career" className={styles.sectionAlt}>
+        <section id="approach" className={styles.sectionAlt}>
+          <p className={styles.eyebrow}>02 · Approach</p>
+          <h2>
+            Four principles for an <em>AI-first</em> engineering organisation.
+          </h2>
+          <div className={styles.approach}>
+            {APPROACH.map((a) => (
+              <article key={a.n}>
+                <span className={styles.num}>{a.n}</span>
+                <h3>{a.title}</h3>
+                <p>{a.text}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section id="career" className={styles.section}>
           <p className={styles.eyebrow}>03 · Career</p>
-          <h2>Two decades of increasing scope.</h2>
+          <h2>
+            Thirteen years at Adobe, from architect to <em>engineering executive.</em>
+          </h2>
           <ol className={styles.timeline}>
             {CAREER.map((c) => (
               <li key={c.when}>
@@ -266,14 +263,19 @@ export default function Home() {
               </li>
             ))}
           </ol>
+          <p className={styles.earlier}>
+            <span>Earlier</span> {EARLIER}
+          </p>
         </section>
 
-        <section id="impact" className={styles.section}>
+        <section id="impact" className={styles.sectionAlt}>
           <p className={styles.eyebrow}>04 · Selected impact</p>
-          <h2>Outcomes, not activity.</h2>
+          <h2>
+            Outcomes, <em>not activity.</em>
+          </h2>
           <div className={styles.cards}>
             {IMPACT.map((i) => (
-              <article key={i.label} className={styles.card}>
+              <article key={i.label} className={i.wide ? `${styles.card} ${styles.wide}` : styles.card}>
                 <p className={styles.label}>{i.label}</p>
                 <p className={styles.metric}>{i.metric}</p>
                 <p>{i.text}</p>
@@ -282,23 +284,50 @@ export default function Home() {
           </div>
         </section>
 
+        <section className={styles.band} aria-label="Track record">
+          <div className={styles.stats}>
+            {STATS.map(([n, label]) => (
+              <div key={label} className={styles.stat}>
+                <strong>{n}</strong>
+                <span>{label}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section id="endorsements" className={styles.section}>
+          <p className={styles.eyebrow}>05 · Endorsements</p>
+          <h2>
+            In their <em>words.</em>
+          </h2>
+          <div className={styles.quotes}>
+            {ENDORSEMENTS.map((e, i) => (
+              <figure key={i} className={styles.quote}>
+                <blockquote>{e.quote}</blockquote>
+                <figcaption>
+                  <strong>{e.name}</strong>
+                  <span>{e.role}</span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </section>
+
         <section id="presentations" className={styles.sectionAlt}>
-          <p className={styles.eyebrow}>05 · Presentations</p>
-          <h2>Sharing what works.</h2>
+          <p className={styles.eyebrow}>06 · Presentations</p>
+          <h2>
+            On <em>stage.</em>
+          </h2>
           <ul className={styles.media}>
             {MEDIA.map((m) => (
               <li key={m.url}>
                 <a href={m.url}>
-                  <span className={styles.play} aria-hidden="true">
-                    ▶
-                  </span>
+                  <span className={styles.play} aria-hidden="true">▶</span>
                   <span>
                     <strong>{m.title}</strong>
                     <small>{m.meta}</small>
                   </span>
-                  <span className={styles.arrow} aria-hidden="true">
-                    ↗
-                  </span>
+                  <span className={styles.arrow} aria-hidden="true">↗</span>
                 </a>
               </li>
             ))}
@@ -309,8 +338,10 @@ export default function Home() {
         </section>
 
         <section id="writing" className={styles.section}>
-          <p className={styles.eyebrow}>06 · Thoughts</p>
-          <h2>Perspectives.</h2>
+          <p className={styles.eyebrow}>07 · Writing</p>
+          <h2>
+            Notes on where engineering is <em>going.</em>
+          </h2>
           <div className={styles.articles}>
             {WRITING.map((w) => (
               <a key={w.url} className={styles.article} href={w.url}>
@@ -326,9 +357,9 @@ export default function Home() {
         </section>
 
         <section id="contact" className={styles.cta}>
+          <p className={styles.eyebrow}>What&apos;s next</p>
           <h2>
-            Let&apos;s discuss what disciplined engineering can do for your{" "}
-            <em>business.</em>
+            Let&apos;s build the engineering organisation <em>AI makes possible.</em>
           </h2>
           <div className={styles.actions}>
             <a className={styles.primary} href={LINKEDIN}>
@@ -343,7 +374,7 @@ export default function Home() {
 
       <footer className={styles.footer}>
         <span>© 2026 Yuval Ararat</span>
-        <span>San Jose, California and Auckland, New Zealand</span>
+        <span>San Jose, California · Auckland, New Zealand</span>
       </footer>
     </div>
   );
