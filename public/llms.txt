@@ -1,0 +1,52 @@
+# Yuval Ararat
+
+> AI-native engineering leader at Adobe. Senior Engineering Manager and Acting Director of Engineering for Marketo Engage and Adobe Journey Optimizer B2B. Former Principal Enterprise Architect and APAC Competency Lead, Adobe Consulting Services. Based in San Jose, California and Auckland, New Zealand.
+
+## Summary
+
+- 20+ years in software engineering; 12+ years in technical and engineering leadership.
+- Leads a multi-squad, forward-deployed engineering organisation of around 20 engineers and solution architects: the only customer-facing engineering team in a 350-person product organisation.
+- Moved the team from traditional delivery to AI-assisted and AI-driven engineering, with humans in the loop. An AI-Factory pilot on one project moved delivery from 1–2 to 3–4 features per release cycle.
+- Wrote the first iteration of the Marketo Model Context Protocol (MCP) server (150 tools) and productionised it with two engineers: 200 closed-beta customers in four weeks, now generally available to 3,000+ enterprise customers.
+- Carries accountability for US$43M in customer renewal commitments.
+- Shipped three major releases on schedule through a reorganisation; reduced high-priority technical debt by 83%; 100% team retention through two office closures; onboarding cut from six weeks to three.
+- At Adobe Consulting (2013–2021) led the APAC architecture practice for five years and rebuilt the New Zealand consulting presence from zero long-term retainers to more than ten multi-year customer commitments. Delivered one of the first AEM deployments on AWS (2014) with a 99.95% SLA.
+- Credentials: TOGAF 9.2, Prosci Certified Change Practitioner, PRINCE2 Practitioner.
+
+## Career
+
+- 2021–present: Senior Engineering Manager, currently Acting Director of Engineering — Adobe (Marketo Engage, Adobe Journey Optimizer B2B)
+- 2013–2021: Principal Enterprise Architect and APAC Competency Lead — Adobe Consulting Services (Auckland, Melbourne)
+- 2008–2013: Senior Consultant to Practice Lead — OpenText (Vignette)
+- 2006–2008: Senior Engineering Manager — Matrix
+- 2004–2006: Engineering Manager — eWave
+- 2003–2004: Chief Technology Officer — Netschool
+- 2001–2003: Senior Software Engineer — Documenta, for Wachovia
+
+## Expertise
+
+- Engineering leadership, organisation design, growth ladders and succession
+- AI-assisted and agentic software engineering; Model Context Protocol (MCP)
+- Engineering excellence: DORA metrics, CI quality gates, blameless reviews
+- Enterprise architecture, cloud platforms on AWS, Adobe Experience Manager, Marketo Engage
+- Change management and AI adoption
+
+## Profile
+
+- [Home page](https://yuvalararat.com/): full profile, approach, career and impact
+- [LinkedIn](https://www.linkedin.com/in/yuvalararat)
+- [GitHub](https://github.com/ararat)
+
+## Writing
+
+- [Software Engineers: Leaving the Cubicle](https://yuvalararat.com/blog/2025-04-software-engineers-leaving-the-cubicle): how AI is changing who engineers are, not only how fast they ship (2025)
+- [Building a Modern Portfolio with Next.js and Cloudflare Pages](https://yuvalararat.com/blog/2024-07-building-a-modern-portfolio-with-nextjs-and-cloudflare) (2024)
+- [Evaluating Content Management System](https://yuvalararat.com/blog/2020-01-evaluating-content-management-system) (2020)
+- [Stress Testing Customisations on AEM Author with Siege](https://yuvalararat.com/blog/2020-07-stress-testing-customisations-on-aem-author-with-siege) (2017)
+
+## Presentations
+
+- [Integration Patterns in AEM 6](https://www.slideshare.net/slideshow/integration-patterns-in-aem-6/42784625)
+- [Melbourne User Group: Oak and MongoDB](https://www.slideshare.net/slideshow/mug-112014/41751127) (2014)
+- [MongoDB and MongoMK, Source Event](https://www.slideshare.net/slideshow/mongodb-and-mongomk-source-event/41750593)
+- [All presentations on SlideShare](https://www.slideshare.net/ararat)

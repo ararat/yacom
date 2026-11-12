@@ -3,3 +3,6 @@
   X-Content-Type-Options: nosniff
   X-Frame-Options: SAMEORIGIN
   Referrer-Policy: strict-origin-when-cross-origin
+/llms.txt
+  Content-Type: text/markdown; charset=utf-8
+  X-Robots-Tag: noindex

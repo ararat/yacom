@@ -1,8 +1,21 @@
 import Head from "next/head";
+import { useEffect, useRef } from "react";
+import Shape from "../components/Shape";
 import styles from "../styles/executive.module.css";
 
+const SITE = "https://yuvalararat.com";
 const LINKEDIN = "https://www.linkedin.com/in/yuvalararat";
 const SLIDESHARE = "https://www.slideshare.net/ararat";
+const GITHUB = "https://github.com/ararat";
+
+const M = "#ff3d8b";
+const T = "#ff8a3d";
+const S = "#ffc93c";
+const A = "#2ec4b6";
+const C = "#3d5afe";
+const V = "#8b5cf6";
+const I = "#120820";
+const W = "#ffffff";
 
 const TAGS = [
   "AI-Native Engineering",
@@ -148,16 +161,109 @@ const NAV = [
   ["Writing", "#writing"],
 ];
 
+const DESCRIPTION =
+  "Yuval Ararat is an AI-native engineering leader at Adobe: Senior Engineering Manager and Acting Director of Engineering for Marketo Engage and Adobe Journey Optimizer B2B, and former Principal Enterprise Architect and APAC Competency Lead.";
+
+const JSON_LD = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": `${SITE}/#person`,
+      name: "Yuval Ararat",
+      url: SITE,
+      image: `${SITE}/img/yuval-ararat.png`,
+      jobTitle: "Senior Engineering Manager, Acting Director of Engineering",
+      worksFor: { "@type": "Organization", name: "Adobe", url: "https://www.adobe.com" },
+      description: DESCRIPTION,
+      knowsAbout: [
+        "Engineering leadership",
+        "AI-assisted software engineering",
+        "Model Context Protocol (MCP)",
+        "Agentic AI systems",
+        "Enterprise architecture",
+        "Change management",
+        "Adobe Experience Manager",
+        "Marketo Engage",
+        "Adobe Journey Optimizer B2B",
+        "Cloud platforms on AWS",
+      ],
+      hasCredential: [
+        { "@type": "EducationalOccupationalCredential", name: "TOGAF 9.2 Certified" },
+        { "@type": "EducationalOccupationalCredential", name: "Prosci Certified Change Practitioner" },
+        { "@type": "EducationalOccupationalCredential", name: "PRINCE2 Practitioner" },
+      ],
+      homeLocation: [
+        { "@type": "Place", name: "San Jose, California" },
+        { "@type": "Place", name: "Auckland, New Zealand" },
+      ],
+      sameAs: [LINKEDIN, SLIDESHARE, GITHUB],
+    },
+    {
+      "@type": "ProfilePage",
+      "@id": `${SITE}/#profile`,
+      url: SITE,
+      name: "Yuval Ararat | AI-Native Engineering Leader",
+      description: DESCRIPTION,
+      mainEntity: { "@id": `${SITE}/#person` },
+      inLanguage: "en",
+    },
+  ],
+};
+
+function useMotionVars() {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let frame = 0;
+    const onScroll = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        el.style.setProperty("--sy", String(Math.round(window.scrollY)));
+        el.style.setProperty("--p", (max > 0 ? window.scrollY / max : 0).toFixed(4));
+      });
+    };
+    const onMove = (e: PointerEvent) => {
+      el.style.setProperty("--mx", (e.clientX / window.innerWidth - 0.5).toFixed(3));
+      el.style.setProperty("--my", (e.clientY / window.innerHeight - 0.5).toFixed(3));
+    };
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("pointermove", onMove, { passive: true });
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("pointermove", onMove);
+    };
+  }, []);
+
+  return ref;
+}
+
 export default function Home() {
+  const pageRef = useMotionVars();
+
   return (
-    <div className={styles.page}>
+    <div className={styles.page} ref={pageRef}>
       <Head>
         <title>Yuval Ararat | AI-Native Engineering Leader</title>
-        <meta
-          name="description"
-          content="AI-native engineering leader at Adobe. Turning agentic AI from experiment into shipped product, operating model and commercial advantage."
-        />
+        <meta name="description" content={DESCRIPTION} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+        <link rel="canonical" href={`${SITE}/`} />
+        <link rel="alternate" type="text/markdown" href="/llms.txt" title="LLM-readable profile" />
+        <meta property="og:type" content="profile" />
+        <meta property="og:title" content="Yuval Ararat | AI-Native Engineering Leader" />
+        <meta property="og:description" content={DESCRIPTION} />
+        <meta property="og:url" content={`${SITE}/`} />
+        <meta property="og:image" content={`${SITE}/img/yuval-ararat.png`} />
+        <meta name="twitter:card" content="summary" />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />
       </Head>
 
       <header className={styles.nav}>
@@ -177,24 +283,28 @@ export default function Home() {
       </header>
 
       <main id="top">
-        <section className={styles.hero}>
-          <svg className={styles.shapes} viewBox="0 0 400 400" aria-hidden="true">
-            <circle cx="270" cy="120" r="100" fill="#ff3d8b" />
-            <path d="M80 400 A170 170 0 0 1 250 230 L250 400 Z" fill="#ff8a3d" />
-            <rect x="250" y="230" width="150" height="170" fill="#3d5afe" />
-            <polygon points="110,40 190,180 30,180" fill="#ffc93c" />
-            <circle cx="340" cy="320" r="32" fill="#2ec4b6" />
-            <rect x="160" y="200" width="56" height="56" fill="#8b5cf6" transform="rotate(45 188 228)" />
-          </svg>
+        <section className={`${styles.hero} ${styles.themeInk}`}>
+          <div className={styles.heroShapes}>
+            <Shape k="circle" c={M} c2={V} size="44%" top="2%" right="4%" f={40} fx={["tint"]} />
+            <Shape k="tri" c={S} size="34%" top="8%" left="10%" f={-30} r={0.12} fx={["spin"]} />
+            <Shape k="quarter" c={T} size="46%" bottom="2%" left="6%" f={20} fx={["turn"]} />
+            <Shape k="square" c={C} size="36%" bottom="4%" right="2%" f={-18} r={-0.06} fx={["spin"]} />
+            <Shape k="diamond" c={V} c2={A} size="18%" top="44%" left="44%" f={55} fx={["tint", "turn"]} />
+            <Shape k="circle" c={A} size="14%" bottom="18%" right="10%" f={70} fx={["hue"]} />
+            <Shape k="ring" c={W} size="16%" top="0%" left="48%" f={-50} r={0.2} />
+          </div>
+          <Shape k="zig" c={A} size="7rem" bottom="8%" left="42%" r={0.1} fx={["turn"]} />
+          <Shape k="plus" c={T} size="3rem" top="22%" left="45%" r={0.3} fx={["spin"]} />
+          <Shape k="dots" c={V} size="4.5rem" top="42%" left="-1.5rem" fx={["hue"]} />
+
           <p className={styles.eyebrow}>AI-native engineering leadership · Adobe</p>
           <h1>
             Leading engineering into the <em>agentic era.</em>
           </h1>
           <p className={styles.lead}>
-            Senior Engineering Manager and Acting Director of Engineering for
-            Marketo Engage and Adobe Journey Optimizer B2B. I turn AI from
-            experiment into shipped product, a new operating model and
-            measurable commercial advantage.
+            Senior Engineering Manager and Acting Director of Engineering for Marketo Engage and Adobe
+            Journey Optimizer B2B. I turn AI from experiment into shipped product, a new operating model
+            and measurable commercial advantage.
           </p>
           <div className={styles.actions}>
             <a className={styles.primary} href={LINKEDIN}>
@@ -206,7 +316,10 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="perspective" className={styles.section}>
+        <section id="perspective" className={`${styles.section} ${styles.themeInk}`}>
+          <Shape k="quarter" c={T} size="clamp(8rem, 16vw, 14rem)" bottom="-3rem" right="-3rem" r={0.08} fx={["hue"]} />
+          <Shape k="plus" c={A} size="3.5rem" top="9%" right="6%" fx={["spin", "tint"]} c2={S} />
+          <Shape k="pill" c={M} size="6rem" bottom="4%" left="40%" r={-0.15} fx={["turn"]} />
           <p className={styles.eyebrow}>01 · Perspective</p>
           <div className={styles.about}>
             <div className={styles.portrait}>
@@ -218,18 +331,15 @@ export default function Home() {
                 Engineering is not a cost centre. It is the <em>value engine.</em>
               </h2>
               <p>
-                I lead the only customer-facing engineering team in a
-                350-person product organisation: a forward-deployed unit of
-                engineers and solution architects that converts top-tier
-                customer problems into shipped product. We moved from
-                traditional delivery to AI-assisted and AI-driven engineering,
-                with people firmly in the loop.
+                I lead the only customer-facing engineering team in a 350-person product organisation: a
+                forward-deployed unit of engineers and solution architects that converts top-tier customer
+                problems into shipped product. We moved from traditional delivery to AI-assisted and
+                AI-driven engineering, with people firmly in the loop.
               </p>
               <p>
-                Twenty years in software, eight as a Principal Enterprise
-                Architect, and an early start as a startup CTO. I bring
-                architectural depth to every AI decision and commercial
-                discipline to every roadmap.
+                Twenty years in software, eight as a Principal Enterprise Architect, and an early start as
+                a startup CTO. I bring architectural depth to every AI decision and commercial discipline to
+                every roadmap.
               </p>
               <ul className={styles.tags}>
                 {TAGS.map((t) => (
@@ -240,7 +350,10 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="approach" className={styles.sectionAlt}>
+        <section id="approach" className={`${styles.section} ${styles.themeCobalt}`}>
+          <Shape k="half" c={S} size="clamp(9rem, 18vw, 16rem)" top="-3rem" right="6%" r={0.1} fx={["turn"]} />
+          <Shape k="ring" c={M} size="9rem" bottom="-3rem" left="-2rem" r={-0.15} fx={["tint"]} c2={T} />
+          <Shape k="dots" c={W} size="4.5rem" top="2rem" left="48%" fx={["spin"]} />
           <p className={styles.eyebrow}>02 · Approach</p>
           <h2>
             Four principles for an <em>AI-first</em> engineering organisation.
@@ -256,7 +369,10 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="career" className={styles.section}>
+        <section id="career" className={`${styles.section} ${styles.themeInk}`}>
+          <Shape k="circle" c={V} size="clamp(14rem, 30vw, 26rem)" top="10%" right="-8rem" fx={["hue"]} />
+          <Shape k="tri" c={S} size="5rem" top="16%" right="22%" r={0.18} fx={["spin"]} />
+          <Shape k="arch" c={A} c2={M} size="7rem" bottom="8%" right="12%" fx={["tint", "turn"]} />
           <p className={styles.eyebrow}>03 · Career</p>
           <h2>
             Thirteen years at Adobe, from architect to <em>engineering executive.</em>
@@ -276,7 +392,9 @@ export default function Home() {
           </p>
         </section>
 
-        <section id="impact" className={styles.sectionAlt}>
+        <section id="impact" className={`${styles.section} ${styles.themeInk2}`}>
+          <Shape k="square" c={A} size="6rem" top="5rem" right="8%" r={0.12} fx={["spin"]} />
+          <Shape k="zig" c={S} size="8rem" top="3rem" right="24%" fx={["turn"]} />
           <p className={styles.eyebrow}>04 · Selected impact</p>
           <h2>
             Outcomes, <em>not activity.</em>
@@ -292,7 +410,9 @@ export default function Home() {
           </div>
         </section>
 
-        <section className={styles.band} aria-label="Track record">
+        <section className={`${styles.band} ${styles.themeSun}`} aria-label="Track record">
+          <Shape k="circle" c={M} size="5rem" top="-2rem" left="4%" r={0.1} fx={["tint"]} c2={V} />
+          <Shape k="diamond" c={C} size="4rem" bottom="-1.5rem" right="6%" r={-0.2} fx={["spin"]} />
           <div className={styles.stats}>
             {STATS.map(([n, label]) => (
               <div key={label} className={styles.stat}>
@@ -303,7 +423,10 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="endorsements" className={styles.section}>
+        <section id="endorsements" className={`${styles.section} ${styles.themeMagenta}`}>
+          <Shape k="circle" c={S} c2={A} size="clamp(8rem, 16vw, 14rem)" top="-3rem" right="5%" fx={["tint"]} />
+          <Shape k="diamond" c={I} size="4.5rem" bottom="10%" left="2%" r={0.15} fx={["spin"]} />
+          <Shape k="half" c={V} size="7rem" top="20%" right="28%" r={-0.08} fx={["turn"]} />
           <p className={styles.eyebrow}>05 · Endorsements</p>
           <h2>
             In their <em>words.</em>
@@ -321,7 +444,10 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="presentations" className={styles.sectionAlt}>
+        <section id="presentations" className={`${styles.section} ${styles.themeInk}`}>
+          <Shape k="arch" c={T} size="clamp(9rem, 18vw, 15rem)" bottom="-1rem" right="6%" fx={["hue"]} />
+          <Shape k="plus" c={M} size="3rem" top="22%" right="30%" r={0.25} fx={["spin"]} />
+          <Shape k="ring" c={A} size="5rem" top="12%" right="10%" fx={["tint"]} c2={S} />
           <p className={styles.eyebrow}>06 · Presentations</p>
           <h2>
             On <em>stage.</em>
@@ -330,12 +456,16 @@ export default function Home() {
             {MEDIA.map((m) => (
               <li key={m.url}>
                 <a href={m.url}>
-                  <span className={styles.play} aria-hidden="true">▶</span>
+                  <span className={styles.play} aria-hidden="true">
+                    ▶
+                  </span>
                   <span>
                     <strong>{m.title}</strong>
                     <small>{m.meta}</small>
                   </span>
-                  <span className={styles.arrow} aria-hidden="true">↗</span>
+                  <span className={styles.arrow} aria-hidden="true">
+                    ↗
+                  </span>
                 </a>
               </li>
             ))}
@@ -345,7 +475,10 @@ export default function Home() {
           </p>
         </section>
 
-        <section id="writing" className={styles.section}>
+        <section id="writing" className={`${styles.section} ${styles.themeAqua}`}>
+          <Shape k="quarter" c={C} size="clamp(8rem, 16vw, 13rem)" top="0" right="0" r={0.06} fx={["turn"]} />
+          <Shape k="dots" c={I} size="4.5rem" bottom="10%" right="8%" fx={["spin"]} />
+          <Shape k="tri" c={M} c2={S} size="4rem" top="2.5rem" right="24%" fx={["tint", "spin"]} />
           <p className={styles.eyebrow}>07 · Writing</p>
           <h2>
             Notes on where engineering is <em>going.</em>
@@ -364,7 +497,11 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="contact" className={styles.cta}>
+        <section id="contact" className={`${styles.cta} ${styles.themeViolet}`}>
+          <Shape k="circle" c={M} c2={T} size="clamp(10rem, 20vw, 18rem)" bottom="-6rem" left="-4rem" fx={["tint"]} f={25} />
+          <Shape k="square" c={S} size="clamp(6rem, 12vw, 10rem)" top="-2rem" right="-1rem" r={0.1} fx={["spin"]} f={-25} />
+          <Shape k="tri" c={A} size="5rem" top="18%" left="10%" r={-0.14} fx={["turn"]} f={35} />
+          <Shape k="ring" c={I} size="5rem" bottom="12%" right="12%" fx={["hue"]} f={-40} />
           <p className={styles.eyebrow}>What&apos;s next</p>
           <h2>
             Let&apos;s build the engineering organisation <em>AI makes possible.</em>
@@ -381,10 +518,15 @@ export default function Home() {
       </main>
 
       <footer className={styles.footer}>
-        <span className={styles.dots} aria-hidden="true">
-          <i /><i /><i /><i /><i /><i />
-        </span>
         <span>© 2026 Yuval Ararat</span>
+        <span className={styles.dots} aria-hidden="true">
+          <i />
+          <i />
+          <i />
+          <i />
+          <i />
+          <i />
+        </span>
         <span>San Jose, California · Auckland, New Zealand</span>
       </footer>
     </div>
