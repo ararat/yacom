@@ -1,3 +1,3 @@
 # About Me
 
-As a certified Change Manager, Enterprise Architect, and Project Manager, I am passionate about building effective engineering cultures. My goal is to foster a collaborative and inclusive work environment that encourages innovation, continuous learning, and a growth mindset. I have a proven record of steering teams through significant organizational change, including re-orgs and office closures, and establishing resilient, high-impact ways of working.
+Prosci-certified change practitioner, TOGAF 9.2 enterprise architect and PRINCE2 practitioner, building collaborative engineering cultures that keep learning.

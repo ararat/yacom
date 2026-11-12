@@ -25,7 +25,7 @@ const BlogPost = (props: {
     <Fragment>
         <Head>
             <title>{`${props.siteTitle} - ${props.post.title}`}</title>
-            <meta name="description" content={props.post.excerpt} />
+            <meta name="description" content={props.post.excerpt || props.post.description || props.siteDescription} />
         </Head>
         <Navigation variant="blogPost" siteTitle={props.siteTitle} postTitle={props.post.title} />
         <main className="min-h-screen pt-32 sm:pt-36 pb-12 flex justify-center bg-white dark:bg-dark-bg text-gray-900 dark:text-dark-text transition-colors duration-300">

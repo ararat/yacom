@@ -24,7 +24,7 @@ const BlogPostNavigation: React.FC<BlogPostNavigationProps> = ({
           <li className="text-gray-500">/</li>
           <li>
             <Link 
-              href="/#blog"
+              href="/#writing"
               className="hover:text-white transition-colors duration-200"
             >
               Thoughts
@@ -39,7 +39,7 @@ const BlogPostNavigation: React.FC<BlogPostNavigationProps> = ({
 
       {/* Back to Blog Button - Right */}
       <Link 
-        href="/#blog"
+        href="/#writing"
         className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors duration-200 text-sm font-medium flex-shrink-0"
       >
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

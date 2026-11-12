@@ -19,7 +19,7 @@ export function loadContentSection(filename: string): ContentSection {
 }
 
 export function loadAllContentSections(): { [key: string]: ContentSection } {
-  const contentFiles = ['hero', 'about', 'experience', 'expertise'];
+  const contentFiles = ['hero', 'about', 'experience', 'expertise', 'presentations'];
   const content: { [key: string]: ContentSection } = {};
   
   contentFiles.forEach(fileName => {

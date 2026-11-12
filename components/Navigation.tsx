@@ -3,6 +3,7 @@ import Link from "next/link";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import BlogPostNavigation from "./BlogPostNavigation";
+import { jsonLd } from '../lib/jsonLd';
 
 interface NavigationSection {
   id: string;
@@ -54,8 +55,8 @@ const Navigation: React.FC<NavigationProps> = (props) => {
           "@type": "BreadcrumbList",
           itemListElement: [
             { "@type": "ListItem", position: 1, name: "Home", item: "https://yuvalararat.com" },
-            { "@type": "ListItem", position: 2, name: "Thoughts", item: "https://yuvalararat.com/#blog" },
-            { "@type": "ListItem", position: 3, name: props.postTitle, item: typeof window !== "undefined" ? window.location.href : "" },
+            { "@type": "ListItem", position: 2, name: "Thoughts", item: "https://yuvalararat.com/#writing" },
+            { "@type": "ListItem", position: 3, name: props.postTitle },
           ],
         }
       : null;
@@ -66,7 +67,7 @@ const Navigation: React.FC<NavigationProps> = (props) => {
         <Head>
           <script
             type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostStructuredData) }}
+            dangerouslySetInnerHTML={{ __html: jsonLd(blogPostStructuredData) }}
           />
         </Head>
         <nav
