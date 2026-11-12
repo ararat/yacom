@@ -315,6 +315,10 @@ export default function Home() {
     <div className={styles.page} ref={pageRef}>
       <Head>
         <title>Yuval Ararat | AI-Native Engineering Leader</title>
+        {/* Paint the page dark from the first frame, before the stylesheet arrives */}
+        <meta name="color-scheme" content="dark" />
+        <meta name="theme-color" content="#1b0b36" />
+        <style>{"html,body{background:#1b0b36}"}</style>
         <meta name="description" content={DESCRIPTION} />
         <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
         <link rel="canonical" href={`${SITE}/`} />
@@ -388,7 +392,16 @@ export default function Home() {
           <div className={styles.about} data-reveal="">
             <div className={styles.portrait}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/img/yuval-ararat.png" alt="Yuval Ararat" width={600} height={469} loading="lazy" />
+              <img
+                src="/img/yuval-ararat-600.webp"
+                srcSet="/img/yuval-ararat-360.webp 360w, /img/yuval-ararat-600.webp 600w"
+                sizes="(max-width: 860px) 14rem, 18rem"
+                alt="Yuval Ararat"
+                width={600}
+                height={469}
+                loading="lazy"
+                decoding="async"
+              />
             </div>
             <div>
               <h2>

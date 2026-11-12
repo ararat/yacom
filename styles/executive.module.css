@@ -25,7 +25,7 @@
   --violet: #8b5cf6;
   --padx: clamp(1.25rem, 7vw, 9rem);
   --pady: clamp(4.5rem, 10vw, 8rem);
-  --display: "Playfair Display Variable", "Bodoni 72", Didot, Georgia, serif;
+  --display: var(--font-display), "Bodoni 72", Didot, Georgia, serif;
   --sans: "Avenir Next", Avenir, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
 
