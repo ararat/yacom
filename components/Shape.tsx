@@ -65,6 +65,16 @@ const PATHS: Record<ShapeKind, ReactElement> = {
   ),
 };
 
+/* Referenced statically on purpose: the production build drops CSS module
+   classes it can't see used, and a computed key like styles[`fx_${x}`] is
+   invisible to it, which silently removed every hover effect. */
+const FX_CLASS: Record<ShapeFx, string> = {
+  spin: styles.fx_spin,
+  turn: styles.fx_turn,
+  tint: styles.fx_tint,
+  hue: styles.fx_hue,
+};
+
 export default function Shape({ k, c, c2, size, top, left, right, bottom, r = 0, f = 0, fx = [] }: Props) {
   const style = {
     top,
@@ -79,7 +89,7 @@ export default function Shape({ k, c, c2, size, top, left, right, bottom, r = 0,
     "--f": f,
   } as CSSProperties;
 
-  const cls = [styles.shape, ...fx.map((x) => styles[`fx_${x}`])].join(" ");
+  const cls = [styles.shape, ...fx.map((x) => FX_CLASS[x])].join(" ");
 
   return (
     <span className={cls} style={style} data-shape="" aria-hidden="true">

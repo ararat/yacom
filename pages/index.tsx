@@ -360,7 +360,7 @@ export default function Home() {
             <Shape k="circle" c={A} size="14%" bottom="18%" right="10%" f={70} fx={["hue"]} />
             <Shape k="ring" c={W} size="16%" top="0%" left="48%" f={-50} r={0.2} />
           </div>
-          <Shape k="plus" c={T} size="3rem" top="22%" left="45%" r={0.3} fx={["spin"]} />
+          <Shape k="plus" c={T} size="3rem" top="14%" left="60%" r={0.3} fx={["spin"]} />
           <Shape k="zig" c={A} size="7rem" bottom="8%" left="42%" r={0.1} fx={["turn"]} />
 
           <p className={styles.eyebrow}>AI-native engineering leadership · Adobe</p>
@@ -385,7 +385,7 @@ export default function Home() {
         <section id="perspective" className={`${styles.section} ${styles.headOn}`}>
           <span className={styles.field} data-field="" />
           <Shape k="plus" c={S} size="3.5rem" top="9%" right="6%" r={0.2} fx={["spin"]} />
-          <Shape k="ring" c={W} size="5rem" bottom="8%" right="10%" fx={["turn"]} r={-0.1} />
+          <Shape k="ring" c={W} size="5rem" bottom="1.5rem" right="10%" fx={["turn"]} r={-0.1} />
           <div className={styles.head}>
             <p className={styles.eyebrow}>01 · Perspective</p>
           </div>
