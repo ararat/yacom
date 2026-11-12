@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { useEffect, useRef } from "react";
 import Shape from "../components/Shape";
+import { jsonLd } from "../lib/jsonLd";
 import styles from "../styles/executive.module.css";
 
 const SITE = "https://yuvalararat.com";
@@ -211,30 +212,56 @@ const JSON_LD = {
   ],
 };
 
-function useMotionVars() {
+/**
+ * Drives the shape motion. Writes scroll and pointer values as CSS variables
+ * directly on the shapes (not on the page root), so each frame restyles a few
+ * dozen elements rather than the whole document.
+ */
+function useShapeMotion() {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const root = ref.current;
+    if (!root || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
+    const shapes = Array.from(root.querySelectorAll<HTMLElement>("[data-shape]"));
+    const state = { sy: 0, p: 0, mx: 0, my: 0 };
     let frame = 0;
+
+    const paint = () => {
+      frame = 0;
+      const sy = String(Math.round(state.sy));
+      const p = state.p.toFixed(3);
+      const mx = state.mx.toFixed(3);
+      const my = state.my.toFixed(3);
+      for (const shape of shapes) {
+        shape.style.setProperty("--sy", sy);
+        shape.style.setProperty("--p", p);
+        shape.style.setProperty("--mx", mx);
+        shape.style.setProperty("--my", my);
+      }
+    };
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(paint);
+    };
     const onScroll = () => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        const max = document.documentElement.scrollHeight - window.innerHeight;
-        el.style.setProperty("--sy", String(Math.round(window.scrollY)));
-        el.style.setProperty("--p", (max > 0 ? window.scrollY / max : 0).toFixed(4));
-      });
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      state.sy = window.scrollY;
+      state.p = max > 0 ? window.scrollY / max : 0;
+      schedule();
     };
     const onMove = (e: PointerEvent) => {
-      el.style.setProperty("--mx", (e.clientX / window.innerWidth - 0.5).toFixed(3));
-      el.style.setProperty("--my", (e.clientY / window.innerHeight - 0.5).toFixed(3));
+      state.mx = e.clientX / window.innerWidth - 0.5;
+      state.my = e.clientY / window.innerHeight - 0.5;
+      schedule();
     };
 
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("pointermove", onMove, { passive: true });
+    // Pointer drift only makes sense with a mouse or trackpad.
+    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    if (finePointer) window.addEventListener("pointermove", onMove, { passive: true });
+
     return () => {
       cancelAnimationFrame(frame);
       window.removeEventListener("scroll", onScroll);
@@ -246,14 +273,20 @@ function useMotionVars() {
 }
 
 export default function Home() {
-  const pageRef = useMotionVars();
+  const pageRef = useShapeMotion();
+
+  // Placeholder endorsements never reach production; they show in development only.
+  const realEndorsements = ENDORSEMENTS.filter((e) => e.name !== "Name");
+  const endorsements =
+    realEndorsements.length > 0 ? realEndorsements : process.env.NODE_ENV === "development" ? ENDORSEMENTS : [];
+  const showEndorsements = endorsements.length > 0;
+  const num = (n: number) => String(showEndorsements ? n : n - 1).padStart(2, "0");
 
   return (
     <div className={styles.page} ref={pageRef}>
       <Head>
         <title>Yuval Ararat | AI-Native Engineering Leader</title>
         <meta name="description" content={DESCRIPTION} />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
         <link rel="canonical" href={`${SITE}/`} />
         <link rel="alternate" type="text/markdown" href="/llms.txt" title="LLM-readable profile" />
@@ -263,7 +296,7 @@ export default function Home() {
         <meta property="og:url" content={`${SITE}/`} />
         <meta property="og:image" content={`${SITE}/img/yuval-ararat.png`} />
         <meta name="twitter:card" content="summary" />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLd(JSON_LD) }} />
       </Head>
 
       <header className={styles.nav}>
@@ -423,32 +456,34 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="endorsements" className={`${styles.section} ${styles.themeMagenta}`}>
-          <Shape k="circle" c={S} c2={A} size="clamp(8rem, 16vw, 14rem)" top="-3rem" right="5%" fx={["tint"]} />
-          <Shape k="diamond" c={I} size="4.5rem" bottom="10%" left="2%" r={0.15} fx={["spin"]} />
-          <Shape k="half" c={V} size="7rem" top="20%" right="28%" r={-0.08} fx={["turn"]} />
-          <p className={styles.eyebrow}>05 · Endorsements</p>
-          <h2>
-            In their <em>words.</em>
-          </h2>
-          <div className={styles.quotes}>
-            {ENDORSEMENTS.map((e, i) => (
-              <figure key={i} className={styles.quote}>
-                <blockquote>{e.quote}</blockquote>
-                <figcaption>
-                  <strong>{e.name}</strong>
-                  <span>{e.role}</span>
-                </figcaption>
-              </figure>
-            ))}
-          </div>
-        </section>
+        {showEndorsements && (
+          <section id="endorsements" className={`${styles.section} ${styles.themeMagenta}`}>
+            <Shape k="circle" c={S} c2={A} size="clamp(8rem, 16vw, 14rem)" top="-3rem" right="5%" fx={["tint"]} />
+            <Shape k="diamond" c={I} size="4.5rem" bottom="10%" left="2%" r={0.15} fx={["spin"]} />
+            <Shape k="half" c={V} size="7rem" top="20%" right="28%" r={-0.08} fx={["turn"]} />
+            <p className={styles.eyebrow}>05 · Endorsements</p>
+            <h2>
+              In their <em>words.</em>
+            </h2>
+            <div className={styles.quotes}>
+              {endorsements.map((e, i) => (
+                <figure key={i} className={styles.quote}>
+                  <blockquote>{e.quote}</blockquote>
+                  <figcaption>
+                    <strong>{e.name}</strong>
+                    <span>{e.role}</span>
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          </section>
+        )}
 
         <section id="presentations" className={`${styles.section} ${styles.themeInk}`}>
           <Shape k="arch" c={T} size="clamp(9rem, 18vw, 15rem)" bottom="-1rem" right="6%" fx={["hue"]} />
           <Shape k="plus" c={M} size="3rem" top="22%" right="30%" r={0.25} fx={["spin"]} />
           <Shape k="ring" c={A} size="5rem" top="12%" right="10%" fx={["tint"]} c2={S} />
-          <p className={styles.eyebrow}>06 · Presentations</p>
+          <p className={styles.eyebrow}>{num(6)} · Presentations</p>
           <h2>
             On <em>stage.</em>
           </h2>
@@ -479,7 +514,7 @@ export default function Home() {
           <Shape k="quarter" c={C} size="clamp(8rem, 16vw, 13rem)" top="0" right="0" r={0.06} fx={["turn"]} />
           <Shape k="dots" c={I} size="4.5rem" bottom="10%" right="8%" fx={["spin"]} />
           <Shape k="tri" c={M} c2={S} size="4rem" top="2.5rem" right="24%" fx={["tint", "spin"]} />
-          <p className={styles.eyebrow}>07 · Writing</p>
+          <p className={styles.eyebrow}>{num(7)} · Writing</p>
           <h2>
             Notes on where engineering is <em>going.</em>
           </h2>

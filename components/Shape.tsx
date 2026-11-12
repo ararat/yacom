@@ -82,7 +82,7 @@ export default function Shape({ k, c, c2, size, top, left, right, bottom, r = 0,
   const cls = [styles.shape, ...fx.map((x) => styles[`fx_${x}`])].join(" ");
 
   return (
-    <span className={cls} style={style} aria-hidden="true">
+    <span className={cls} style={style} data-shape="" aria-hidden="true">
       <svg viewBox="0 0 100 100" fill="currentColor">
         {PATHS[k]}
       </svg>

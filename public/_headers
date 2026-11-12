@@ -1,8 +1,14 @@
 /*
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' *.adobe.com *.omtrdc.net *.demdex.net *.everesttech.net; connect-src 'self' *.adobe.com *.omtrdc.net *.demdex.net *.everesttech.net *.adobedc.net wss:; img-src 'self' data: https: *.adobe.com *.omtrdc.net *.demdex.net *.everesttech.net; style-src 'self' 'unsafe-inline' *.adobe.com; font-src 'self' data: *.adobe.com; frame-src 'self' *.adobe.com; worker-src 'self'; object-src 'none'; base-uri 'self'
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://assets.adobedtm.com *.adobe.com *.omtrdc.net *.demdex.net *.everesttech.net; connect-src 'self' https://assets.adobedtm.com *.adobe.com *.omtrdc.net *.demdex.net *.everesttech.net *.adobedc.net; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' *.adobe.com; font-src 'self' data: *.adobe.com; frame-src 'self' *.adobe.com *.demdex.net; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests
+  Strict-Transport-Security: max-age=31536000
   X-Content-Type-Options: nosniff
   X-Frame-Options: SAMEORIGIN
   Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()
+  Cross-Origin-Opener-Policy: same-origin
+
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
 /llms.txt
   Content-Type: text/markdown; charset=utf-8
-  X-Robots-Tag: noindex

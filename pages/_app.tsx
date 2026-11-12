@@ -11,7 +11,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider>
       <Component {...pageProps} />
-      <Script src="//assets.adobedtm.com/launch-EN948973dc19864983827932b329a66b45.min.js" type="text/javascript" />
+      <Script src="https://assets.adobedtm.com/launch-EN948973dc19864983827932b329a66b45.min.js" type="text/javascript" />
     </ThemeProvider>
   )
 }
