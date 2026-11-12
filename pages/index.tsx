@@ -178,6 +178,14 @@ export default function Home() {
 
       <main id="top">
         <section className={styles.hero}>
+          <svg className={styles.shapes} viewBox="0 0 400 400" aria-hidden="true">
+            <circle cx="270" cy="120" r="100" fill="#ff3d8b" />
+            <path d="M80 400 A170 170 0 0 1 250 230 L250 400 Z" fill="#ff8a3d" />
+            <rect x="250" y="230" width="150" height="170" fill="#3d5afe" />
+            <polygon points="110,40 190,180 30,180" fill="#ffc93c" />
+            <circle cx="340" cy="320" r="32" fill="#2ec4b6" />
+            <rect x="160" y="200" width="56" height="56" fill="#8b5cf6" transform="rotate(45 188 228)" />
+          </svg>
           <p className={styles.eyebrow}>AI-native engineering leadership · Adobe</p>
           <h1>
             Leading engineering into the <em>agentic era.</em>
@@ -373,6 +381,9 @@ export default function Home() {
       </main>
 
       <footer className={styles.footer}>
+        <span className={styles.dots} aria-hidden="true">
+          <i /><i /><i /><i /><i /><i />
+        </span>
         <span>© 2026 Yuval Ararat</span>
         <span>San Jose, California · Auckland, New Zealand</span>
       </footer>
