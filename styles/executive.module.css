@@ -461,9 +461,29 @@
   color: var(--emon);
 }
 
+/* Each section is at least one screen tall, like a slide: the next one
+   starts below the fold, so its colour cut and content animate in as it
+   arrives. Phones keep natural heights (see the 860px breakpoint). */
+@media (min-width: 861px) {
+  .section,
+  .cta {
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /* Links and pills keep their own width inside the column */
+  .section > a {
+    align-self: flex-start;
+  }
+}
+
 /* ---------- Hero ---------- */
 .hero {
-  min-height: min(100vh, 58rem);
+  min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   flex-direction: column;
   justify-content: center;
