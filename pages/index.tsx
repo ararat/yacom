@@ -304,8 +304,119 @@ function usePageMotion() {
   return ref;
 }
 
+/**
+ * Perspective: the orange block reaches into the text column, and text it
+ * passes under turns dark. A dark copy of the text (added client-side,
+ * hidden from assistive tech) is clipped to the block; the original is
+ * clipped to the purple side. Both follow the same edge every frame, so the
+ * split holds while the block slides in. Phones skip it: the block is hidden.
+ */
+function usePerspectiveSplit() {
+  useEffect(() => {
+    const section = document.getElementById("perspective");
+    const field = section?.querySelector<HTMLElement>("[data-split-field]");
+    const overlay = section?.querySelector<HTMLElement>("[data-split-overlay]");
+    const text = section?.querySelector<HTMLElement>("[data-split-text]");
+    const about = text?.parentElement;
+    if (!section || !field || !overlay || !text || !about) return;
+
+    const wide = window.matchMedia("(min-width: 861px)");
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const clone = about.cloneNode(true) as HTMLElement;
+    clone.querySelector("[data-split-text]")?.removeAttribute("data-split-text");
+    clone.setAttribute("inert", "");
+    overlay.appendChild(clone);
+
+    // Mirror the reveal animation and tag hovers onto the copy.
+    const syncReveal = () => {
+      if (about.hasAttribute("data-in")) clone.setAttribute("data-in", "");
+    };
+    syncReveal();
+    const revealObserver = new MutationObserver(syncReveal);
+    revealObserver.observe(about, { attributes: true, attributeFilter: ["data-in"] });
+
+    const tags = Array.from(text.querySelectorAll("li"));
+    const cloneTags = Array.from(clone.querySelectorAll("li"));
+    const hoverOff = tags.map((tag, i) => {
+      const on = () => cloneTags[i]?.setAttribute("data-hover", "");
+      const off = () => cloneTags[i]?.removeAttribute("data-hover");
+      tag.addEventListener("pointerenter", on);
+      tag.addEventListener("pointerleave", off);
+      return () => {
+        tag.removeEventListener("pointerenter", on);
+        tag.removeEventListener("pointerleave", off);
+      };
+    });
+
+    let frame = 0;
+    const layout = () => {
+      frame = 0;
+      if (!wide.matches) {
+        field.style.clipPath = overlay.style.clipPath = text.style.clipPath = "";
+        return;
+      }
+      // Offsets ignore transforms, so the reveal slide doesn't skew the maths.
+      const W = section.clientWidth;
+      const H = section.offsetHeight;
+      const ax = about.offsetLeft;
+      const ay = about.offsetTop;
+      clone.style.cssText = `position:absolute;left:${ax}px;top:${ay}px;width:${about.offsetWidth}px;margin:0`;
+
+      const paras = text.querySelectorAll("p");
+      const first = paras[0];
+      const last = paras[paras.length - 1];
+      if (!first || !last) return;
+      const midY = ay + (first.offsetTop + last.offsetTop + last.offsetHeight) / 2;
+      // The edge crosses the paragraphs about 30% of the way in, keeping the
+      // block's original lean (7rem from top to bottom).
+      const x = ax + first.offsetLeft + first.offsetWidth * 0.3;
+      const lean = 7 * parseFloat(getComputedStyle(document.documentElement).fontSize);
+      const vh = window.innerHeight;
+      const v = reduced
+        ? 1
+        : Math.min(Math.max((vh - section.getBoundingClientRect().top) / (vh * 0.45), 0), 1);
+      const dx = (1 - v) * -0.22 * W;
+      const top = x + lean * (midY / H) + dx;
+      const bottom = x - lean * (1 - midY / H) + dx;
+
+      const cut = `polygon(0 0, ${top}px 0, ${bottom}px ${H}px, 0 ${H}px)`;
+      field.style.clipPath = cut;
+      overlay.style.clipPath = cut;
+      const tx = ax + text.offsetLeft;
+      const ty = ay + text.offsetTop;
+      text.style.clipPath = `polygon(${top - tx}px ${-ty}px, 100000px ${-ty}px, 100000px ${H - ty}px, ${bottom - tx}px ${H - ty}px)`;
+    };
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(layout);
+    };
+
+    schedule();
+    document.fonts?.ready.then(schedule);
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule, { passive: true });
+    wide.addEventListener("change", schedule);
+    const resizeObserver = typeof ResizeObserver === "undefined" ? undefined : new ResizeObserver(schedule);
+    resizeObserver?.observe(section);
+    resizeObserver?.observe(text);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+      wide.removeEventListener("change", schedule);
+      resizeObserver?.disconnect();
+      revealObserver.disconnect();
+      hoverOff.forEach((off) => off());
+      clone.remove();
+      field.style.clipPath = overlay.style.clipPath = text.style.clipPath = "";
+    };
+  }, []);
+}
+
 export default function Home() {
   const pageRef = usePageMotion();
+  usePerspectiveSplit();
 
   const endorsements = RECOMMENDATIONS.filter((r) => r.show);
   const showEndorsements = endorsements.length > 0;
@@ -383,7 +494,8 @@ export default function Home() {
         </section>
 
         <section id="perspective" className={`${styles.section} ${styles.headOn}`}>
-          <span className={styles.field} data-field="" />
+          <span className={styles.field} data-split-field="" />
+          <span className={styles.splitOverlay} data-split-overlay="" aria-hidden="true" />
           <Shape k="plus" c={S} size="3.5rem" top="9%" right="6%" r={0.2} fx={["spin"]} />
           <Shape k="ring" c={W} size="5rem" bottom="1.5rem" right="10%" fx={["turn"]} r={-0.1} />
           <div className={styles.head}>
@@ -403,7 +515,7 @@ export default function Home() {
                 decoding="async"
               />
             </div>
-            <div>
+            <div data-split-text="">
               <h2>
                 Engineering is not a cost centre. It is the <em>value engine.</em>
               </h2>

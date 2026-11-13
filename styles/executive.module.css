@@ -153,7 +153,8 @@
 }
 
 .section[id="perspective"] .field {
-  /* Tied to the portrait column so it never reaches the text column */
+  /* Without JavaScript the block stays beside the portrait. With it,
+     usePerspectiveSplit sets the clip so the block reaches into the text. */
   --cut: polygon(0 0, calc(var(--padx) + 20rem) 0, calc(var(--padx) + 13rem) 100%, 0 100%);
   --fx: -22%;
 }
@@ -188,6 +189,39 @@
   --cut: circle(calc(min(30rem, 38vw) + var(--edge)) at 100% 0%);
   --fx: 30%;
   --fy: -30%;
+}
+
+/* Dark copy of the Perspective text, shown only where the block is */
+.section > .splitOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  clip-path: polygon(0 0, 0 0, 0 0);
+}
+
+.splitOverlay .portrait {
+  visibility: hidden;
+}
+
+.page .splitOverlay h2,
+.page .splitOverlay p {
+  color: var(--night);
+}
+
+.page .splitOverlay em {
+  color: var(--plum);
+}
+
+.page .splitOverlay .tags li {
+  color: var(--night);
+  border-color: var(--night);
+}
+
+.page .splitOverlay .tags li[data-hover] {
+  transform: rotate(-4deg) scale(1.06);
+  background: var(--night);
+  color: var(--c);
 }
 
 /* ---------- Small shapes ---------- */
@@ -1233,6 +1267,10 @@
   }
 
   .field {
+    display: none;
+  }
+
+  .section > .splitOverlay {
     display: none;
   }
 
