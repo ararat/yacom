@@ -210,6 +210,17 @@ const JSON_LD = {
  * arrives, the progress stripe, the active nav link, and reveal-on-enter.
  * Without JavaScript or with reduced motion the page renders in its final state.
  */
+/**
+ * Slide-in progress for a section's colour block: 0 while the section is
+ * below the screen, 1 once it has risen most of a screen. Smoothstep eases
+ * the start and the end so the move feels long and unhurried.
+ */
+const SLIDE_SPAN = 0.9; // of the screen height
+function slideProgress(sectionTop: number, vh: number) {
+  const t = Math.min(Math.max((vh - sectionTop) / (vh * SLIDE_SPAN), 0), 1);
+  return t * t * (3 - 2 * t);
+}
+
 function usePageMotion() {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -249,7 +260,7 @@ function usePageMotion() {
         shape.style.setProperty("--my", my);
       }
       fields.forEach((field, i) => {
-        const v = Math.min(Math.max((vh - fieldTops[i]) / (vh * 0.45), 0), 1);
+        const v = slideProgress(fieldTops[i], vh);
         field.style.setProperty("--v", v.toFixed(3));
       });
       progress?.style.setProperty("--p", p);
@@ -304,8 +315,124 @@ function usePageMotion() {
   return ref;
 }
 
+/**
+ * Perspective: the orange block reaches into the text column, and text it
+ * passes under turns dark. A dark copy of the text (added client-side,
+ * hidden from assistive tech) is clipped to the block; the original is
+ * clipped to the purple side. Both follow the same edge every frame, so the
+ * split holds while the block slides in. Phones skip it: the block is hidden.
+ */
+function usePerspectiveSplit() {
+  useEffect(() => {
+    const section = document.getElementById("perspective");
+    const field = section?.querySelector<HTMLElement>("[data-split-field]");
+    const overlay = section?.querySelector<HTMLElement>("[data-split-overlay]");
+    const text = section?.querySelector<HTMLElement>("[data-split-text]");
+    const about = text?.parentElement;
+    if (!section || !field || !overlay || !text || !about) return;
+
+    const wide = window.matchMedia("(min-width: 861px)");
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const clone = about.cloneNode(true) as HTMLElement;
+    clone.querySelector("[data-split-text]")?.removeAttribute("data-split-text");
+    clone.setAttribute("inert", "");
+    overlay.appendChild(clone);
+
+    // Mirror the reveal animation and tag hovers onto the copy.
+    const syncReveal = () => {
+      if (about.hasAttribute("data-in")) clone.setAttribute("data-in", "");
+    };
+    syncReveal();
+    const revealObserver = new MutationObserver(syncReveal);
+    revealObserver.observe(about, { attributes: true, attributeFilter: ["data-in"] });
+
+    const tags = Array.from(text.querySelectorAll("li"));
+    const cloneTags = Array.from(clone.querySelectorAll("li"));
+    const hoverOff = tags.map((tag, i) => {
+      const on = () => cloneTags[i]?.setAttribute("data-hover", "");
+      const off = () => cloneTags[i]?.removeAttribute("data-hover");
+      tag.addEventListener("pointerenter", on);
+      tag.addEventListener("pointerleave", off);
+      return () => {
+        tag.removeEventListener("pointerenter", on);
+        tag.removeEventListener("pointerleave", off);
+      };
+    });
+
+    let frame = 0;
+    let shown = reduced ? 1 : slideProgress(section.getBoundingClientRect().top, window.innerHeight);
+    const layout = () => {
+      frame = 0;
+      if (!wide.matches) {
+        field.style.clipPath = overlay.style.clipPath = text.style.clipPath = "";
+        return;
+      }
+      // Offsets ignore transforms, so the reveal slide doesn't skew the maths.
+      const W = section.clientWidth;
+      const H = section.offsetHeight;
+      const ax = about.offsetLeft;
+      const ay = about.offsetTop;
+      clone.style.cssText = `position:absolute;left:${ax}px;top:${ay}px;width:${about.offsetWidth}px;margin:0`;
+
+      const paras = text.querySelectorAll("p");
+      const first = paras[0];
+      const last = paras[paras.length - 1];
+      if (!first || !last) return;
+      const midY = ay + (first.offsetTop + last.offsetTop + last.offsetHeight) / 2;
+      // The edge crosses the paragraphs about 45% of the way in, tilted 15°
+      // more than the block's original lean of 7rem from top to bottom.
+      const x = ax + first.offsetLeft + first.offsetWidth * 0.45;
+      const baseLean = 7 * parseFloat(getComputedStyle(document.documentElement).fontSize);
+      const lean = H * Math.tan(Math.atan(baseLean / H) + (15 * Math.PI) / 180);
+      const vh = window.innerHeight;
+      // Ease towards the scroll target each frame, matching the smoothing
+      // the other blocks get from their CSS transition.
+      const target = reduced ? 1 : slideProgress(section.getBoundingClientRect().top, vh);
+      shown = Math.abs(target - shown) < 0.002 ? target : shown + (target - shown) * 0.12;
+      if (shown !== target) schedule();
+      const v = shown;
+      const dx = (1 - v) * -0.33 * W;
+      const top = x + lean * (midY / H) + dx;
+      const bottom = x - lean * (1 - midY / H) + dx;
+
+      const cut = `polygon(0 0, ${top}px 0, ${bottom}px ${H}px, 0 ${H}px)`;
+      field.style.clipPath = cut;
+      overlay.style.clipPath = cut;
+      const tx = ax + text.offsetLeft;
+      const ty = ay + text.offsetTop;
+      text.style.clipPath = `polygon(${top - tx}px ${-ty}px, 100000px ${-ty}px, 100000px ${H - ty}px, ${bottom - tx}px ${H - ty}px)`;
+    };
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(layout);
+    };
+
+    schedule();
+    document.fonts?.ready.then(schedule);
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule, { passive: true });
+    wide.addEventListener("change", schedule);
+    const resizeObserver = typeof ResizeObserver === "undefined" ? undefined : new ResizeObserver(schedule);
+    resizeObserver?.observe(section);
+    resizeObserver?.observe(text);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+      wide.removeEventListener("change", schedule);
+      resizeObserver?.disconnect();
+      revealObserver.disconnect();
+      hoverOff.forEach((off) => off());
+      clone.remove();
+      field.style.clipPath = overlay.style.clipPath = text.style.clipPath = "";
+    };
+  }, []);
+}
+
 export default function Home() {
   const pageRef = usePageMotion();
+  usePerspectiveSplit();
 
   const endorsements = RECOMMENDATIONS.filter((r) => r.show);
   const showEndorsements = endorsements.length > 0;
@@ -383,7 +510,8 @@ export default function Home() {
         </section>
 
         <section id="perspective" className={`${styles.section} ${styles.headOn}`}>
-          <span className={styles.field} data-field="" />
+          <span className={styles.field} data-split-field="" />
+          <span className={styles.splitOverlay} data-split-overlay="" aria-hidden="true" />
           <Shape k="plus" c={S} size="3.5rem" top="9%" right="6%" r={0.2} fx={["spin"]} />
           <Shape k="ring" c={W} size="5rem" bottom="1.5rem" right="10%" fx={["turn"]} r={-0.1} />
           <div className={styles.head}>
@@ -403,7 +531,7 @@ export default function Home() {
                 decoding="async"
               />
             </div>
-            <div>
+            <div data-split-text="">
               <h2>
                 Engineering is not a cost centre. It is the <em>value engine.</em>
               </h2>
@@ -427,10 +555,10 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="approach" className={`${styles.section} ${styles.headOn}`}>
+        <section id="approach" className={styles.section}>
           <span className={styles.field} data-field="" />
           <Shape k="half" c={A} size="clamp(7rem, 13vw, 11rem)" top="12%" right="8%" r={0.1} fx={["turn"]} />
-          <Shape k="dots" c={W} size="4.5rem" top="34%" right="24%" fx={["spin"]} />
+          <Shape k="dots" c={V} size="4.5rem" top="34%" right="24%" fx={["spin"]} />
           <div className={styles.head} data-reveal="">
             <p className={styles.eyebrow}>02 · Approach</p>
             <h2>

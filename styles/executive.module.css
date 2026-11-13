@@ -148,46 +148,81 @@
   background: var(--c);
   clip-path: var(--cut);
   transform: translate(calc((1 - var(--v)) * var(--fx, 0%)), calc((1 - var(--v)) * var(--fy, 0%)));
-  transition: transform 0.15s linear;
+  transition: transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
   pointer-events: none;
 }
 
 .section[id="perspective"] .field {
-  /* Tied to the portrait column so it never reaches the text column */
+  /* Without JavaScript the block stays beside the portrait. With it,
+     usePerspectiveSplit sets the clip so the block reaches into the text. */
   --cut: polygon(0 0, calc(var(--padx) + 20rem) 0, calc(var(--padx) + 13rem) 100%, 0 100%);
-  --fx: -22%;
+  --fx: -33%;
 }
 
+/* Enters from the right; the edge stays clear of the heading on the left */
 .section[id="approach"] .field {
-  --cut: polygon(0 0, 68% 0, 52% 100%, 0 100%);
-  --fx: -16%;
+  --cut: polygon(62% 0, 100% 0, 100% 100%, 46% 100%);
+  --fx: 24%;
 }
 
 .section[id="career"] .field {
   --cut: circle(calc(min(27rem, 30vw) + var(--edge)) at 100% 50%);
-  --fx: 32%;
+  --fx: 48%;
 }
 
 .section[id="impact"] .field {
   --cut: polygon(0 36%, 100% 20%, 100% 100%, 0 100%);
-  --fy: 30%;
+  --fy: 45%;
 }
 
 .section[id="endorsements"] .field {
   --cut: circle(calc(min(30rem, 42vw) + var(--edge)) at 0% 100%);
-  --fx: -30%;
-  --fy: 30%;
+  --fx: -45%;
+  --fy: 45%;
 }
 
 .section[id="presentations"] .field {
   --cut: polygon(66% 0, 100% 0, 100% 100%, 56% 100%);
-  --fx: 30%;
+  --fx: 45%;
 }
 
 .section[id="writing"] .field {
   --cut: circle(calc(min(30rem, 38vw) + var(--edge)) at 100% 0%);
-  --fx: 30%;
-  --fy: -30%;
+  --fx: 45%;
+  --fy: -45%;
+}
+
+/* Dark copy of the Perspective text, shown only where the block is */
+.section > .splitOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  clip-path: polygon(0 0, 0 0, 0 0);
+}
+
+.splitOverlay .portrait {
+  visibility: hidden;
+}
+
+.page .splitOverlay h2,
+.page .splitOverlay p {
+  color: var(--night);
+}
+
+.page .splitOverlay em {
+  color: var(--plum);
+}
+
+.page .splitOverlay .tags li {
+  color: var(--night);
+  border-color: var(--night);
+}
+
+.page .splitOverlay .tags li[data-hover] {
+  transform: rotate(-4deg) scale(1.06);
+  background: var(--night);
+  color: var(--c);
 }
 
 /* ---------- Small shapes ---------- */
@@ -290,8 +325,8 @@
 /* ---------- Reveal on enter ---------- */
 .page[data-js] [data-reveal]:not(.stagger) {
   opacity: 0;
-  translate: 0 2.5rem;
-  transition: opacity 0.7s ease, translate 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+  translate: 0 4rem;
+  transition: opacity 1.1s ease, translate 1.3s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 .page[data-js] [data-reveal][data-in]:not(.stagger) {
@@ -301,8 +336,8 @@
 
 .page[data-js] .stagger[data-reveal] > * {
   opacity: 0;
-  translate: 0 2.5rem;
-  transition: opacity 0.6s ease, translate 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.45s var(--bounce),
+  translate: 0 4rem;
+  transition: opacity 1s ease, translate 1.2s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.45s var(--bounce),
     box-shadow 0.3s;
 }
 
@@ -311,10 +346,10 @@
   translate: 0 0;
 }
 
-.page[data-js] .stagger > :nth-child(2) { transition-delay: 0.08s, 0.08s, 0s, 0s; }
-.page[data-js] .stagger > :nth-child(3) { transition-delay: 0.16s, 0.16s, 0s, 0s; }
-.page[data-js] .stagger > :nth-child(4) { transition-delay: 0.24s, 0.24s, 0s, 0s; }
-.page[data-js] .stagger > :nth-child(5) { transition-delay: 0.32s, 0.32s, 0s, 0s; }
+.page[data-js] .stagger > :nth-child(2) { transition-delay: 0.14s, 0.14s, 0s, 0s; }
+.page[data-js] .stagger > :nth-child(3) { transition-delay: 0.28s, 0.28s, 0s, 0s; }
+.page[data-js] .stagger > :nth-child(4) { transition-delay: 0.42s, 0.42s, 0s, 0s; }
+.page[data-js] .stagger > :nth-child(5) { transition-delay: 0.56s, 0.56s, 0s, 0s; }
 
 /* ---------- Keyboard focus ---------- */
 .page a:focus-visible {
@@ -1233,6 +1268,10 @@
   }
 
   .field {
+    display: none;
+  }
+
+  .section > .splitOverlay {
     display: none;
   }
 
