@@ -434,7 +434,7 @@ export default function Home() {
           <div className={styles.head} data-reveal="">
             <p className={styles.eyebrow}>02 · Approach</p>
             <h2>
-              Four principles for an <em>AI-first</em> engineering organisation.
+              Four principles for an <em className={styles.nobreak}>AI-first</em> engineering organisation.
             </h2>
           </div>
           <div className={`${styles.approach} ${styles.stagger}`} data-reveal="">
