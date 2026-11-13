@@ -368,10 +368,11 @@ function usePerspectiveSplit() {
       const last = paras[paras.length - 1];
       if (!first || !last) return;
       const midY = ay + (first.offsetTop + last.offsetTop + last.offsetHeight) / 2;
-      // The edge crosses the paragraphs about 30% of the way in, keeping the
-      // block's original lean (7rem from top to bottom).
-      const x = ax + first.offsetLeft + first.offsetWidth * 0.3;
-      const lean = 7 * parseFloat(getComputedStyle(document.documentElement).fontSize);
+      // The edge crosses the paragraphs about 45% of the way in, tilted 15°
+      // more than the block's original lean of 7rem from top to bottom.
+      const x = ax + first.offsetLeft + first.offsetWidth * 0.45;
+      const baseLean = 7 * parseFloat(getComputedStyle(document.documentElement).fontSize);
+      const lean = H * Math.tan(Math.atan(baseLean / H) + (15 * Math.PI) / 180);
       const vh = window.innerHeight;
       const v = reduced
         ? 1
