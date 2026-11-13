@@ -315,6 +315,10 @@ export default function Home() {
     <div className={styles.page} ref={pageRef}>
       <Head>
         <title>Yuval Ararat | AI-Native Engineering Leader</title>
+        {/* Paint the page dark from the first frame, before the stylesheet arrives */}
+        <meta name="color-scheme" content="dark" />
+        <meta name="theme-color" content="#1b0b36" />
+        <style>{"html,body{background:#1b0b36}"}</style>
         <meta name="description" content={DESCRIPTION} />
         <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
         <link rel="canonical" href={`${SITE}/`} />
@@ -356,12 +360,12 @@ export default function Home() {
             <Shape k="circle" c={A} size="14%" bottom="18%" right="10%" f={70} fx={["hue"]} />
             <Shape k="ring" c={W} size="16%" top="0%" left="48%" f={-50} r={0.2} />
           </div>
-          <Shape k="plus" c={T} size="3rem" top="22%" left="45%" r={0.3} fx={["spin"]} />
+          <Shape k="plus" c={T} size="3rem" top="14%" left="60%" r={0.3} fx={["spin"]} />
           <Shape k="zig" c={A} size="7rem" bottom="8%" left="42%" r={0.1} fx={["turn"]} />
 
           <p className={styles.eyebrow}>AI-native engineering leadership · Adobe</p>
           <h1>
-            Leading engineering into the <em>agentic era.</em>
+            <span className={styles.name}>Yuval Ararat.</span> Leading engineering into the <em>agentic era.</em>
           </h1>
           <p className={styles.lead}>
             Senior Engineering Manager and Acting Director of Engineering for Marketo Engage and Adobe
@@ -381,14 +385,23 @@ export default function Home() {
         <section id="perspective" className={`${styles.section} ${styles.headOn}`}>
           <span className={styles.field} data-field="" />
           <Shape k="plus" c={S} size="3.5rem" top="9%" right="6%" r={0.2} fx={["spin"]} />
-          <Shape k="ring" c={W} size="5rem" bottom="8%" right="10%" fx={["turn"]} r={-0.1} />
+          <Shape k="ring" c={W} size="5rem" bottom="1.5rem" right="10%" fx={["turn"]} r={-0.1} />
           <div className={styles.head}>
             <p className={styles.eyebrow}>01 · Perspective</p>
           </div>
           <div className={styles.about} data-reveal="">
             <div className={styles.portrait}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/img/yuval-ararat.png" alt="Yuval Ararat" width={600} height={469} loading="lazy" />
+              <img
+                src="/img/yuval-ararat-600.webp"
+                srcSet="/img/yuval-ararat-360.webp 360w, /img/yuval-ararat-600.webp 600w"
+                sizes="(max-width: 860px) 14rem, 18rem"
+                alt="Yuval Ararat"
+                width={600}
+                height={469}
+                loading="lazy"
+                decoding="async"
+              />
             </div>
             <div>
               <h2>
@@ -421,7 +434,7 @@ export default function Home() {
           <div className={styles.head} data-reveal="">
             <p className={styles.eyebrow}>02 · Approach</p>
             <h2>
-              Four principles for an <em>AI-first</em> engineering organisation.
+              Four principles for an <em className={styles.nobreak}>AI-first</em> engineering organisation.
             </h2>
           </div>
           <div className={`${styles.approach} ${styles.stagger}`} data-reveal="">
