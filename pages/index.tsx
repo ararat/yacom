@@ -210,6 +210,17 @@ const JSON_LD = {
  * arrives, the progress stripe, the active nav link, and reveal-on-enter.
  * Without JavaScript or with reduced motion the page renders in its final state.
  */
+/**
+ * Slide-in progress for a section's colour block: 0 while the section is
+ * below the screen, 1 once it has risen most of a screen. Smoothstep eases
+ * the start and the end so the move feels long and unhurried.
+ */
+const SLIDE_SPAN = 0.9; // of the screen height
+function slideProgress(sectionTop: number, vh: number) {
+  const t = Math.min(Math.max((vh - sectionTop) / (vh * SLIDE_SPAN), 0), 1);
+  return t * t * (3 - 2 * t);
+}
+
 function usePageMotion() {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -249,7 +260,7 @@ function usePageMotion() {
         shape.style.setProperty("--my", my);
       }
       fields.forEach((field, i) => {
-        const v = Math.min(Math.max((vh - fieldTops[i]) / (vh * 0.45), 0), 1);
+        const v = slideProgress(fieldTops[i], vh);
         field.style.setProperty("--v", v.toFixed(3));
       });
       progress?.style.setProperty("--p", p);
@@ -350,6 +361,7 @@ function usePerspectiveSplit() {
     });
 
     let frame = 0;
+    let shown = reduced ? 1 : slideProgress(section.getBoundingClientRect().top, window.innerHeight);
     const layout = () => {
       frame = 0;
       if (!wide.matches) {
@@ -374,10 +386,13 @@ function usePerspectiveSplit() {
       const baseLean = 7 * parseFloat(getComputedStyle(document.documentElement).fontSize);
       const lean = H * Math.tan(Math.atan(baseLean / H) + (15 * Math.PI) / 180);
       const vh = window.innerHeight;
-      const v = reduced
-        ? 1
-        : Math.min(Math.max((vh - section.getBoundingClientRect().top) / (vh * 0.45), 0), 1);
-      const dx = (1 - v) * -0.22 * W;
+      // Ease towards the scroll target each frame, matching the smoothing
+      // the other blocks get from their CSS transition.
+      const target = reduced ? 1 : slideProgress(section.getBoundingClientRect().top, vh);
+      shown = Math.abs(target - shown) < 0.002 ? target : shown + (target - shown) * 0.12;
+      if (shown !== target) schedule();
+      const v = shown;
+      const dx = (1 - v) * -0.33 * W;
       const top = x + lean * (midY / H) + dx;
       const bottom = x - lean * (1 - midY / H) + dx;
 
