@@ -23,10 +23,10 @@
   --aqua: #2ec4b6;
   --cobalt: #3d5afe;
   --violet: #8b5cf6;
-  /* Content lives in a centred frame up to 100rem (1600px) wide. --edge is
+  /* Content lives in a centred frame up to 150rem (2400px) wide. --edge is
      the extra margin either side on wider screens; colour cuts still run to
      the screen edge and grow by --edge to meet the content. */
-  --edge: max(0px, (100vw - 100rem) / 2);
+  --edge: max(0px, (100vw - 150rem) / 2);
   --shape-edge: var(--edge);
   --padx: calc(var(--edge) + clamp(1.25rem, 7vw, 9rem));
   --pady: clamp(4.5rem, 10vw, 8rem);
