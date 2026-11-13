@@ -539,10 +539,10 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="approach" className={`${styles.section} ${styles.headOn}`}>
+        <section id="approach" className={styles.section}>
           <span className={styles.field} data-field="" />
           <Shape k="half" c={A} size="clamp(7rem, 13vw, 11rem)" top="12%" right="8%" r={0.1} fx={["turn"]} />
-          <Shape k="dots" c={W} size="4.5rem" top="34%" right="24%" fx={["spin"]} />
+          <Shape k="dots" c={V} size="4.5rem" top="34%" right="24%" fx={["spin"]} />
           <div className={styles.head} data-reveal="">
             <p className={styles.eyebrow}>02 · Approach</p>
             <h2>

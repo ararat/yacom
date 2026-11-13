@@ -159,9 +159,10 @@
   --fx: -22%;
 }
 
+/* Enters from the right; the edge stays clear of the heading on the left */
 .section[id="approach"] .field {
-  --cut: polygon(0 0, 68% 0, 52% 100%, 0 100%);
-  --fx: -16%;
+  --cut: polygon(62% 0, 100% 0, 100% 100%, 46% 100%);
+  --fx: 16%;
 }
 
 .section[id="career"] .field {
