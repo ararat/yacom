@@ -32,7 +32,7 @@ describe('Home page', () => {
   test('renders the headline and every main section', () => {
     const { container } = render(<Home />)
 
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Leading engineering into the agentic era.')
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Yuval Ararat. Leading engineering into the agentic era.')
     for (const id of ['perspective', 'approach', 'career', 'impact', 'presentations', 'writing', 'contact']) {
       expect(container.querySelector(`#${id}`)).toBeInTheDocument()
     }

@@ -365,7 +365,7 @@ export default function Home() {
 
           <p className={styles.eyebrow}>AI-native engineering leadership · Adobe</p>
           <h1>
-            Leading engineering into the <em>agentic era.</em>
+            <span className={styles.name}>Yuval Ararat.</span> Leading engineering into the <em>agentic era.</em>
           </h1>
           <p className={styles.lead}>
             Senior Engineering Manager and Acting Director of Engineering for Marketo Engage and Adobe
