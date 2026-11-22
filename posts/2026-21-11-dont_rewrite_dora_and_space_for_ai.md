@@ -1,3 +1,10 @@
+---
+title: 'Don't rewrite DORA for AI'
+date: '2026-11-21T00:00:00.000Z'
+description: 'How measuring engineering is changing and why i would not recommend rewriting DORA and SPACE for AI. '
+thumbnail: '/img/blog/blog-thumbnail.jpeg'
+---
+
 # How measuring engineering is changing and why i would not recommend rewriting DORA and SPACE for AI. 
 
 For nearly a decade, DORA and SPACE have been the gold standards for measuring software delivery performance and developer productivity. DORA's core metrics (Deployment Frequency, Lead Time for Changes, Change Failure Rate, and Mean Time to Recovery) have anchored engineering organizations across the industry. SPACE's five dimensions (Satisfaction, Performance, Activity, Communication, and Efficiency) gave leaders a holistic defense against one-dimensional productivity traps. Now, as AI and automated development (often called Software Factories) become standard, a growing number of voices in the industry are suggesting we reshape and rewrite both frameworks.
