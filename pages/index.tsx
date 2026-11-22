@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import Shape from "../components/Shape";
 import { jsonLd } from "../lib/jsonLd";
 import { RECOMMENDATIONS } from "../data/recommendations";
+import { getWritingList, type WritingItem } from "../lib/posts";
 import styles from "../styles/executive.module.css";
 
 const SITE = "https://yuvalararat.com";
@@ -128,29 +129,8 @@ const MEDIA = [
   },
 ];
 
-const WRITING = [
-  {
-    tag: "Engineering and AI",
-    date: "Nov 2026",
-    title: "Don't rewrite DORA for AI",
-    text: "How measuring engineering is changing and why i would not recommend rewriting DORA and SPACE for AI.",
-    url: "/blog/2026-21-11-dont_rewrite_dora_and_space_for_ai",
-  },
-  {
-    tag: "Engineering and AI",
-    date: "April 2025",
-    title: "Software Engineers: Leaving the Cubicle",
-    text: "AI is changing who we are as engineers, not only how fast we ship.",
-    url: "/blog/2025-04-software-engineers-leaving-the-cubicle",
-  },
-  {
-    tag: "Architecture",
-    date: "May 2017",
-    title: "Stress Testing Customisations on AEM Author with Siege",
-    text: "A practical method for proving performance and stability under load.",
-    url: "/blog/2020-07-stress-testing-customisations-on-aem-author-with-siege",
-  },
-];
+/** How many of the newest posts the Writing section shows. */
+const WRITING_LIMIT = 4;
 
 const NAV = [
   ["Perspective", "#perspective"],
@@ -437,7 +417,12 @@ function usePerspectiveSplit() {
   }, []);
 }
 
-export default function Home() {
+// Build time: the Writing cards come from the front matter of posts/*.md.
+export function getStaticProps() {
+  return { props: { writing: getWritingList({ limit: WRITING_LIMIT }) } };
+}
+
+export default function Home({ writing = [] }: { writing?: WritingItem[] }) {
   const pageRef = usePageMotion();
   usePerspectiveSplit();
 
@@ -706,29 +691,31 @@ export default function Home() {
           </a>
         </section>
 
-        <section id="writing" className={styles.section}>
-          <span className={styles.field} data-field="" />
-          <Shape k="ring" c={W} size="4.5rem" top="9%" right="6%" r={0.1} fx={["turn"]} />
-          <Shape k="tri" c={S} size="4rem" bottom="3%" right="20%" r={-0.14} fx={["spin"]} />
-          <div className={styles.head} data-reveal="">
-            <p className={styles.eyebrow}>{num(7)} · Writing</p>
-            <h2>
-              Notes on where engineering is <em>going.</em>
-            </h2>
-          </div>
-          <div className={`${styles.articles} ${styles.stagger}`} data-reveal="">
-            {WRITING.map((w) => (
-              <a key={w.url} className={styles.article} href={w.url}>
-                <p className={styles.label}>
-                  {w.tag} · {w.date}
-                </p>
-                <h3>{w.title}</h3>
-                <p>{w.text}</p>
-                <span>Read essay →</span>
-              </a>
-            ))}
-          </div>
-        </section>
+        {writing.length > 0 && (
+          <section id="writing" className={styles.section}>
+            <span className={styles.field} data-field="" />
+            <Shape k="ring" c={W} size="4.5rem" top="9%" right="6%" r={0.1} fx={["turn"]} />
+            <Shape k="tri" c={S} size="4rem" bottom="3%" right="20%" r={-0.14} fx={["spin"]} />
+            <div className={styles.head} data-reveal="">
+              <p className={styles.eyebrow}>{num(7)} · Writing</p>
+              <h2>
+                Notes on where engineering is <em>going.</em>
+              </h2>
+            </div>
+            <div className={`${styles.articles} ${styles.stagger}`} data-reveal="">
+              {writing.map((w) => (
+                <a key={w.url} className={styles.article} href={w.url}>
+                  <p className={styles.label}>
+                    {w.date ? `${w.tag} · ${w.date}` : w.tag}
+                  </p>
+                  <h3>{w.title}</h3>
+                  <p>{w.text}</p>
+                  <span>Read essay →</span>
+                </a>
+              ))}
+            </div>
+          </section>
+        )}
 
         <section id="contact" className={styles.cta}>
           <Shape k="circle" c={M} c2={V} size="clamp(10rem, 20vw, 18rem)" bottom="-6rem" left="-4rem" fx={["tint"]} f={25} />

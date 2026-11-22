@@ -1,6 +1,10 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import Home from '../../pages/index'
 
+const WRITING = [
+  { tag: 'Writing', date: 'November 2026', title: "Don't rewrite DORA for AI", text: 'Measuring engineering is changing.', url: '/blog/dont-rewrite-dora' },
+]
+
 const mockMatchMedia = (matches: (query: string) => boolean) => {
   Object.defineProperty(window, 'matchMedia', {
     writable: true,
@@ -30,7 +34,7 @@ describe('Home page', () => {
   afterEach(() => jest.restoreAllMocks())
 
   test('renders the headline and every main section', () => {
-    const { container } = render(<Home />)
+    const { container } = render(<Home writing={WRITING} />)
 
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Yuval Ararat. Leading engineering into the agentic era.')
     for (const id of ['perspective', 'approach', 'career', 'impact', 'presentations', 'writing', 'contact']) {
@@ -39,15 +43,28 @@ describe('Home page', () => {
   })
 
   test('links to the SlideShare decks and profile', () => {
-    render(<Home />)
+    render(<Home writing={WRITING} />)
 
     const hrefs = screen.getAllByRole('link').map((a) => a.getAttribute('href'))
     expect(hrefs).toContain('https://www.slideshare.net/slideshow/integration-patterns-in-aem-6/42784625')
     expect(hrefs).toContain('https://www.slideshare.net/ararat')
   })
 
+  test('builds the Writing cards from the posts it is given', () => {
+    const { container } = render(<Home writing={WRITING} />)
+
+    const card = container.querySelector('#writing a[href="/blog/dont-rewrite-dora"]')
+    expect(card).toHaveTextContent("Don't rewrite DORA for AI")
+    expect(card).toHaveTextContent('Writing · November 2026')
+  })
+
+  test('leaves out the Writing section when there are no posts', () => {
+    const { container } = render(<Home writing={[]} />)
+    expect(container.querySelector('#writing')).not.toBeInTheDocument()
+  })
+
   test('shows the selected LinkedIn recommendations, featured first', () => {
-    const { container } = render(<Home />)
+    const { container } = render(<Home writing={WRITING} />)
 
     const quotes = container.querySelectorAll('#endorsements figure')
     expect(quotes).toHaveLength(4)
@@ -58,7 +75,7 @@ describe('Home page', () => {
   })
 
   test('emits valid Person structured data with "<" escaped', () => {
-    const { container } = render(<Home />)
+    const { container } = render(<Home writing={WRITING} />)
 
     const script = container.querySelector('script[type="application/ld+json"]')
     expect(script?.innerHTML).not.toContain('<')
@@ -68,7 +85,7 @@ describe('Home page', () => {
   })
 
   test('shapes are decorative and follow scroll and pointer', () => {
-    const { container } = render(<Home />)
+    const { container } = render(<Home writing={WRITING} />)
     const shape = container.querySelector<HTMLElement>('[data-shape]')!
 
     expect(shape).toHaveAttribute('aria-hidden', 'true')
@@ -86,7 +103,7 @@ describe('Home page', () => {
 
   test('leaves shapes still when reduced motion is requested', () => {
     mockMatchMedia((q) => q.includes('prefers-reduced-motion'))
-    const { container } = render(<Home />)
+    const { container } = render(<Home writing={WRITING} />)
     const shape = container.querySelector<HTMLElement>('[data-shape]')!
 
     fireEvent.scroll(window)

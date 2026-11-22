@@ -2,6 +2,7 @@
 title: 'Don''t rewrite DORA for AI'
 date: '2026-11-21T00:00:00.000Z'
 description: 'How measuring engineering is changing and why i would not recommend rewriting DORA and SPACE for AI. '
+category: 'Engineering and AI'
 thumbnail: '/img/blog/blog-thumbnail.jpeg'
 ---
 
