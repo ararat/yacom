@@ -131,6 +131,13 @@ const MEDIA = [
 const WRITING = [
   {
     tag: "Engineering and AI",
+    date: "Nov 2026",
+    title: "Stress Testing Customisations on AEM Author with Siege",
+    text: "How measuring engineering is changing and why i would not recommend rewriting DORA and SPACE for AI.",
+    url: "/blog/2026-21-11-dont_rewrite_dora_and_space_for_ai",
+  },
+  {
+    tag: "Engineering and AI",
     date: "April 2025",
     title: "Software Engineers: Leaving the Cubicle",
     text: "AI is changing who we are as engineers, not only how fast we ship.",
@@ -139,7 +146,7 @@ const WRITING = [
   {
     tag: "Architecture",
     date: "May 2017",
-    title: "Stress Testing Customisations on AEM Author with Siege",
+    title: "Don't rewrite DORA for AI",
     text: "A practical method for proving performance and stability under load.",
     url: "/blog/2020-07-stress-testing-customisations-on-aem-author-with-siege",
   },
