@@ -1,224 +1,282 @@
-import React, { useState, useEffect, useRef} from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { TOCItem } from '../lib/tableOfContents';
 
-interface TableOfContentsProps {
-  toc: TOCItem[];
-  className?: string;
-  collapsible?: boolean;
-  defaultCollapsed?: boolean;
-}
+/** Gap between the fixed site navigation and the sidebar (Tailwind top-24). */
+const STICKY_TOP = 96;
+/** Space kept below a sidebar that is taller than the screen. */
+const BOTTOM_GAP = 24;
+/** Offset used when jumping to a heading, so it clears the fixed navigation. */
+const HEADING_OFFSET = 140;
 
-const TableOfContents: React.FC<TableOfContentsProps> = ({
-  toc,
-  className = '',
-  collapsible = true,
-  defaultCollapsed = false,
-}) => {
-  const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed);
-  const [activeId, setActiveId] = useState<string>('');
-  // The expanded list sizes itself to its entries. If that is taller than the
-  // room left on screen below the sidebar's top, it stops there and scrolls.
-  const boxRef = useRef<HTMLDivElement>(null);
-  const listRef = useRef<HTMLUListElement>(null);
-  const [maxHeight, setMaxHeight] = useState<number>();
+const LEVEL_CLASSES: Record<number, string> = {
+  1: 'text-base font-semibold',
+  2: 'text-sm font-medium ml-4',
+  3: 'text-sm ml-8',
+  4: 'text-xs ml-12',
+  5: 'text-xs ml-16',
+  6: 'text-xs ml-20',
+};
+
+const flatIds = (items: TOCItem[]): string[] =>
+  items.flatMap((item) => [item.id, ...flatIds(item.children ?? [])]);
+
+/** Which heading is currently being read. */
+function useActiveHeading(toc: TOCItem[]) {
+  const [activeId, setActiveId] = useState('');
 
   useEffect(() => {
+    const headings = flatIds(toc)
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+    if (headings.length === 0) return;
+
+    let scrolling = false;
+    let timer: ReturnType<typeof setTimeout>;
+    const onScroll = () => {
+      scrolling = true;
+      clearTimeout(timer);
+      timer = setTimeout(() => (scrolling = false), 150);
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (scrolling) return;
+        const visible = entries.find((entry) => entry.isIntersecting);
+        if (visible) setActiveId(visible.target.id);
+      },
+      { rootMargin: '-160px 0px -70% 0px', threshold: [0, 0.25] },
+    );
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    headings.forEach((el) => observer.observe(el));
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      clearTimeout(timer);
+      observer.disconnect();
+    };
+  }, [toc]);
+
+  return [activeId, setActiveId] as const;
+}
+
+function scrollToHeading(id: string) {
+  const el = document.getElementById(id);
+  if (!el) return false;
+  const top = el.getBoundingClientRect().top + window.scrollY - HEADING_OFFSET;
+  window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+  return true;
+}
+
+function TOCList({
+  items,
+  activeId,
+  onSelect,
+}: {
+  items: TOCItem[];
+  activeId: string;
+  onSelect: (id: string) => void;
+}) {
+  return (
+    <ul className="space-y-0">
+      {items.map((item, index) => (
+        <li key={`${item.id}-${index}`} className="py-1">
+          <button
+            type="button"
+            onClick={() => onSelect(item.id)}
+            className={`block text-left transition-colors duration-200 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none focus-visible:text-blue-600 dark:focus-visible:text-blue-400 ${
+              LEVEL_CLASSES[item.level] ?? 'text-sm'
+            } ${
+              activeId === item.id
+                ? 'text-blue-600 dark:text-blue-400 font-medium'
+                : 'text-gray-700 dark:text-dark-text-secondary'
+            }`}
+            aria-current={activeId === item.id ? 'location' : undefined}
+            aria-label={`Go to ${item.title}`}
+          >
+            {item.title}
+          </button>
+          {item.children && item.children.length > 0 && (
+            <div className="mt-1">
+              <TOCList items={item.children} activeId={activeId} onSelect={onSelect} />
+            </div>
+          )}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+/**
+ * Desktop sidebar. Always shows every entry; it never scrolls inside itself.
+ * When it fits on screen it sticks below the navigation. When it is taller
+ * than the screen it scrolls with the page until its last entry is in view,
+ * then sticks there, so the whole list can always be reached.
+ */
+const TableOfContents: React.FC<{ toc: TOCItem[]; className?: string }> = ({ toc, className = '' }) => {
+  const [activeId, setActiveId] = useActiveHeading(toc);
+  const navRef = useRef<HTMLElement>(null);
+  const [top, setTop] = useState(STICKY_TOP);
+
+  useEffect(() => {
+    const nav = navRef.current;
+    if (!nav) return;
     let frame = 0;
     const measure = () => {
       frame = 0;
-      const box = boxRef.current;
-      const list = listRef.current;
-      if (!box || !list) return;
-      const room = window.innerHeight - Math.max(box.getBoundingClientRect().top, 0) - 24;
-      setMaxHeight(Math.round(Math.min(list.scrollHeight, Math.max(room, 160))));
+      setTop(Math.round(Math.min(STICKY_TOP, window.innerHeight - nav.offsetHeight - BOTTOM_GAP)));
     };
     const schedule = () => {
       if (!frame) frame = requestAnimationFrame(measure);
     };
-
     measure();
     window.addEventListener('resize', schedule, { passive: true });
-    window.addEventListener('scroll', schedule, { passive: true });
     const observer = typeof ResizeObserver === 'undefined' ? undefined : new ResizeObserver(schedule);
-    if (listRef.current) observer?.observe(listRef.current);
-
+    observer?.observe(nav);
     return () => {
       cancelAnimationFrame(frame);
       window.removeEventListener('resize', schedule);
-      window.removeEventListener('scroll', schedule);
       observer?.disconnect();
     };
   }, [toc]);
-  // Track which heading is currently in view
-  useEffect(() => {
-    if (toc.length === 0) return;
 
-    const headingElements = toc.map(item => document.getElementById(item.id)).filter(Boolean);
-    
-    if (headingElements.length === 0) return;
+  if (toc.length === 0) return null;
 
-    let isScrolling = false;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        // Don't update active ID during manual scrolling to prevent conflicts
-        if (isScrolling) return;
-        
-        // Find the heading that's currently most visible
-        const visibleEntries = entries.filter(entry => entry.isIntersecting);
-        
-        if (visibleEntries.length > 0) {
-          // Use the first visible heading
-          const mostVisible = visibleEntries[0];
-          setActiveId(mostVisible.target.id);
-        }
-      },
-      {
-        rootMargin: '-160px 0px -70% 0px', // More conservative margins
-        threshold: [0, 0.25], // Multiple thresholds for better detection
-      }
-    );
-
-    // Detect scroll events to prevent observer conflicts
-    let scrollTimeout: NodeJS.Timeout;
-    const handleScroll = () => {
-      isScrolling = true;
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => {
-        isScrolling = false;
-      }, 150);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-
-    headingElements.forEach(element => {
-      if (element) observer.observe(element);
-    });
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      clearTimeout(scrollTimeout);
-      headingElements.forEach(element => {
-        if (element) observer.unobserve(element);
-      });
-    };
-  }, [toc]);
-
-  const handleHeadingClick = (id: string) => {
-    const element = document.getElementById(id);
-    if (!element) {
-      console.warn(`Element with id '${id}' not found. Make sure headings have proper IDs.`);
-      return;
-    }
-
-    // Prevent race conditions by temporarily disabling the intersection observer
-    const headingElements = toc.map(item => document.getElementById(item.id)).filter(Boolean);
-    
-    // Calculate scroll position
-    const elementTop = element.getBoundingClientRect().top + window.pageYOffset;
-    const offsetTop = Math.max(0, elementTop - 140); // Account for fixed header + padding
-    
-    // Set active ID immediately to prevent jumping
-    setActiveId(id);
-    
-    // Scroll to the element
-    window.scrollTo({
-      top: offsetTop,
-      behavior: 'smooth'
-    });
+  const select = (id: string) => {
+    if (scrollToHeading(id)) setActiveId(id);
   };
-
-  const renderTOCItem = (item: TOCItem, index: number) => {
-    const isActive = activeId === item.id;
-    const levelClasses = {
-      1: 'text-base font-semibold',
-      2: 'text-sm font-medium ml-4',
-      3: 'text-sm ml-8',
-      4: 'text-xs ml-12',
-      5: 'text-xs ml-16',
-      6: 'text-xs ml-20',
-    };
-
-    return (
-      <li key={`${item.id}-${index}`} className="py-1">
-        <button
-          onClick={() => handleHeadingClick(item.id)}
-          className={`
-            block w-full text-left transition-colors duration-200 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none focus:text-blue-600 dark:focus:text-blue-400
-            ${levelClasses[item.level as keyof typeof levelClasses] || 'text-sm'}
-            ${isActive ? 'text-blue-600 dark:text-blue-400 font-medium' : 'text-gray-700 dark:text-dark-text-secondary'}
-          `}
-          aria-label={`Go to ${item.title}`}
-        >
-          {item.title}
-        </button>
-        {item.children && item.children.length > 0 && (
-          <ul className="mt-1">
-            {item.children.map((child, childIndex) => renderTOCItem(child, childIndex))}
-          </ul>
-        )}
-      </li>
-    );
-  };
-
-  if (toc.length === 0) {
-    return null;
-  }
 
   return (
     <nav
-      className={`table-of-contents bg-gray-50 dark:bg-dark-surface rounded-lg p-4 border border-gray-200 dark:border-gray-600 ${className}`}
+      ref={navRef}
+      className={`table-of-contents sticky bg-gray-50 dark:bg-dark-surface rounded-lg p-4 border border-gray-200 dark:border-gray-600 ${className}`}
+      style={{ top }}
       aria-label="Table of contents"
     >
-      {collapsible && (
-        <button
-          onClick={() => setIsCollapsed(!isCollapsed)}
-          className="flex items-center justify-between w-full mb-3 text-sm font-medium text-gray-900 dark:text-dark-text hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none focus:text-blue-600 dark:focus:text-blue-400 transition-colors duration-200"
-          aria-expanded={!isCollapsed}
-          aria-controls="toc-content"
-        >
-          <span>Table of Contents</span>
-          <svg
-            className={`w-4 h-4 transition-transform duration-200 ${isCollapsed ? 'rotate-0' : 'rotate-180'}`}
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-          </svg>
-        </button>
-      )}
-
-      {!collapsible && (
-        <h3 className="text-sm font-medium text-gray-900 dark:text-dark-text mb-3">Table of Contents</h3>
-      )}
-      <div
-        id="toc-content"
-        ref={boxRef}
-        className={`transition-all duration-300 ${
-          isCollapsed ? 'opacity-0 overflow-hidden' : 'opacity-100 overflow-y-auto overscroll-contain'
-        }`}
-        style={{ maxHeight: isCollapsed ? 0 : maxHeight ?? 'none' }}
-      >
-        <ul ref={listRef} className="space-y-0">
-          {toc.map((item, index) => renderTOCItem(item, index))}
-        </ul>
-      </div>
-
-      {/* Mobile-specific styling */}
-      <style jsx>{`
-        @media (max-width: 768px) {
-          .table-of-contents {
-            position: sticky;
-            top: 80px; /* Below navigation */
-            z-index: 10;
-            margin-bottom: 1rem;
-          }
-        }
-      `}</style>
+      <h3 className="text-sm font-medium text-gray-900 dark:text-dark-text mb-3">Table of Contents</h3>
+      <TOCList items={toc} activeId={activeId} onSelect={select} />
     </nav>
   );
 };
 
 export default TableOfContents;
+
+/**
+ * Phones and tablets. Nothing sits in the page: two round buttons float in
+ * the bottom-right corner. The list button opens the contents full screen
+ * (the panel scrolls like a page, with no box inside it); picking an entry
+ * closes it and jumps there. The arrow returns to the top and only appears
+ * once the reader has scrolled down.
+ */
+export const MobileTableOfContents: React.FC<{ toc: TOCItem[] }> = ({ toc }) => {
+  const [activeId, setActiveId] = useActiveHeading(toc);
+  const [open, setOpen] = useState(false);
+  const [showTop, setShowTop] = useState(false);
+  const openButton = useRef<HTMLButtonElement>(null);
+  const closeButton = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const onScroll = () => setShowTop(window.scrollY > window.innerHeight * 0.6);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  const close = useCallback(() => {
+    setOpen(false);
+    openButton.current?.focus({ preventScroll: true });
+  }, []);
+
+  // While the panel is open the page behind it stays put and Escape closes it.
+  useEffect(() => {
+    if (!open) return;
+    const { overflow } = document.body.style;
+    document.body.style.overflow = 'hidden';
+    closeButton.current?.focus();
+    const onKey = (event: KeyboardEvent) => event.key === 'Escape' && close();
+    window.addEventListener('keydown', onKey);
+    return () => {
+      document.body.style.overflow = overflow;
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [open, close]);
+
+  if (toc.length === 0) return null;
+
+  const select = (id: string) => {
+    setOpen(false);
+    // Let the page unlock before scrolling it.
+    requestAnimationFrame(() => {
+      if (scrollToHeading(id)) setActiveId(id);
+    });
+  };
+
+  const fab =
+    'flex items-center justify-center w-12 h-12 rounded-full shadow-lg bg-violet-mid text-white hover:bg-violet-bright focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-violet-bright transition-all duration-200';
+
+  return (
+    <>
+      <div
+        className={`lg:hidden fixed right-4 z-40 flex-col items-center gap-3 ${open ? 'hidden' : 'flex'}`}
+        style={{ bottom: 'max(1rem, env(safe-area-inset-bottom))' }}
+      >
+        <button
+          type="button"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className={`${fab} ${showTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 pointer-events-none'}`}
+          aria-label="Back to top"
+          aria-hidden={!showTop}
+          tabIndex={showTop ? 0 : -1}
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+          </svg>
+        </button>
+        <button
+          ref={openButton}
+          type="button"
+          onClick={() => setOpen(true)}
+          className={fab}
+          aria-label="Table of contents"
+          aria-haspopup="dialog"
+          aria-expanded={open}
+          aria-controls="toc-panel"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01" />
+          </svg>
+        </button>
+      </div>
+
+      {open && (
+        <div
+          id="toc-panel"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Table of contents"
+          className="lg:hidden fixed inset-0 overflow-y-auto overscroll-contain bg-white dark:bg-dark-bg"
+          // Above the fixed site navigation (z-50). Inline because the production
+          // CSS clean-up drops arbitrary classes such as z-[60].
+          style={{ zIndex: 60 }}
+        >
+          <div className="sticky top-0 flex items-center justify-between px-5 py-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-dark-bg">
+            <span className="text-base font-semibold text-gray-900 dark:text-dark-text">Table of Contents</span>
+            <button
+              ref={closeButton}
+              type="button"
+              onClick={close}
+              className="flex items-center justify-center w-10 h-10 -mr-2 rounded-full text-gray-700 dark:text-dark-text hover:bg-gray-100 dark:hover:bg-dark-surface focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-bright"
+              aria-label="Close table of contents"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          <div className="px-5 py-4 pb-10">
+            <TOCList items={toc} activeId={activeId} onSelect={select} />
+          </div>
+        </div>
+      )}
+    </>
+  );
+};
