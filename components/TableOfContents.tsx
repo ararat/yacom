@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect} from 'react';
 import { TOCItem } from '../lib/tableOfContents';
 
 interface TableOfContentsProps {
@@ -6,8 +6,6 @@ interface TableOfContentsProps {
   className?: string;
   collapsible?: boolean;
   defaultCollapsed?: boolean;
-  /** Stick to the screen while the page scrolls (desktop sidebar). */
-  sticky?: boolean;
   /** Called when an entry is picked, before the page scrolls. */
   onNavigate?: () => void;
 }
@@ -17,30 +15,10 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({
   className = '',
   collapsible = true,
   defaultCollapsed = false,
-  sticky = false,
   onNavigate,
 }) => {
   const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed);
   const [activeId, setActiveId] = useState<string>('');
-  // The list always shows every entry. When sticky, it sits 96px from the top
-  // if it fits on screen; if it is taller, it moves with the page until its
-  // last entry is in view and sticks there, so nothing is ever cut off.
-  const navRef = useRef<HTMLElement>(null);
-  const [top, setTop] = useState(96);
-
-  useEffect(() => {
-    const nav = navRef.current;
-    if (!sticky || !nav) return;
-    const measure = () => setTop(Math.min(96, window.innerHeight - nav.offsetHeight - 24));
-    measure();
-    window.addEventListener('resize', measure, { passive: true });
-    const observer = typeof ResizeObserver === 'undefined' ? undefined : new ResizeObserver(measure);
-    observer?.observe(nav);
-    return () => {
-      window.removeEventListener('resize', measure);
-      observer?.disconnect();
-    };
-  }, [toc, sticky]);
   // Track which heading is currently in view
   useEffect(() => {
     if (toc.length === 0) return;
@@ -160,9 +138,7 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({
 
   return (
     <nav
-      ref={navRef}
-      style={sticky ? { top } : undefined}
-      className={`table-of-contents ${sticky ? 'sticky' : ''} bg-gray-50 dark:bg-dark-surface rounded-lg p-4 border border-gray-200 dark:border-gray-600 ${className}`}
+      className={`table-of-contents bg-gray-50 dark:bg-dark-surface rounded-lg p-4 border border-gray-200 dark:border-gray-600 ${className}`}
       aria-label="Table of contents"
     >
       {collapsible && (
