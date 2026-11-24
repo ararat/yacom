@@ -9,7 +9,7 @@ import remarkGfm from 'remark-gfm';
 import styles from "../../styles/Home.module.css";
 import Image from '../../components/image';
 import Navigation from '../../components/Navigation';
-import TableOfContents from '../../components/TableOfContents';
+import FloatingToc from '../../components/FloatingToc';
 import MarkdownRenderer from '../../components/MarkdownRenderer';
 import { extractTableOfContents } from '../../lib/tableOfContents';
 
@@ -31,31 +31,10 @@ const BlogPost = (props: {
         <main className="min-h-screen pt-32 sm:pt-36 pb-12 flex justify-center bg-white dark:bg-dark-bg text-gray-900 dark:text-dark-text transition-colors duration-300">
             <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
                 <div className="flex flex-col lg:flex-row gap-8">
-                    {/* Table of Contents - Desktop sidebar */}
-                    {props.toc && props.toc.length > 0 && (
-                        <aside className="hidden lg:block lg:w-64 lg:flex-shrink-0">
-                            <div className="sticky top-24">
-                                <TableOfContents 
-                                    toc={props.toc} 
-                                    collapsible={false}
-                                    className="mb-8"
-                                />
-                            </div>
-                        </aside>
-                    )}
-                    
                     {/* Main content */}
                     <div className="flex-1 min-w-0">
-                        {/* Table of Contents - Mobile */}
-                        {props.toc && props.toc.length > 0 && (
-                            <div className="lg:hidden mb-8">
-                                <TableOfContents 
-                                    toc={props.toc} 
-                                    collapsible={true}
-                                    defaultCollapsed={true}
-                                />
-                            </div>
-                        )}
+                        {/* Floating table of contents and back-to-top buttons */}
+                        <FloatingToc toc={props.toc ?? []} />
                         
                         <article className='prose prose-sm sm:prose lg:prose-lg xl:prose-xl prose-slate dark:prose-invert mx-auto'>
                             <Image

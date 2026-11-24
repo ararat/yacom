@@ -1,5 +1,6 @@
 import Head from "next/head";
 import { useEffect, useRef } from "react";
+import FloatingToc from "../components/FloatingToc";
 import Shape from "../components/Shape";
 import { jsonLd } from "../lib/jsonLd";
 import { RECOMMENDATIONS } from "../data/recommendations";
@@ -766,6 +767,9 @@ export default function Home() {
         </span>
         <span>San Jose, California · Auckland, New Zealand</span>
       </footer>
+
+      {/* Back-to-top button (the contents list is only used on blog articles) */}
+      <FloatingToc toc={[]} />
     </div>
   );
 }

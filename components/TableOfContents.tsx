@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect} from 'react';
 import { TOCItem } from '../lib/tableOfContents';
 
 interface TableOfContentsProps {
@@ -6,6 +6,8 @@ interface TableOfContentsProps {
   className?: string;
   collapsible?: boolean;
   defaultCollapsed?: boolean;
+  /** Called when an entry is picked, before the page scrolls. */
+  onNavigate?: () => void;
 }
 
 const TableOfContents: React.FC<TableOfContentsProps> = ({
@@ -13,42 +15,10 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({
   className = '',
   collapsible = true,
   defaultCollapsed = false,
+  onNavigate,
 }) => {
   const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed);
   const [activeId, setActiveId] = useState<string>('');
-  // The expanded list sizes itself to its entries. If that is taller than the
-  // room left on screen below the sidebar's top, it stops there and scrolls.
-  const boxRef = useRef<HTMLDivElement>(null);
-  const listRef = useRef<HTMLUListElement>(null);
-  const [maxHeight, setMaxHeight] = useState<number>();
-
-  useEffect(() => {
-    let frame = 0;
-    const measure = () => {
-      frame = 0;
-      const box = boxRef.current;
-      const list = listRef.current;
-      if (!box || !list) return;
-      const room = window.innerHeight - Math.max(box.getBoundingClientRect().top, 0) - 24;
-      setMaxHeight(Math.round(Math.min(list.scrollHeight, Math.max(room, 160))));
-    };
-    const schedule = () => {
-      if (!frame) frame = requestAnimationFrame(measure);
-    };
-
-    measure();
-    window.addEventListener('resize', schedule, { passive: true });
-    window.addEventListener('scroll', schedule, { passive: true });
-    const observer = typeof ResizeObserver === 'undefined' ? undefined : new ResizeObserver(schedule);
-    if (listRef.current) observer?.observe(listRef.current);
-
-    return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener('resize', schedule);
-      window.removeEventListener('scroll', schedule);
-      observer?.disconnect();
-    };
-  }, [toc]);
   // Track which heading is currently in view
   useEffect(() => {
     if (toc.length === 0) return;
@@ -120,6 +90,7 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({
     
     // Set active ID immediately to prevent jumping
     setActiveId(id);
+    onNavigate?.();
     
     // Scroll to the element
     window.scrollTo({
@@ -144,7 +115,7 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({
         <button
           onClick={() => handleHeadingClick(item.id)}
           className={`
-            block w-full text-left transition-colors duration-200 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none focus:text-blue-600 dark:focus:text-blue-400
+            block text-left transition-colors duration-200 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none focus:text-blue-600 dark:focus:text-blue-400
             ${levelClasses[item.level as keyof typeof levelClasses] || 'text-sm'}
             ${isActive ? 'text-blue-600 dark:text-blue-400 font-medium' : 'text-gray-700 dark:text-dark-text-secondary'}
           `}
@@ -195,28 +166,12 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({
       )}
       <div
         id="toc-content"
-        ref={boxRef}
-        className={`transition-all duration-300 ${
-          isCollapsed ? 'opacity-0 overflow-hidden' : 'opacity-100 overflow-y-auto overscroll-contain'
-        }`}
-        style={{ maxHeight: isCollapsed ? 0 : maxHeight ?? 'none' }}
+        className={`transition-all duration-300 ${isCollapsed ? 'max-h-0 opacity-0 overflow-hidden' : 'opacity-100'}`}
       >
-        <ul ref={listRef} className="space-y-0">
+        <ul className="space-y-0">
           {toc.map((item, index) => renderTOCItem(item, index))}
         </ul>
       </div>
-
-      {/* Mobile-specific styling */}
-      <style jsx>{`
-        @media (max-width: 768px) {
-          .table-of-contents {
-            position: sticky;
-            top: 80px; /* Below navigation */
-            z-index: 10;
-            margin-bottom: 1rem;
-          }
-        }
-      `}</style>
     </nav>
   );
 };
